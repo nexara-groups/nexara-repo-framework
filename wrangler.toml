@@ -1,0 +1,36 @@
+name = "nexara-foundation"
+main = ".open-next/worker.js"
+compatibility_date = "2025-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets emitted by OpenNext.
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# --- Platform bindings consumed ONLY by CloudflarePlatformProvider ---
+# Business logic never reads these directly; it goes through PlatformProvider.
+
+# KV namespace for the platform cache + KV access.
+[[kv_namespaces]]
+binding = "NEXARA_KV"
+id = "replace-with-your-kv-namespace-id"
+
+# Queue producer for PlatformProvider.enqueue().
+[[queues.producers]]
+binding = "NEXARA_QUEUE"
+queue = "nexara-jobs"
+
+# Queue consumer (worker that drains the queue).
+[[queues.consumers]]
+queue = "nexara-jobs"
+max_batch_size = 10
+max_retries = 3
+
+# Cron triggers for PlatformProvider scheduled jobs.
+[triggers]
+crons = ["0 * * * *"]
+
+# Non-secret vars. Secrets (SUPABASE_SERVICE_ROLE_KEY, etc.) via `wrangler secret put`.
+[vars]
+APP_ENV = "production"
