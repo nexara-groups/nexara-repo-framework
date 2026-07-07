@@ -5,12 +5,21 @@ description: Use when adding a cookie consent banner, cookie/privacy consent, GD
 
 # Cookie Consent + Google Consent Mode
 
-Drop-in, dependency-free cookie consent for any website: a banner + granular preferences modal wired to **Google Consent Mode v2**, so Google Analytics loads in a *consent-denied* state and sets **no `_ga` cookies until the visitor accepts**. Reject/withdraw actively deletes existing GA cookies. Works with plain HTML, or any framework (drop the assets in `public/`).
+Drop-in, dependency-free cookie consent for any website: a banner + granular preferences modal wired to **Google Consent Mode v2**, so Google Analytics loads in a *consent-denied* state and sets **no `_ga` cookies until the visitor accepts**. Reject/withdraw actively deletes existing GA cookies.
 
-Assets live beside this file:
-- `assets/gtag-consent-mode.html` — the `<head>` snippet (Consent Mode default = denied)
-- `assets/consent.js` — banner + modal + consent wiring (vanilla JS)
-- `assets/consent.css` — self-contained styling (theme via `--cc-*` variables)
+The **logic, UX pattern, and compliance** are universal (all sites). Two interchangeable implementations share the same `cc-*` CSS and `cc-consent` storage key — pick by stack:
+
+| Your site | Use |
+|-----------|-----|
+| Static HTML / multi-page / no framework | **Vanilla** — `assets/` |
+| React / Next.js / (adapt for Vue etc.) | **Component** — `react/` |
+
+Assets beside this file:
+- `assets/gtag-consent-mode.html` — `<head>` snippet (Consent Mode default = denied), plain HTML
+- `assets/consent.js` — banner + modal + wiring, vanilla JS
+- `assets/consent.css` — self-contained styling, theme via `--cc-*` variables (**used by both variants**)
+- `react/CookieConsent.tsx` — React/Next.js banner + modal component
+- `react/GoogleAnalytics.tsx` — Next.js GA4 + Consent Mode wiring (`next/script`)
 - `references/compliance-notes.md` — DPDP/GDPR checklist + policy-page requirements
 
 ## When to use
@@ -20,12 +29,20 @@ Assets live beside this file:
 
 **Not for:** server-set auth/session cookies (those are strictly necessary), or consent platforms you're already paying for (OneTrust, Cookiebot).
 
-## Install (4 steps)
+## Install — vanilla (static HTML)
 
-1. **Head snippet** — put the contents of `assets/gtag-consent-mode.html` in `<head>` of every page that has GA. Replace `G-XXXXXXXXXX` with the real Measurement ID. This is the critical bit: `gtag('consent','default', … 'analytics_storage':'denied' …)` MUST run **before** `gtag('config', …)`.
-2. **CSS** — copy `assets/consent.css` into your stylesheet (or `<link>` it) on every page.
-3. **JS** — load `assets/consent.js` before `</body>` on every page: `<script src="/consent.js" defer></script>`. It injects the banner/modal and shows the banner on first visit.
-4. **Withdrawal link** — DPDP/GDPR require withdrawal to be as easy as consent. Add a footer control anywhere: `<button type="button" onclick="openCookiePreferences()">Cookie Preferences</button>`.
+1. **Head snippet** — put `assets/gtag-consent-mode.html` in `<head>` of every GA page. Replace `G-XXXXXXXXXX` with the real Measurement ID. Critical: `gtag('consent','default', … 'analytics_storage':'denied' …)` MUST run **before** `gtag('config', …)`.
+2. **CSS** — copy/`<link>` `assets/consent.css` on every page.
+3. **JS** — load `assets/consent.js` before `</body>`: `<script src="/consent.js" defer></script>`. It injects the banner/modal and shows it on first visit.
+4. **Withdrawal link** — add a footer control: `<button type="button" onclick="openCookiePreferences()">Cookie Preferences</button>`.
+
+## Install — React / Next.js (App Router)
+
+1. Copy `react/CookieConsent.tsx` and `react/GoogleAnalytics.tsx` into your components, and `assets/consent.css` into your styles (`import` it in the layout).
+2. In `app/layout.tsx`: `<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />` (loads the Consent Mode default before GA) and `<CookieConsent />` inside `<body>`.
+3. **Withdrawal link:** `import { openCookiePreferences } from '@/components/CookieConsent'` → `<button onClick={openCookiePreferences}>Cookie Preferences</button>`.
+
+Both variants persist to the same `localStorage['cc-consent']` and require a **Privacy Policy** + **Cookie Policy** page (see `references/compliance-notes.md`).
 
 ## How it works (verify these)
 - Before consent: **zero `_ga*` cookies** (`document.cookie` is empty of them). Confirm in DevTools → Application → Cookies.
