@@ -160,5 +160,25 @@ Event names known today: `UserCreated`, `TaskCreated`, `NotificationSent` (examp
 | Authorization | `PermissionService` (RBAC) | edit role→permission map |
 | Data access | repositories | implement port in infrastructure |
 | Cross-module reactions | `EventBus` | subscribe/publish |
-| Request identity + tenant | `RequestContext` / `TenantContext` | n/a |
-| Wiring | `src/core/container.ts` | add a `case` / construct impl |
+| Request identity + tenant | RequestContext / TenantContext | n/a |
+| Wiring | src/core/container.ts | add a case / construct impl |
+
+## 7. Technical SEO & Crawlability Guidelines
+
+Since Nexara platforms serve public and client-facing interfaces, ensuring search engines can fully crawl, index, and rank our modules is a critical requirement. The following standard rules must be followed:
+
+1. **Pathname-Based Routing Only:** 
+   * **Rule:** Never use Hash-Based Routing (`#`) for page navigation. Search engine crawlers (like Googlebot) strip hash fragments, making all subpages invisible.
+   * **Implementation:** Always use standard, clean URL pathnames (e.g., `/trust/academy`).
+
+2. **Crawlable Navigation Elements:**
+   * **Rule:** Always use standard HTML anchor tags (`<a>` or Next.js `<Link>`) for navigating between pages. 
+   * **Implementation:** Never trigger page navigation solely via `<button onClick={...}>` or JavaScript handlers. Crawlers do not click buttons or execute custom click script handlers to discover routes. If custom animations are required on transition, intercept the anchor click using `e.preventDefault()`, run the transition, and then trigger the route.
+
+3. **Page-Specific Metadata:**
+   * **Rule:** Every page must export page-specific metadata (`title`, `description`, `canonical URL`, and Open Graph tags).
+   * **Implementation:** Use the `@shared/seo` helper function `generateMetadata` in every presentation layout or page module to keep tags standardized and prevent search engines from consolidating your pages into the homepage.
+
+4. **Sitemap & Robots Maintenance:**
+   * **Rule:** Any public indexable page added to a module must be registered in the dynamic sitemap generator.
+   * **Implementation:** Update `src/app/sitemap.ts` to include the route path. Crawler permissions are controlled dynamically via `src/app/robots.ts`.
