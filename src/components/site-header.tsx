@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { contact, navItems } from "@/content/site-data";
+import { contact } from "@/content/site-data";
 import { MobileMenu } from "@/components/mobile-menu";
+import { NavLinks } from "@/components/nav-links";
+import { HeaderScroll } from "@/components/header-scroll";
 
 export function SiteHeader() {
   return (
     <>
+      <HeaderScroll />
       <div className="utility-bar">
         <div className="container utility-inner">
           <span><i className="status-dot" /> Patient-first care in Madhurawada</span>
@@ -21,7 +24,7 @@ export function SiteHeader() {
             <span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span>
           </Link>
           <nav className="desktop-nav" aria-label="Primary navigation">
-            {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+            <NavLinks />
           </nav>
           <Link className="nav-cta" href="/appointment"><span>Book an appointment</span><b aria-hidden="true">↗</b></Link>
           <MobileMenu />

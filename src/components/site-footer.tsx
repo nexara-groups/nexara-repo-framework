@@ -1,9 +1,20 @@
 import Link from "next/link";
+import { HeroEcg } from "@/components/brand-art";
 import { contact, services } from "@/content/site-data";
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
+      <div className="footer-cta">
+        <HeroEcg />
+        <div className="container footer-cta-inner">
+          <h2>One conversation<br /><em>starts it.</em></h2>
+          <div>
+            <Link className="button button-coral" href="/appointment">Book an appointment <b aria-hidden="true">↗</b></Link>
+            <a className="button button-ghost-light" href={contact.phoneHref}>Call {contact.phone}</a>
+          </div>
+        </div>
+      </div>
       <div className="container footer-top">
         <div>
           <div className="brand brand-footer"><span className="brand-mark" aria-hidden="true"><span /></span><span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span></div>
@@ -15,7 +26,7 @@ export function SiteFooter() {
           <div><span className="footer-label">Find us</span><a href={contact.phoneHref}>{contact.phone}</a><a href={`mailto:${contact.email}`}>{contact.email}</a><span>{contact.address}</span></div>
         </div>
       </div>
-      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Rise Medical Hub</span><span>Designed for clarity, care, and confidence.</span><a href={contact.whatsappHref}>Start a conversation ↗</a></div>
+      <div className="container footer-bottom"><span>© {new Date().getFullYear()} Rise Medical Hub</span><span>Designed for clarity, care, and confidence.</span><Link href="/heart-care">Heart guide</Link><a href={contact.whatsappHref}>Start a conversation ↗</a></div>
     </footer>
   );
 }
