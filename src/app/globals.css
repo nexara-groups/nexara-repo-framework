@@ -886,10 +886,13 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .hc-hero .heart-fig .hf-vessel.hf-aorta, .hc-hero .heart-fig .hf-vessel.hf-pv { stroke: #ff8a9c; }
 .hc-hero .heart-fig .hf-venous { fill-opacity: .4; }
 .hc-hero .heart-fig .hf-arterial { fill-opacity: .34; }
-.hc-hero .heart-fig .hf-lv-wall { fill-opacity: .42; }
 .hc-hero .heart-fig .hf-label { fill: var(--mint-deep); }
 
-.hc-chapter-title { color: var(--navy); margin: 24px 0 0; }
+/* Anchor landings (chapter rail, "Start reading") clear the sticky header + pill bar */
+#how-it-works, #numbers, #narrowing, #conditions, #warning-signs, #protect, #tests, #treatment { scroll-margin-top: 168px; }
+@media (min-width: 1100px) {
+  #how-it-works, #numbers, #narrowing, #conditions, #warning-signs, #protect, #tests, #treatment { scroll-margin-top: 100px; }
+}
 
 /* ——— Chapter 01: blood-flow scrolly (Task 15) ——— */
 /* Light-surface variant of the shared scrolly layout classes */

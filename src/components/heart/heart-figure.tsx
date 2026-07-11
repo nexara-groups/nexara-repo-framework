@@ -11,7 +11,7 @@
 
 type Lane = "in" | "lungs" | "return" | "out";
 const laneStart: Record<Lane, { x: number; y: number }> = {
-  in: { x: 108, y: -46 },
+  in: { x: 96, y: -42 },
   lungs: { x: 132, y: 382 },
   return: { x: 340, y: 150 },
   out: { x: 210, y: 384 },
@@ -60,11 +60,13 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
       {/* ——— Great vessels — clean colored tubes rising over the correct chambers, drawn
           UNDER the body so the chamber walls sit on top. ——— */}
 
-      {/* Pulmonary trunk — from the RV (viewer-left), forking toward the lungs. Venous. */}
+      {/* Pulmonary trunk — from the RV (viewer-left), forking toward the lungs. Venous.
+          Branches taper below the trunk and the left one stops short of the vena cava so
+          the three vessels at the base read as separate tubes, not one blue mass. */}
       <g id={id("hf-pa")} className="hf-vessel hf-pa">
         <path d="M 178 60 C 176 20 174 -6 172 -22" strokeWidth={20} />
-        <path d="M 172 -22 C 150 -38 118 -40 94 -24" strokeWidth={14} />
-        <path d="M 172 -22 C 196 -40 226 -42 250 -28" strokeWidth={14} />
+        <path d="M 172 -22 C 154 -35 130 -38 112 -30" strokeWidth={12} />
+        <path d="M 172 -22 C 196 -40 226 -42 250 -28" strokeWidth={12} />
       </g>
       {/* Aorta — the signature arch from the LV (viewer-right), curving up and away. Arterial. */}
       <g id={id("hf-aorta")} className="hf-vessel hf-aorta">
@@ -72,7 +74,7 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
       </g>
       {/* Vena cava — descending into the RA (viewer-left). Venous. */}
       <g id={id("hf-vc")} className="hf-vessel hf-vc">
-        <path d="M 122 66 C 102 30 90 0 90 -30" strokeWidth={15} />
+        <path d="M 122 66 C 100 30 88 0 84 -26" strokeWidth={14} />
       </g>
       {/* Pulmonary veins — short stubs joining the LA to the right lung. Arterial. */}
       <g id={id("hf-pv")} className="hf-vessel hf-pv">
@@ -141,7 +143,7 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
 
       {/* ——— Motion lanes (invisible rails for particle animation) ——— */}
       {/* in: vena cava → RA → down toward RV */}
-      <path id={id("lane-in")} className="hf-lane lane-in" d="M108 -46 C100 6 96 66 100 126 C106 206 110 286 132 382" />
+      <path id={id("lane-in")} className="hf-lane lane-in" d="M96 -42 C94 4 96 66 100 126 C106 206 110 286 132 382" />
       {/* lungs: RV → pulmonary trunk → up to the lungs */}
       <path id={id("lane-lungs")} className="hf-lane lane-lungs" d="M132 382 C122 300 132 210 152 128 C166 46 170 4 172 -40" />
       {/* return: pulmonary veins → LA → down toward LV */}
