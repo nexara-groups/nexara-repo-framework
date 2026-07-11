@@ -32,7 +32,8 @@ const labels = [
   { id: "pv", text: "Pulmonary veins", x: 470, y: 250, anchor: "end" as const },
 ];
 
-export function HeartFigure() {
+export function HeartFigure({ ids = true }: { ids?: boolean } = {}) {
+  const id = (name: string) => (ids ? name : undefined);
   return (
     <svg
       className="heart-fig"
@@ -57,16 +58,16 @@ export function HeartFigure() {
       {/* Vena cava — superior (curves in from top-left) + inferior (curves up from bottom-left)
           into the RA. Venous / blue. */}
       <path
-        id="hf-vc"
-        className="hf-vessel hf-venous"
+        id={id("hf-vc")}
+        className="hf-vessel hf-venous hf-vc"
         d="M144 60 C 156 104 172 142 186 178 L210 168 C 198 130 182 94 168 58 Z
            M130 432 C 136 388 150 340 172 300 L196 310 C 178 346 164 390 158 436 Z"
       />
 
       {/* Pulmonary artery — exits RV upward and branches toward both lungs. Venous / blue. */}
       <path
-        id="hf-pa"
-        className="hf-vessel hf-venous"
+        id={id("hf-pa")}
+        className="hf-vessel hf-venous hf-pa"
         d="M200 286 C 198 250 204 218 214 194 L238 202 C 230 226 226 254 226 286 Z
            M216 198 C 192 180 150 178 106 194 L112 216 C 150 204 188 206 212 222 Z
            M232 200 C 270 178 330 176 402 194 L398 216 C 332 202 278 204 242 224 Z"
@@ -74,8 +75,8 @@ export function HeartFigure() {
 
       {/* Pulmonary veins — return from the right lung into the LA. Arterial / coral. */}
       <path
-        id="hf-pv"
-        className="hf-vessel hf-arterial"
+        id={id("hf-pv")}
+        className="hf-vessel hf-arterial hf-pv"
         d="M404 230 C 386 226 370 212 360 194 L342 206 C 354 226 374 240 396 246 Z
            M410 262 C 388 258 372 246 360 232 L346 246 C 360 260 382 272 404 278 Z"
       />
@@ -83,15 +84,16 @@ export function HeartFigure() {
       {/* Aorta — candy-cane arch rising from the LV, cresting over the top and exiting
           up-left. Arterial / coral. */}
       <path
-        id="hf-aorta"
-        className="hf-vessel hf-arterial"
+        id={id("hf-aorta")}
+        className="hf-vessel hf-arterial hf-aorta"
         d="M296 292 C 288 240 288 192 298 160 C 308 126 296 96 246 78 L232 102
            C 276 118 288 138 280 166 C 272 200 272 244 320 292 Z"
       />
 
       {/* ——— The whole-heart silhouette (idle-beat target) ——— */}
       <path
-        id="hf-outline"
+        id={id("hf-outline")}
+        className="hf-outline"
         d="M256 156 C 305 139 352 151 376 188 C 393 216 388 264 373 303
            C 351 379 312 434 232 465 C 224 468 214 470 208 470
            C 190 432 160 400 146 348 C 130 292 126 250 133 210
@@ -102,16 +104,16 @@ export function HeartFigure() {
       <g className="hf-chambers">
         {/* Right atrium — upper-left, venous. */}
         <path
-          id="hf-ra"
-          className="hf-chamber hf-venous"
+          id={id("hf-ra")}
+          className="hf-chamber hf-venous hf-ra"
           d="M256 170 C 214 154 172 160 146 194 C 132 218 132 254 135 282
              C 172 290 208 290 238 286 C 245 242 250 206 256 170 Z"
         />
 
         {/* Left atrium — upper-right, arterial. */}
         <path
-          id="hf-la"
-          className="hf-chamber hf-arterial"
+          id={id("hf-la")}
+          className="hf-chamber hf-arterial hf-la"
           d="M256 170 C 300 154 344 160 370 196 C 386 224 384 264 372 300
              C 328 292 282 290 238 286 C 245 242 250 206 256 170 Z"
         />
@@ -119,8 +121,8 @@ export function HeartFigure() {
         {/* Right ventricle — below the RA, tapering toward the apex (lower-left), venous.
             Its outer wall hugs the silhouette (thin wall). */}
         <path
-          id="hf-rv"
-          className="hf-chamber hf-venous"
+          id={id("hf-rv")}
+          className="hf-chamber hf-venous hf-rv"
           d="M238 286 C 208 290 168 290 138 284 C 142 346 164 412 208 466
              C 224 404 236 344 238 286 Z"
         />
@@ -128,15 +130,16 @@ export function HeartFigure() {
         {/* Left ventricle — below-right, arterial. Cavity is inset from the silhouette on the
             free wall; that gap reads as the thick myocardium. */}
         <path
-          id="hf-lv"
-          className="hf-chamber hf-arterial"
+          id={id("hf-lv")}
+          className="hf-chamber hf-arterial hf-lv"
           d="M238 286 C 282 290 322 292 356 304 C 348 372 314 424 256 452
              C 236 406 228 346 238 286 Z"
         />
 
         {/* Interventricular septum — wall between the two ventricles. */}
         <path
-          id="hf-septum"
+          id={id("hf-septum")}
+          className="hf-septum"
           d="M256 170 C 248 232 242 300 238 340 C 233 390 220 432 208 468"
         />
       </g>
@@ -174,26 +177,26 @@ export function HeartFigure() {
       {/* ——— Motion lanes (invisible rails for particle animation) ——— */}
       {/* in: vena cava → RA → RV */}
       <path
-        id="lane-in"
-        className="hf-lane"
+        id={id("lane-in")}
+        className="hf-lane lane-in"
         d="M150 72 C 158 140 178 180 185 220 C 190 250 188 268 186 288 C 184 330 186 356 190 392"
       />
       {/* lungs: RV → pulmonary artery → lungs */}
       <path
-        id="lane-lungs"
-        className="hf-lane"
+        id={id("lane-lungs")}
+        className="hf-lane lane-lungs"
         d="M188 352 C 196 300 206 276 214 250 C 220 224 224 208 220 196 C 200 182 150 182 104 198"
       />
       {/* return: lungs → pulmonary veins → LA → LV */}
       <path
-        id="lane-return"
-        className="hf-lane"
+        id={id("lane-return")}
+        className="hf-lane lane-return"
         d="M404 240 C 372 244 344 236 330 226 C 316 216 318 250 312 286 C 306 330 302 356 300 392"
       />
       {/* out: LV → aorta → off top-centre */}
       <path
-        id="lane-out"
-        className="hf-lane"
+        id={id("lane-out")}
+        className="hf-lane lane-out"
         d="M300 392 C 302 330 300 296 300 268 C 300 224 302 190 292 162 C 282 122 266 96 240 78"
       />
 

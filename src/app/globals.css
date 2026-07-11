@@ -823,8 +823,8 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .heart-fig .hf-arterial { fill: var(--coral); fill-opacity: .16; }
 .heart-fig .hf-vessel { stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; }
 .heart-fig .hf-lung { fill: var(--mint); fill-opacity: .55; stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; }
-.heart-fig #hf-outline { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-opacity: .5; }
-.heart-fig #hf-septum { fill: var(--navy); fill-opacity: .08; stroke: var(--navy); stroke-width: 1.5; }
+.heart-fig .hf-outline { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-opacity: .5; }
+.heart-fig .hf-septum { fill: var(--navy); fill-opacity: .08; stroke: var(--navy); stroke-width: 1.5; }
 .heart-fig .hf-lv-wall { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-opacity: .85; }
 .heart-fig .hf-valve path { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linecap: round; }
 .heart-fig .hf-lane { fill: none; stroke: none; }
@@ -840,7 +840,7 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .heart-fig #hf-outline,
+  .heart-fig .hf-outline,
   .heart-fig .hf-chambers {
     animation: hf-beat 1.9s var(--ease-inout) infinite;
     transform-origin: 52% 55%;
@@ -869,17 +869,60 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .hc-hero .heart-fig .hf-chamber,
 .hc-hero .heart-fig .hf-vessel,
 .hc-hero .heart-fig .hf-lung,
-.hc-hero .heart-fig #hf-outline,
-.hc-hero .heart-fig #hf-septum,
+.hc-hero .heart-fig .hf-outline,
+.hc-hero .heart-fig .hf-septum,
 .hc-hero .heart-fig .hf-lv-wall,
 .hc-hero .heart-fig .hf-valve path { stroke: rgba(255,255,255,.72); }
 .hc-hero .heart-fig .hf-venous { fill-opacity: .38; }
 .hc-hero .heart-fig .hf-arterial { fill-opacity: .32; }
 .hc-hero .heart-fig .hf-lung { fill-opacity: .22; }
-.hc-hero .heart-fig #hf-septum { fill: #fff; fill-opacity: .08; }
+.hc-hero .heart-fig .hf-septum { fill: #fff; fill-opacity: .08; }
 .hc-hero .heart-fig .hf-label { fill: var(--mint-deep); }
 
 .hc-chapter-title { color: var(--navy); margin: 24px 0 0; }
+
+/* ——— Chapter 01: blood-flow scrolly (Task 15) ——— */
+/* Light-surface variant of the shared scrolly layout classes */
+.hc-flow { background: var(--paper); overflow: clip; }
+.hc-flow .scrolly-heading h2 { color: var(--navy); }
+.hc-flow .scrolly-heading p { color: var(--muted); }
+.hc-flow .s-step h3 { color: var(--navy); }
+.hc-flow .s-step p { color: var(--muted); }
+.hc-flow .s-step .chapter-number { color: var(--coral-dark); }
+.hc-flow .s-bar-track { background: rgba(16,32,61,.12); }
+.hc-flow .scrolly-hint { color: var(--muted); }
+.hc-flow .scrolly-hint i { background: rgba(16,32,61,.2); }
+/* Particle lane colors: venous traffic blue, arterial coral */
+.heart-fig .hf-particle-in, .heart-fig .hf-particle-lungs { fill: var(--blue-venous); }
+.heart-fig .hf-particle-return, .heart-fig .hf-particle-out { fill: var(--coral); }
+/* Stage figure before JS: labels readable (GSAP hides them at timeline setup) */
+.hc-flow-art .hf-label { opacity: 1; }
+/* Per-step fallback figures: hidden on desktop, painted per beat elsewhere */
+.hc-step-fig { display: none; }
+@media (max-width: 899px), (prefers-reduced-motion: reduce) {
+  .hc-flow .hc-flow-art { display: none; }
+  .hc-flow .scrolly-grid { grid-template-columns: 1fr; }
+  .hc-flow .scrolly-stage { align-items: start; min-height: 0; }
+  .hc-flow .s-step + .s-step { margin-top: 64px; }
+  .hc-step-fig { display: block; margin: 26px auto 0; max-width: 420px; }
+  /* Beat painting: fills at final opacity, relevant labels visible */
+  .hc-step-fig .hf-particle { opacity: 1; }
+  .hc-step-fig[data-beat="1"] .hf-ra, .hc-step-fig[data-beat="1"] .hf-rv { fill-opacity: .45; }
+  .hc-step-fig[data-beat="1"] .hf-label-vc, .hc-step-fig[data-beat="1"] .hf-label-ra, .hc-step-fig[data-beat="1"] .hf-label-rv { opacity: 1; }
+  .hc-step-fig[data-beat="1"] .hf-particle:not(.hf-particle-in) { opacity: 0; }
+  .hc-step-fig[data-beat="2"] .hf-lung { fill-opacity: .95; }
+  .hc-step-fig[data-beat="2"] .hf-pa { fill-opacity: .45; }
+  .hc-step-fig[data-beat="2"] .hf-label-pa { opacity: 1; }
+  .hc-step-fig[data-beat="2"] .hf-particle:not(.hf-particle-lungs) { opacity: 0; }
+  .hc-step-fig[data-beat="3"] .hf-la, .hc-step-fig[data-beat="3"] .hf-lv { fill-opacity: .45; }
+  .hc-step-fig[data-beat="3"] .hf-lv-wall { stroke-width: 3; }
+  .hc-step-fig[data-beat="3"] .hf-label-pv, .hc-step-fig[data-beat="3"] .hf-label-la, .hc-step-fig[data-beat="3"] .hf-label-lv { opacity: 1; }
+  .hc-step-fig[data-beat="3"] .hf-particle:not(.hf-particle-return) { opacity: 0; }
+  .hc-step-fig[data-beat="4"] .hf-aorta { fill-opacity: .45; }
+  .hc-step-fig[data-beat="4"] .hf-valve path { stroke: var(--coral); }
+  .hc-step-fig[data-beat="4"] .hf-label-aorta { opacity: 1; }
+  .hc-step-fig[data-beat="4"] .hf-particle:not(.hf-particle-out) { opacity: 0; }
+}
 
 /* Fixed left rail (desktop) — fades in once a chapter is active */
 .chapter-rail { display: none; }

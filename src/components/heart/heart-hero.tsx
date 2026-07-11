@@ -65,7 +65,7 @@ export function HeartHero() {
           </div>
         </div>
         <div className="hc-hero-art">
-          <HeartFigure />
+          <HeartFigure ids={false} />
         </div>
       </div>
     </section>

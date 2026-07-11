@@ -440,14 +440,14 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 
 **Interfaces:** Consumes `flowSteps` from heart-guide and `<HeartFigure />`. Pattern-clone of `eecp-scrolly.tsx` (pin + scrub + stepped copy) — same class conventions (`.s-step`, progress bar) so CSS is shared where possible.
 
-- [ ] **Step 1: Build the timeline.** Pinned stage (`start: "top top", end: "+=380%", scrub: 0.7`), four labeled beats mapping to `flowSteps`:
+- [x] **Step 1: Build the timeline.** Pinned stage (`start: "top top", end: "+=380%", scrub: 0.7`), four labeled beats mapping to `flowSteps`:
   - **Beat 1 "in":** `#lane-in` particles (blue-venous fill) travel via `motionPath` into RA→RV; `#hf-ra` then `#hf-rv` fill-opacity pulses to .45; labels `Right atrium`, `Right ventricle`, `Vena cava` fade in.
   - **Beat 2 "lungs":** particles ride `#lane-lungs` to the lung lobes; mid-path each particle cross-fades fill `var(--blue-venous)` → `var(--coral)` (the oxygen moment — stagger it so the color change reads); lungs pulse mint; label `Pulmonary artery — the only artery carrying oxygen-poor blood`.
   - **Beat 3 "return":** coral particles ride `#lane-return` into LA→LV; `#hf-lv` double-wall highlights (stroke-width tween 1.5→3); labels `Left atrium`, `Left ventricle — the strongest chamber`.
   - **Beat 4 "out":** LV contracts (scale .96 on `#hf-lv`, transform-origin center), particles fire along `#lane-out` through the aorta and off-canvas with a trailing opacity fade; all 4 `.hf-valve` marks flash coral in sequence; closing label `The aorta — and everywhere else`. End state: full figure labeled, both colors flowing on a gentle infinite loop (`repeat: -1` mini-timeline started on scrolly complete).
-- [ ] **Step 2: Reduced-motion / mobile fallback:** no pin; the four steps render as a vertical sequence, each step showing a static `<HeartFigure />` variant with that beat's chambers/lanes pre-highlighted via a `data-beat="1..4"` class that CSS paints (fills at final opacity, labels visible). Same information, zero motion.
-- [ ] **Step 3: Verify** — scroll through: particles visibly change blue→coral at the lungs (the single most important visual fact on the page); each beat's copy card swaps in sync; reduced-motion shows 4 static labeled figures; no dropped frames in DevTools performance (transforms only, no layout properties tweened).
-- [ ] **Step 4: Commit** — `feat: blood-flow scrollytelling chapter`
+- [x] **Step 2: Reduced-motion / mobile fallback:** no pin; the four steps render as a vertical sequence, each step showing a static `<HeartFigure />` variant with that beat's chambers/lanes pre-highlighted via a `data-beat="1..4"` class that CSS paints (fills at final opacity, labels visible). Same information, zero motion.
+- [x] **Step 3: Verify** — scroll through: particles visibly change blue→coral at the lungs (the single most important visual fact on the page); each beat's copy card swaps in sync; reduced-motion shows 4 static labeled figures; no dropped frames in DevTools performance (transforms only, no layout properties tweened).
+- [x] **Step 4: Commit** — `feat: blood-flow scrollytelling chapter`
 
 ### Task 16: Chapter 02 — vitals dials
 
