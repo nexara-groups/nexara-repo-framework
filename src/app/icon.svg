@@ -1,5 +1,6 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rise Medical Hub">
-  <circle cx="32" cy="32" r="27" fill="none" stroke="#10203d" stroke-width="4.5" />
-  <rect x="28.5" y="17" width="7" height="30" rx="1" fill="#dc5f72" />
-  <rect x="17" y="28.5" width="30" height="7" rx="1" fill="#dc5f72" />
+  <circle cx="32" cy="32" r="27" fill="none" stroke="#dc5f72" stroke-width="4.5" />
+  <rect x="28.5" y="17" width="7" height="30" rx="1" fill="#10203d" />
+  <rect x="17" y="28.5" width="30" height="7" rx="1" fill="#10203d" />
+  <circle cx="32" cy="32" r="6" fill="#dc5f72" stroke="#fbfcfa" stroke-width="2.5" />
 </svg>
