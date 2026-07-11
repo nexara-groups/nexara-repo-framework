@@ -853,3 +853,63 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
     36% { transform: scale(1); }
   }
 }
+
+/* ——— Heart-care page (Task 14): hero + chapter rail ——— */
+.hc-hero { background-color: var(--navy); color: var(--white); min-height: 92svh; overflow: hidden; position: relative; }
+/* Same grain + ambient treatment as the other dark surfaces */
+.hc-hero { z-index: 0; background-image: radial-gradient(1200px 600px at 78% -10%, rgba(220,95,114,.14), transparent 60%), radial-gradient(900px 500px at 8% 110%, rgba(168,212,206,.10), transparent 60%); }
+.hc-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .05; mix-blend-mode: overlay; pointer-events: none; background-image: var(--grain-svg); background-repeat: repeat; background-size: 128px 128px; }
+.hc-hero-inner { align-items: center; display: grid; gap: 60px; grid-template-columns: 1.02fr .98fr; min-height: 92svh; padding-bottom: 120px; padding-top: 64px; position: relative; }
+.hc-hero .eyebrow { color: var(--mint-deep); }
+.hc-hero-copy h1 { color: var(--white); font-size: clamp(50px, 6vw, 88px); margin: 24px 0 22px; }
+.hc-hero-copy > p { color: #b7c0cf; font-size: 17px; max-width: 480px; }
+.hc-hero .hero-actions { margin-top: 30px; }
+.hc-hero-art { margin: 0 auto; max-width: 520px; width: 100%; }
+/* The heart figure ships navy-on-light; on the navy hero its linework flips to light. */
+.hc-hero .heart-fig .hf-chamber,
+.hc-hero .heart-fig .hf-vessel,
+.hc-hero .heart-fig .hf-lung,
+.hc-hero .heart-fig #hf-outline,
+.hc-hero .heart-fig #hf-septum,
+.hc-hero .heart-fig .hf-lv-wall,
+.hc-hero .heart-fig .hf-valve path { stroke: rgba(255,255,255,.72); }
+.hc-hero .heart-fig .hf-venous { fill-opacity: .38; }
+.hc-hero .heart-fig .hf-arterial { fill-opacity: .32; }
+.hc-hero .heart-fig .hf-lung { fill-opacity: .22; }
+.hc-hero .heart-fig #hf-septum { fill: #fff; fill-opacity: .08; }
+.hc-hero .heart-fig .hf-label { fill: var(--mint-deep); }
+
+.hc-chapter-title { color: var(--navy); margin: 24px 0 0; }
+
+/* Fixed left rail (desktop) — fades in once a chapter is active */
+.chapter-rail { display: none; }
+.rail-pills { -webkit-overflow-scrolling: touch; background: rgba(251,252,250,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); display: flex; gap: 8px; overflow-x: auto; padding: 10px 17px; position: sticky; top: 85px; z-index: 15; }
+.rail-pills a { border: 1px solid var(--line); color: var(--navy); flex: none; font-size: 11px; font-weight: 700; letter-spacing: .6px; padding: 8px 12px; white-space: nowrap; }
+.rail-pills a.rail-on { background: var(--navy); border-color: var(--navy); color: var(--white); }
+@media (min-width: 1100px) {
+  .rail-pills { display: none; }
+  .chapter-rail { display: flex; flex-direction: column; gap: 15px; left: 26px; opacity: 0; pointer-events: none; position: fixed; top: 50%; transform: translateY(-50%); transition: opacity var(--dur-quick) var(--ease-out); z-index: 15; }
+  .chapter-rail.rail-live { opacity: 1; pointer-events: auto; }
+  .chapter-rail a { align-items: center; display: flex; gap: 10px; }
+  .chapter-rail i { border: 1px solid rgba(16,32,61,.35); border-radius: 100%; display: block; flex: none; height: 9px; transition: background-color var(--dur-quick) var(--ease-out), border-color var(--dur-quick) var(--ease-out); width: 9px; }
+  .chapter-rail b { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; transition: color var(--dur-quick) var(--ease-out); }
+  .chapter-rail span { color: var(--navy); font-size: 11px; font-weight: 700; opacity: 0; transform: translateX(-6px); transition: opacity var(--dur-quick) var(--ease-out), transform var(--dur-quick) var(--ease-out); white-space: nowrap; }
+  .chapter-rail a.rail-on i { background: var(--coral); border-color: var(--coral); }
+  .chapter-rail a.rail-on b { color: var(--navy); }
+  .chapter-rail a.rail-on span, .chapter-rail a:hover span { opacity: 1; transform: none; }
+  /* Light styling while the active chapter sits on an ink section */
+  .chapter-rail[data-tone="dark"] i { border-color: rgba(255,255,255,.45); }
+  .chapter-rail[data-tone="dark"] b { color: #8fa0b6; }
+  .chapter-rail[data-tone="dark"] span { color: var(--white); }
+  .chapter-rail[data-tone="dark"] a.rail-on b { color: var(--white); }
+}
+@media (max-width: 980px) {
+  .hc-hero-inner { gap: 48px; grid-template-columns: 1fr; padding-bottom: 110px; padding-top: 48px; }
+  .hc-hero-art { max-width: 78vw; }
+}
+@media (max-width: 620px) {
+  .hc-hero-copy h1 { font-size: 47px; }
+  .hc-hero-copy > p { font-size: 15px; }
+  .hc-hero .hero-actions { align-items: stretch; flex-direction: column; max-width: 290px; }
+  .rail-pills { top: 73px; }
+}

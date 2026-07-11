@@ -52,8 +52,8 @@ export const services: Service[] = [
 ];
 
 export const navItems = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/heart-care", label: "Heart care" },
   { href: "/eecp-therapy", label: "EECP Therapy" },
   { href: "/services", label: "Care services" },
   { href: "/doctors", label: "Doctors" },

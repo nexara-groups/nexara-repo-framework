@@ -31,24 +31,24 @@
 
 **Interfaces:** Produces: a repo where `grep -r "supabase\|nexara" src/` returns nothing.
 
-- [ ] **Step 1: Confirm nothing in `src/app`, `src/components`, `src/content` imports the doomed directories**
+- [x] **Step 1: Confirm nothing in `src/app`, `src/components`, `src/content` imports the doomed directories**
 
 Run: `grep -rE "from ['\"](@/core|@/features|@/infrastructure|@/shared|\.\./core|\.\./\.\./core)" src/app/page.tsx src/app/layout.tsx "src/app/[slug]" src/app/resources src/components src/content`
 Expected: no matches. (The only consumers are `src/app/api/me/route.ts` and `src/app/_services.ts`, which are being deleted.)
 
-- [ ] **Step 2: Delete the directories and files listed above**
+- [x] **Step 2: Delete the directories and files listed above**
 
-- [ ] **Step 3: Clean `package.json`**
+- [x] **Step 3: Clean `package.json`**
 
 Remove dependency `@supabase/supabase-js`. Remove scripts `check:arch`, `cf-typegen`; change `verify` to `"verify": "tsc --noEmit"`. Set `"name": "rise-medical-hub"`, `"description": "Rise Medical Hub — patient-first healthcare in Madhurawada, Visakhapatnam."`. Run `npm install` to update the lockfile.
 
-- [ ] **Step 4: Add `tsconfig.tsbuildinfo` to `.gitignore`** and `git rm --cached tsconfig.tsbuildinfo`.
+- [x] **Step 4: Add `tsconfig.tsbuildinfo` to `.gitignore`** and `git rm --cached tsconfig.tsbuildinfo`.
 
-- [ ] **Step 5: Verify**
+- [x] **Step 5: Verify**
 
 Run: `npm run typecheck` → 0 errors. Run `curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/` → 200.
 
-- [ ] **Step 6: Commit** — `chore: remove unused platform boilerplate, rename package`
+- [x] **Step 6: Commit** — `chore: remove unused platform boilerplate, rename package`
 
 ### Task 2: Make the appointment form honest (WhatsApp handoff)
 
@@ -59,7 +59,7 @@ The form currently drops data on the floor and claims "Request received." Until 
 
 **Interfaces:** Consumes `contact` from `@/content/site-data`. No other component changes.
 
-- [ ] **Step 1: Rewrite the component**
+- [x] **Step 1: Rewrite the component**
 
 ```tsx
 "use client";
@@ -98,21 +98,21 @@ export function AppointmentForm() {
 }
 ```
 
-- [ ] **Step 2: Verify in browser** — fill the form on `/appointment`, submit, confirm a `wa.me` tab opens with the composed text and the success panel says "press send there", not "request received".
+- [x] **Step 2: Verify in browser** — fill the form on `/appointment`, submit, confirm a `wa.me` tab opens with the composed text and the success panel says "press send there", not "request received".
 
-- [ ] **Step 3: Commit** — `fix: appointment form hands off to WhatsApp instead of silently dropping data`
+- [x] **Step 3: Commit** — `fix: appointment form hands off to WhatsApp instead of silently dropping data`
 
 ### Task 3: Stop publishing fabricated medical facts
 
 **Files:**
 - Modify: `src/app/[slug]/page.tsx` (DoctorsBody: delete the JSON-LD block, lines ~82–91), `src/app/[slug]/page.tsx` (TestimonialsBody note-strip), `src/app/[slug]/page.tsx` (GalleryBody + `pageMeta.gallery`), `src/components/doctors-directory.tsx` (spotlight quote)
 
-- [ ] **Step 1: Delete the `MedicalClinic`/`Physician` JSON-LD** from `DoctorsBody` entirely (the `jsonLd` const and the `<script>` tag). It re-enters only when the roster is verified real — tracked by the existing note-strip.
-- [ ] **Step 2: Testimonials honesty.** Replace the note-strip text with: `"Illustrative patient stories, shown while we collect consented testimonials from our first patients. Individual outcomes vary — every treatment decision belongs with your doctor."` Change page eyebrow in `pageMeta.testimonials` from `"In their words"` to `"The experience we're building"`.
-- [ ] **Step 3: Gallery honesty.** Change `pageMeta.gallery` description to `"A visual preview of the Rise environment — concept renders of the spaces we're building, ahead of opening photography."` and add a `.note-strip` after the grid: `"These are design visualisations. Real photography replaces them as each space opens."`
-- [ ] **Step 4: Spotlight quote.** In `doctors-directory.tsx`, replace the fabricated blockquote with a philosophy statement owned by the clinic, not a person: `"Our rule for every consultation: no test without a reason, no report without an explanation, no visit without a written next step."` and change the attribution line to `<strong>The Rise care team</strong><span>Cardiology & EECP pathway</span>`.
-- [ ] **Step 5: Verify** — `/doctors` page source (`curl -s localhost:3000/doctors | grep -c "application/ld+json"`) returns 0; testimonials/gallery pages show the new strips.
-- [ ] **Step 6: Commit** — `fix: remove fabricated physician schema and false consent claims`
+- [x] **Step 1: Delete the `MedicalClinic`/`Physician` JSON-LD** from `DoctorsBody` entirely (the `jsonLd` const and the `<script>` tag). It re-enters only when the roster is verified real — tracked by the existing note-strip.
+- [x] **Step 2: Testimonials honesty.** Replace the note-strip text with: `"Illustrative patient stories, shown while we collect consented testimonials from our first patients. Individual outcomes vary — every treatment decision belongs with your doctor."` Change page eyebrow in `pageMeta.testimonials` from `"In their words"` to `"The experience we're building"`.
+- [x] **Step 3: Gallery honesty.** Change `pageMeta.gallery` description to `"A visual preview of the Rise environment — concept renders of the spaces we're building, ahead of opening photography."` and add a `.note-strip` after the grid: `"These are design visualisations. Real photography replaces them as each space opens."`
+- [x] **Step 4: Spotlight quote.** In `doctors-directory.tsx`, replace the fabricated blockquote with a philosophy statement owned by the clinic, not a person: `"Our rule for every consultation: no test without a reason, no report without an explanation, no visit without a written next step."` and change the attribution line to `<strong>The Rise care team</strong><span>Cardiology & EECP pathway</span>`.
+- [x] **Step 5: Verify** — `/doctors` page source (`curl -s localhost:3000/doctors | grep -c "application/ld+json"`) returns 0; testimonials/gallery pages show the new strips.
+- [x] **Step 6: Commit** — `fix: remove fabricated physician schema and false consent claims`
 
 ### Task 4: SEO plumbing (the invisible half of 10/10)
 
@@ -120,7 +120,7 @@ export function AppointmentForm() {
 - Create: `src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/icon.svg`, `src/app/opengraph-image.png` (1200×630 export of the brand mark on navy — generate with the brand ECG line + wordmark), `src/components/clinic-schema.tsx`
 - Modify: `src/app/layout.tsx`, `src/components/eecp-body.tsx` (FAQ schema)
 
-- [ ] **Step 1: `src/app/sitemap.ts`**
+- [x] **Step 1: `src/app/sitemap.ts`**
 
 ```ts
 import type { MetadataRoute } from "next";
@@ -137,24 +137,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 ```
 
-- [ ] **Step 2: `src/app/robots.ts`** — standard allow-all + `sitemap: "https://risemedicalhub.com/sitemap.xml"`.
-- [ ] **Step 3: `layout.tsx` metadata** — add `metadataBase: new URL("https://risemedicalhub.com")`, `openGraph: { siteName: "Rise Medical Hub", type: "website", locale: "en_IN" }`, `twitter: { card: "summary_large_image" }`.
-- [ ] **Step 4: `clinic-schema.tsx`** — a server component emitting `MedicalClinic` JSON-LD with **only verifiable facts** (name, address, phone, geo area "Madhurawada, Visakhapatnam", `medicalSpecialty: ["Cardiovascular", "PrimaryCare"]`, opening hours once confirmed — omit until then). Render it in `layout.tsx` body. No physician names.
-- [ ] **Step 5: FAQ schema on EECP** — in `eecp-body.tsx` render `FAQPage` JSON-LD built from the existing `faqs` array (`.replace(/</g,"\\u003c")` like the removed doctors block did).
-- [ ] **Step 6: `icon.svg`** — the existing brand mark (circle + cross from `.brand-mark`) as a 64×64 SVG, navy on transparent.
-- [ ] **Step 7: Verify** — `curl localhost:3000/sitemap.xml` lists all pages + 6 posts; `curl localhost:3000/robots.txt` valid; view-source of `/` shows og tags + clinic schema; `/eecp-therapy` shows FAQPage schema. `npm run typecheck` clean.
-- [ ] **Step 8: Commit** — `feat: sitemap, robots, icons, OG metadata, honest clinic + FAQ schema`
+- [x] **Step 2: `src/app/robots.ts`** — standard allow-all + `sitemap: "https://risemedicalhub.com/sitemap.xml"`.
+- [x] **Step 3: `layout.tsx` metadata** — add `metadataBase: new URL("https://risemedicalhub.com")`, `openGraph: { siteName: "Rise Medical Hub", type: "website", locale: "en_IN" }`, `twitter: { card: "summary_large_image" }`.
+- [x] **Step 4: `clinic-schema.tsx`** — a server component emitting `MedicalClinic` JSON-LD with **only verifiable facts** (name, address, phone, geo area "Madhurawada, Visakhapatnam", `medicalSpecialty: ["Cardiovascular", "PrimaryCare"]`, opening hours once confirmed — omit until then). Render it in `layout.tsx` body. No physician names.
+- [x] **Step 5: FAQ schema on EECP** — in `eecp-body.tsx` render `FAQPage` JSON-LD built from the existing `faqs` array (`.replace(/</g,"\\u003c")` like the removed doctors block did).
+- [x] **Step 6: `icon.svg`** — the existing brand mark (circle + cross from `.brand-mark`) as a 64×64 SVG, navy on transparent.
+- [x] **Step 7: Verify** — `curl localhost:3000/sitemap.xml` lists all pages + 6 posts; `curl localhost:3000/robots.txt` valid; view-source of `/` shows og tags + clinic schema; `/eecp-therapy` shows FAQPage schema. `npm run typecheck` clean.
+- [x] **Step 8: Commit** — `feat: sitemap, robots, icons, OG metadata, honest clinic + FAQ schema`
 
 ### Task 5: Fix the three delivery bugs (menu, hidden hero, 1.7MB images)
 
 **Files:**
 - Modify: `src/components/site-header.tsx`, `src/components/home-hero.tsx`, `src/components/eecp-hero.tsx`, `src/app/globals.css`, `public/images/*`
 
-- [ ] **Step 1: Mobile menu closes on navigation.** Convert the `<details>` menu to a client component pattern: add `"use client"` wrapper component `MobileMenu` (extract from header) holding `const ref = useRef<HTMLDetailsElement>(null)` and `const pathname = usePathname()`; `useEffect(() => { if (ref.current) ref.current.open = false; }, [pathname])`. Header itself stays a server component importing `MobileMenu`.
-- [ ] **Step 2: Hero content can never be invisible.** In both hero components, the first line inside the matchMedia callback adds a class: `ref.current?.classList.add("is-animating")`. In CSS, author the hidden initial states under that class only (`.hm-hero.is-animating .hm-line-inner { /* GSAP owns it */ }`) and replace the `.from()` tweens on text with `.fromTo()` whose hidden state is applied by GSAP itself at timeline start (GSAP does this already; the real fix is a safety valve): add to both components after building the timeline: `const failsafe = window.setTimeout(() => intro.progress(1), 4000);` cleared in the cleanup. A stalled ticker (background tab, ancient phone) now snaps content visible at 4s.
-- [ ] **Step 3: Compress images.** `npx sharp-cli` or `cwebp -q 82` each `public/images/*.png` → same-name `.webp` (~120–250KB each), update every `src=".../*.png"` reference (`grep -rl "images/" src/`), delete the PNGs.
-- [ ] **Step 4: Verify** — mobile viewport (375×812): open menu, tap "About", menu is closed on arrival. Home with DevTools CPU 6× throttle: headline visible ≤4s worst case. `ls -la public/images` all files <300KB.
-- [ ] **Step 5: Commit** — `fix: mobile menu close-on-nav, hero animation failsafe, webp images`
+- [x] **Step 1: Mobile menu closes on navigation.** Convert the `<details>` menu to a client component pattern: add `"use client"` wrapper component `MobileMenu` (extract from header) holding `const ref = useRef<HTMLDetailsElement>(null)` and `const pathname = usePathname()`; `useEffect(() => { if (ref.current) ref.current.open = false; }, [pathname])`. Header itself stays a server component importing `MobileMenu`.
+- [x] **Step 2: Hero content can never be invisible.** In both hero components, the first line inside the matchMedia callback adds a class: `ref.current?.classList.add("is-animating")`. In CSS, author the hidden initial states under that class only (`.hm-hero.is-animating .hm-line-inner { /* GSAP owns it */ }`) and replace the `.from()` tweens on text with `.fromTo()` whose hidden state is applied by GSAP itself at timeline start (GSAP does this already; the real fix is a safety valve): add to both components after building the timeline: `const failsafe = window.setTimeout(() => intro.progress(1), 4000);` cleared in the cleanup. A stalled ticker (background tab, ancient phone) now snaps content visible at 4s.
+- [x] **Step 3: Compress images.** `npx sharp-cli` or `cwebp -q 82` each `public/images/*.png` → same-name `.webp` (~120–250KB each), update every `src=".../*.png"` reference (`grep -rl "images/" src/`), delete the PNGs.
+- [x] **Step 4: Verify** — mobile viewport (375×812): open menu, tap "About", menu is closed on arrival. Home with DevTools CPU 6× throttle: headline visible ≤4s worst case. `ls -la public/images` all files <300KB.
+- [x] **Step 5: Commit** — `fix: mobile menu close-on-nav, hero animation failsafe, webp images`
 
 ---
 
@@ -167,7 +167,7 @@ Georgia/Arial is the single biggest thing making the site look free. Fraunces (d
 **Files:**
 - Modify: `src/app/layout.tsx`, `src/app/globals.css:1-40`
 
-- [ ] **Step 1: Load fonts in `layout.tsx`**
+- [x] **Step 1: Load fonts in `layout.tsx`**
 
 ```tsx
 import { Fraunces, Instrument_Sans } from "next/font/google";
@@ -177,7 +177,7 @@ const instrument = Instrument_Sans({ subsets: ["latin"], variable: "--font-sans"
 // <html lang="en" className={`${fraunces.variable} ${instrument.variable}`}>
 ```
 
-- [ ] **Step 2: Token pass in `globals.css`**
+- [x] **Step 2: Token pass in `globals.css`**
 
 ```css
 :root {
@@ -196,8 +196,8 @@ h1, h2 { font-weight: 500; font-variation-settings: "opsz" 72; letter-spacing: -
 
 Adjust `h1` clamp to `clamp(52px, 7.4vw, 104px)` (Fraunces runs wider than Georgia). Sweep every page at 375/768/1280 for overflow.
 
-- [ ] **Step 3: Verify** — fonts visible in DevTools (`font-family` computed = Fraunces/Instrument Sans), no FOUT (next/font self-hosts), no headline overflow at 375px on `/`, `/eecp-therapy`, `/doctors`. Typecheck clean.
-- [ ] **Step 4: Commit** — `feat: Fraunces + Instrument Sans typography, motion/color tokens`
+- [x] **Step 3: Verify** — fonts visible in DevTools (`font-family` computed = Fraunces/Instrument Sans), no FOUT (next/font self-hosts), no headline overflow at 375px on `/`, `/eecp-therapy`, `/doctors`. Typecheck clean.
+- [x] **Step 4: Commit** — `feat: Fraunces + Instrument Sans typography, motion/color tokens`
 
 ### Task 7: Motion system v2 — Reveal variants, heading masks, page transitions
 
@@ -205,7 +205,7 @@ Adjust `h1` clamp to `clamp(52px, 7.4vw, 104px)` (Fraunces runs wider than Georg
 - Modify: `src/components/reveal.tsx`, `src/app/globals.css`
 - Create: `src/app/template.tsx`
 
-- [ ] **Step 1: Reveal variants.** Extend `Reveal` with `variant?: "rise" | "blur" | "mask"` (default `"rise"`, current behavior). CSS:
+- [x] **Step 1: Reveal variants.** Extend `Reveal` with `variant?: "rise" | "blur" | "mask"` (default `"rise"`, current behavior). CSS:
 
 ```css
 .reveal-blur { opacity: 0; filter: blur(14px); transform: translateY(18px); transition: opacity var(--dur-slow) var(--ease-out), filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
@@ -216,7 +216,7 @@ Adjust `h1` clamp to `clamp(52px, 7.4vw, 104px)` (Fraunces runs wider than Georg
 
 All variants gated behind `@media (prefers-reduced-motion: no-preference)`; otherwise `.reveal { opacity: 1; transform: none; }`.
 
-- [ ] **Step 2: Page transitions.** `src/app/template.tsx`:
+- [x] **Step 2: Page transitions.** `src/app/template.tsx`:
 
 ```tsx
 "use client";
@@ -235,9 +235,9 @@ export default function Template({ children }: { children: ReactNode }) {
 }
 ```
 
-- [ ] **Step 3: Apply `variant="mask"` to every `section-heading` h2 block** (they're all wrapped in `Reveal` already — pass the prop at the ~14 call sites: home flow/pathways headings, services, packages, camps, EECP sections, doctors roster, resources).
-- [ ] **Step 4: Verify** — navigate between pages: soft rise on each arrival; headings wipe upward on scroll; with OS reduced-motion enabled everything is static and visible. Typecheck clean.
-- [ ] **Step 5: Commit** — `feat: reveal variants (blur/mask), page enter transitions`
+- [x] **Step 3: Apply `variant="mask"` to every `section-heading` h2 block** (they're all wrapped in `Reveal` already — pass the prop at the ~14 call sites: home flow/pathways headings, services, packages, camps, EECP sections, doctors roster, resources).
+- [x] **Step 4: Verify** — navigate between pages: soft rise on each arrival; headings wipe upward on scroll; with OS reduced-motion enabled everything is static and visible. Typecheck clean.
+- [x] **Step 5: Commit** — `feat: reveal variants (blur/mask), page enter transitions`
 
 ### Task 8: Chrome upgrade — header, footer
 
@@ -245,31 +245,31 @@ export default function Template({ children }: { children: ReactNode }) {
 - Modify: `src/components/site-header.tsx`, `src/components/site-footer.tsx`, `src/app/globals.css`
 - Create: `src/components/header-scroll.tsx` (client)
 
-- [ ] **Step 1: Sticky glass header.** `header-scroll.tsx` client component adds `data-scrolled` to `document.body` past 24px (single `scroll` listener, rAF-throttled). CSS: `.site-header { position: sticky; top: 0; transition: box-shadow var(--dur-quick), backdrop-filter var(--dur-quick); backdrop-filter: blur(0); } body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba(251,252,250,.72); box-shadow: 0 1px 0 rgba(16,32,61,.08), 0 12px 32px -24px rgba(16,32,61,.25); }`. Utility bar stays non-sticky.
-- [ ] **Step 2: Active nav state.** In the nav (client subcomponent with `usePathname`), the current section's link gets `.nav-on` — coral 2px underline offset 6px, animated `text-decoration-color` fade. "Heart care" and "EECP" both highlight under their own paths.
-- [ ] **Step 3: Nav CTA micro-interaction.** `.nav-cta:hover b { transform: translate(2px,-2px); }` with `transition: transform .25s var(--ease-out)` — the arrow leans into the corner. Apply the same rule globally: `.button:hover b, .text-link:hover b { transform: translate(2px,-2px); }`.
-- [ ] **Step 4: Footer upgrade.** Add above `footer-top`: a full-width CTA band — navy, the `HeroEcg` line as divider art, serif h2 `"One conversation<br/><em>starts it.</em>"`, coral button to `/appointment`, ghost button `tel:`. Then existing columns. Add to bottom row: `<Link href="/heart-care">Heart guide</Link>`.
-- [ ] **Step 5: Verify** — scroll any page: header gains glass + shadow; active page underlined in nav; footer band renders on all pages; arrows nudge on hover. Mobile 375px: no horizontal scroll.
-- [ ] **Step 6: Commit** — `feat: sticky glass header, active nav, footer CTA band`
+- [x] **Step 1: Sticky glass header.** `header-scroll.tsx` client component adds `data-scrolled` to `document.body` past 24px (single `scroll` listener, rAF-throttled). CSS: `.site-header { position: sticky; top: 0; transition: box-shadow var(--dur-quick), backdrop-filter var(--dur-quick); backdrop-filter: blur(0); } body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba(251,252,250,.72); box-shadow: 0 1px 0 rgba(16,32,61,.08), 0 12px 32px -24px rgba(16,32,61,.25); }`. Utility bar stays non-sticky.
+- [x] **Step 2: Active nav state.** In the nav (client subcomponent with `usePathname`), the current section's link gets `.nav-on` — coral 2px underline offset 6px, animated `text-decoration-color` fade. "Heart care" and "EECP" both highlight under their own paths.
+- [x] **Step 3: Nav CTA micro-interaction.** `.nav-cta:hover b { transform: translate(2px,-2px); }` with `transition: transform .25s var(--ease-out)` — the arrow leans into the corner. Apply the same rule globally: `.button:hover b, .text-link:hover b { transform: translate(2px,-2px); }`.
+- [x] **Step 4: Footer upgrade.** Add above `footer-top`: a full-width CTA band — navy, the `HeroEcg` line as divider art, serif h2 `"One conversation<br/><em>starts it.</em>"`, coral button to `/appointment`, ghost button `tel:`. Then existing columns. Add to bottom row: `<Link href="/heart-care">Heart guide</Link>`.
+- [x] **Step 5: Verify** — scroll any page: header gains glass + shadow; active page underlined in nav; footer band renders on all pages; arrows nudge on hover. Mobile 375px: no horizontal scroll.
+- [x] **Step 6: Commit** — `feat: sticky glass header, active nav, footer CTA band`
 
 ### Task 9: Depth & texture pass (kill the flatness)
 
 **Files:**
 - Modify: `src/app/globals.css`
 
-- [ ] **Step 1: Grain on dark sections.** One inline-SVG noise data-URI, applied as `::after` overlay (`opacity:.05; mix-blend-mode:overlay; pointer-events:none`) on `.section-ink`, `.hm-hero`, `.eecp-hero`, `.dr-hero`, `.hm-closer`, footer CTA band.
-- [ ] **Step 2: Ambient gradient.** On the same dark sections add a fixed radial glow: `background-image: radial-gradient(1200px 600px at 78% -10%, rgba(220,95,114,.14), transparent 60%), radial-gradient(900px 500px at 8% 110%, rgba(168,212,206,.10), transparent 60%);` layered under content.
-- [ ] **Step 3: Card elevation system.** One shared recipe for `service-card`, `pkg-card`, `blog-card`, `tst-card`, `dept-card`, `lab-card`: resting `border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,32,61,.04)`; hover `transform: translateY(-6px); box-shadow: 0 24px 48px -24px rgba(16,32,61,.28); border-color: transparent` with `transition: all var(--dur-quick) var(--ease-out)`. Card images get a slow `scale(1.04)` on hover (`overflow:hidden` on the frame).
-- [ ] **Step 4: Section rhythm.** Replace flat `.section-pad { padding: 124px 0 }` with fluid `padding: clamp(84px, 11vw, 148px) 0;` and give alternating sections a hairline top rule (`border-top: 1px solid var(--line)`) except colored ones.
-- [ ] **Step 5: Verify** — home + EECP + doctors: dark sections show subtle grain/glow (zoom a screenshot to confirm), all cards share identical hover physics, no jank while scrolling (DevTools performance: no layout thrash — transforms/opacity only).
-- [ ] **Step 6: Commit** — `feat: grain + ambient light on dark sections, unified card elevation`
+- [x] **Step 1: Grain on dark sections.** One inline-SVG noise data-URI, applied as `::after` overlay (`opacity:.05; mix-blend-mode:overlay; pointer-events:none`) on `.section-ink`, `.hm-hero`, `.eecp-hero`, `.dr-hero`, `.hm-closer`, footer CTA band.
+- [x] **Step 2: Ambient gradient.** On the same dark sections add a fixed radial glow: `background-image: radial-gradient(1200px 600px at 78% -10%, rgba(220,95,114,.14), transparent 60%), radial-gradient(900px 500px at 8% 110%, rgba(168,212,206,.10), transparent 60%);` layered under content.
+- [x] **Step 3: Card elevation system.** One shared recipe for `service-card`, `pkg-card`, `blog-card`, `tst-card`, `dept-card`, `lab-card`: resting `border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,32,61,.04)`; hover `transform: translateY(-6px); box-shadow: 0 24px 48px -24px rgba(16,32,61,.28); border-color: transparent` with `transition: all var(--dur-quick) var(--ease-out)`. Card images get a slow `scale(1.04)` on hover (`overflow:hidden` on the frame).
+- [x] **Step 4: Section rhythm.** Replace flat `.section-pad { padding: 124px 0 }` with fluid `padding: clamp(84px, 11vw, 148px) 0;` and give alternating sections a hairline top rule (`border-top: 1px solid var(--line)`) except colored ones.
+- [x] **Step 5: Verify** — home + EECP + doctors: dark sections show subtle grain/glow (zoom a screenshot to confirm), all cards share identical hover physics, no jank while scrolling (DevTools performance: no layout thrash — transforms/opacity only).
+- [x] **Step 6: Commit** — `feat: grain + ambient light on dark sections, unified card elevation`
 
 ### Task 10: Rescue the thin pages (pharmacy, OPD, contact)
 
 **Files:**
 - Modify: `src/app/[slug]/page.tsx` (PharmacyBody, OpdBody as new named bodies replacing generic `ServiceBody` for those slugs; ContactBody), `src/content/site-data.ts` (new data arrays)
 
-- [ ] **Step 1: Data.** Add to `site-data.ts`:
+- [x] **Step 1: Data.** Add to `site-data.ts`:
 
 ```ts
 export const pharmacyPoints = [
@@ -290,11 +290,11 @@ export const opdTimings = [
 
 (Timings mirror the doctor roster; keep the existing "being verified" note-strip on both pages.)
 
-- [ ] **Step 2: PharmacyBody** — split-detail intro (existing), then a 4-up numbered grid of `pharmacyPoints` (reuse `.value-list` styles), then CtaStrip (`"Ask about a medicine"` → tel).
-- [ ] **Step 3: OpdBody** — split-detail intro, then an OPD timings table (styled like the EECP compare table) built from `opdTimings` with a "Book this department" link per row → `/appointment`, then the existing 3-point "what to expect", then CtaStrip.
-- [ ] **Step 4: Contact page** — replace the fake `map-art` with a real embed: `<iframe title="Map to Rise Medical Hub" loading="lazy" src="https://www.google.com/maps?q=${encodeURIComponent(contact.address)}&output=embed" />` in a rounded frame; add an hours strip (from `opdTimings`, condensed) and a "How to find us" line (nearest landmark — confirm with owner, placeholder: "Opposite Madhurawada bus depot; parking on site").
-- [ ] **Step 5: Verify** — `/pharmacy` and `/opd` each ≥3 substantive sections, no shared-generic-only content; `/contact` shows live map tile; all responsive at 375px. Typecheck clean.
-- [ ] **Step 6: Commit** — `feat: real pharmacy/OPD content, live map + hours on contact`
+- [x] **Step 2: PharmacyBody** — split-detail intro (existing), then a 4-up numbered grid of `pharmacyPoints` (reuse `.value-list` styles), then CtaStrip (`"Ask about a medicine"` → tel).
+- [x] **Step 3: OpdBody** — split-detail intro, then an OPD timings table (styled like the EECP compare table) built from `opdTimings` with a "Book this department" link per row → `/appointment`, then the existing 3-point "what to expect", then CtaStrip.
+- [x] **Step 4: Contact page** — replace the fake `map-art` with a real embed: `<iframe title="Map to Rise Medical Hub" loading="lazy" src="https://www.google.com/maps?q=${encodeURIComponent(contact.address)}&output=embed" />` in a rounded frame; add an hours strip (from `opdTimings`, condensed) and a "How to find us" line (nearest landmark — confirm with owner, placeholder: "Opposite Madhurawada bus depot; parking on site").
+- [x] **Step 5: Verify** — `/pharmacy` and `/opd` each ≥3 substantive sections, no shared-generic-only content; `/contact` shows live map tile; all responsive at 375px. Typecheck clean.
+- [x] **Step 6: Commit** — `feat: real pharmacy/OPD content, live map + hours on contact`
 
 ### Task 11: Unified image treatment + photography plan
 
@@ -302,9 +302,9 @@ export const opdTimings = [
 - Modify: `src/app/globals.css`
 - Create: `docs/photography-shotlist.md`
 
-- [ ] **Step 1: Duotone unifier.** The 5 AI renders look inconsistent. Wrap every content image frame (`.service-card-image`, `.detail-image`, `.page-hero-media`, `.gallery-item`, `.eecp-sticky-media`) with a shared treatment: `filter: saturate(.82) contrast(1.02); ` plus a navy multiply veil `::after { background: linear-gradient(180deg, rgba(16,32,61,.0), rgba(16,32,61,.18)); mix-blend-mode: multiply; }` — one grade across the site.
-- [ ] **Step 2: Shot list** for the real shoot (12 shots: exterior signage, reception wide, EECP suite with machine, cuffs detail, ECG monitor closeup, consultation two-shot, pharmacy counter, lab bench, corridor, physio space, team candid, Madhurawada street context). Note per shot: replaces which file, orientation, min 2400px.
-- [ ] **Step 3: Verify** — screenshot home + services side by side: images read as one family. Commit — `feat: unified image grade, photography shot list`
+- [x] **Step 1: Duotone unifier.** The 5 AI renders look inconsistent. Wrap every content image frame (`.service-card-image`, `.detail-image`, `.page-hero-media`, `.gallery-item`, `.eecp-sticky-media`) with a shared treatment: `filter: saturate(.82) contrast(1.02); ` plus a navy multiply veil `::after { background: linear-gradient(180deg, rgba(16,32,61,.0), rgba(16,32,61,.18)); mix-blend-mode: multiply; }` — one grade across the site.
+- [x] **Step 2: Shot list** for the real shoot (12 shots: exterior signage, reception wide, EECP suite with machine, cuffs detail, ECG monitor closeup, consultation two-shot, pharmacy counter, lab bench, corridor, physio space, team candid, Madhurawada street context). Note per shot: replaces which file, orientation, min 2400px.
+- [x] **Step 3: Verify** — screenshot home + services side by side: images read as one family. Commit — `feat: unified image grade, photography shot list`
 
 ---
 
@@ -319,7 +319,7 @@ Structure: a chaptered long-read. Sticky progress rail. Three custom animated se
 
 **Interfaces:** Produces the exports below; every Task 13–19 component imports from here, never inlines copy.
 
-- [ ] **Step 1: Create the file with this exact content**
+- [x] **Step 1: Create the file with this exact content**
 
 ```ts
 export const chapters = [
@@ -402,7 +402,7 @@ export const heartFaqs = [
 ];
 ```
 
-- [ ] **Step 2: Verify** — `npm run typecheck` clean. Commit — `feat: heart guide content model`
+- [x] **Step 2: Verify** — `npm run typecheck` clean. Commit — `feat: heart guide content model`
 
 ### Task 13: The anatomical heart — `src/components/heart/heart-figure.tsx`
 
@@ -414,10 +414,10 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 **Interfaces:** Produces `<HeartFigure />` rendering `<svg class="heart-fig" viewBox="0 0 520 560">` containing these **required stable ids/classes** (animation tasks target them):
 `#hf-ra`, `#hf-rv`, `#hf-la`, `#hf-lv` (chamber paths) · `#hf-septum` · `#hf-aorta`, `#hf-pa` (pulmonary artery), `#hf-vc` (vena cava), `#hf-pv` (pulmonary veins) — vessel paths with visible stroke centrelines `.hf-lane` (4 lanes: `#lane-in`, `#lane-lungs`, `#lane-return`, `#lane-out`) for particle motion paths · `.hf-valve` ×4 (small paired-leaflet marks) · `.hf-label` ×8 (`<text>` chamber/vessel names, hidden until Chapter 1 reveals them) · `.hf-particle` ×12 `<circle r="4">` (3 per lane) · `#hf-outline` (whole-heart silhouette for the idle beat).
 
-- [ ] **Step 1: Author the SVG.** Geometry spec: heart silhouette occupies x 90–430, y 60–480, tilted ~15° left (apex lower-left, matching anatomy). Right chambers (viewer's left… anatomical right = viewer left): `#hf-ra` upper-left rounded quad ~(120,140)-(240,260); `#hf-rv` below it to apex; `#hf-la` upper-right (280,130)-(400,240); `#hf-lv` below-right, drawn with a visibly thicker wall (double outline, 10px gap) — the one anatomical fact the design must show. Vessels: `#hf-vc` enters top-left and bottom-left into RA; `#hf-pa` exits RV upward, branching left/right toward two small stylised lung lobes at the top corners (simple 3-arc shapes, mint fill); `#hf-pv` returns from lungs into LA; `#hf-aorta` arches from LV up and over (the classic candy-cane) exiting top-centre. Fills: venous side `var(--blue-venous)` at 18% opacity, arterial side `var(--coral)` at 16%, strokes `var(--navy)` 1.5px. Lanes are invisible (`stroke: none; fill: none`) paths tracing: in→RA→RV (`#lane-in`), RV→lungs (`#lane-lungs`), lungs→LA→LV (`#lane-return`), LV→aorta→exit (`#lane-out`).
-- [ ] **Step 2: Idle beat CSS** (used wherever no GSAP takes over): `@media (prefers-reduced-motion: no-preference) { .heart-fig #hf-outline, .heart-fig .hf-chambers { animation: hf-beat 1.9s var(--ease-inout) infinite; transform-origin: 52% 55%; } @keyframes hf-beat { 0%,100% { transform: scale(1); } 12% { transform: scale(1.025); } 24% { transform: scale(.99); } 36% { transform: scale(1); } } }` — a lub-dub, not a balloon.
-- [ ] **Step 3: Verify** — render `<HeartFigure />` temporarily on `/` (or Storybook-style scratch route `/heart-care` stub), screenshot: four chambers legible, LV wall visibly thicker, beat reads as cardiac rhythm. All required ids present (`curl -s localhost:3000/heart-care | grep -o 'hf-[a-z]*' | sort -u`).
-- [ ] **Step 4: Commit** — `feat: anatomical heart SVG figure with animation hooks`
+- [x] **Step 1: Author the SVG.** Geometry spec: heart silhouette occupies x 90–430, y 60–480, tilted ~15° left (apex lower-left, matching anatomy). Right chambers (viewer's left… anatomical right = viewer left): `#hf-ra` upper-left rounded quad ~(120,140)-(240,260); `#hf-rv` below it to apex; `#hf-la` upper-right (280,130)-(400,240); `#hf-lv` below-right, drawn with a visibly thicker wall (double outline, 10px gap) — the one anatomical fact the design must show. Vessels: `#hf-vc` enters top-left and bottom-left into RA; `#hf-pa` exits RV upward, branching left/right toward two small stylised lung lobes at the top corners (simple 3-arc shapes, mint fill); `#hf-pv` returns from lungs into LA; `#hf-aorta` arches from LV up and over (the classic candy-cane) exiting top-centre. Fills: venous side `var(--blue-venous)` at 18% opacity, arterial side `var(--coral)` at 16%, strokes `var(--navy)` 1.5px. Lanes are invisible (`stroke: none; fill: none`) paths tracing: in→RA→RV (`#lane-in`), RV→lungs (`#lane-lungs`), lungs→LA→LV (`#lane-return`), LV→aorta→exit (`#lane-out`).
+- [x] **Step 2: Idle beat CSS** (used wherever no GSAP takes over): `@media (prefers-reduced-motion: no-preference) { .heart-fig #hf-outline, .heart-fig .hf-chambers { animation: hf-beat 1.9s var(--ease-inout) infinite; transform-origin: 52% 55%; } @keyframes hf-beat { 0%,100% { transform: scale(1); } 12% { transform: scale(1.025); } 24% { transform: scale(.99); } 36% { transform: scale(1); } } }` — a lub-dub, not a balloon.
+- [x] **Step 3: Verify** — render `<HeartFigure />` temporarily on `/` (or Storybook-style scratch route `/heart-care` stub), screenshot: four chambers legible, LV wall visibly thicker, beat reads as cardiac rhythm. All required ids present (`curl -s localhost:3000/heart-care | grep -o 'hf-[a-z]*' | sort -u`).
+- [x] **Step 4: Commit** — `feat: anatomical heart SVG figure with animation hooks`
 
 ### Task 14: Route, hero, chapter rail
 
@@ -427,11 +427,11 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 
 **Interfaces:** `page.tsx` composes: `<HeartHero />` then one `<section id={chapter.id}>` per chapter (bodies from Tasks 15–19), with `<ChapterRail />` fixed at viewport left (desktop only). Metadata: `title: "Heart Care — a complete, plain-language guide"`, description ~150 chars, plus `MedicalWebPage` JSON-LD (`about: { "@type": "MedicalCondition", name: "Cardiovascular health" }`, `lastReviewed` date, `reviewedBy` omitted until a named clinician signs off).
 
-- [ ] **Step 1: Hero.** Navy full-viewport (`min-height: 92vh`). Left: eyebrow `"The Rise heart guide"`, h1 `"Know the engine.<br/><em>Own the journey.</em>"`, standfirst: "Everything we wish every patient knew about the heart — how it works, what goes wrong, which signs matter, and what to do next. Twenty minutes, plain language, no jargon." Chips: `8 chapters`, `Doctor-reviewed`, `Telugu · English · Hindi support`. CTA pair: coral `Start reading ↓` (anchors `#how-it-works`), ghost `Book a heart check`. Right: `<HeartFigure />` with idle beat + the site's `HeroEcg` line drawing across behind it (reuse the exact intro pattern from `home-hero.tsx` **including the 4s failsafe from Task 5**).
-- [ ] **Step 2: ChapterRail.** Fixed left rail (desktop ≥1100px): a vertical hairline, one dot + `01`-style number per chapter from `chapters`. IntersectionObserver marks the active chapter (`.rail-on`: dot fills coral, number ink→navy, title fades in beside it). Click scrolls to the section. Mobile: rail becomes a sticky-top horizontal scroller of chapter pills under the header.
-- [ ] **Step 3: Nav.** `navItems`: insert `{ href: "/heart-care", label: "Heart care" }` after About; remove `{ href: "/", label: "Home" }` (brand mark already goes home) so the bar stays at 6 items.
-- [ ] **Step 4: Verify** — `/heart-care` renders hero + 8 empty-but-titled sections; rail tracks scroll and clicks jump correctly; mobile pills scroll; `curl -s localhost:3000/heart-care | grep MedicalWebPage` hits. Typecheck clean.
-- [ ] **Step 5: Commit** — `feat: heart-care route, hero, chapter rail, nav entry`
+- [x] **Step 1: Hero.** Navy full-viewport (`min-height: 92vh`). Left: eyebrow `"The Rise heart guide"`, h1 `"Know the engine.<br/><em>Own the journey.</em>"`, standfirst: "Everything we wish every patient knew about the heart — how it works, what goes wrong, which signs matter, and what to do next. Twenty minutes, plain language, no jargon." Chips: `8 chapters`, `Doctor-reviewed`, `Telugu · English · Hindi support`. CTA pair: coral `Start reading ↓` (anchors `#how-it-works`), ghost `Book a heart check`. Right: `<HeartFigure />` with idle beat + the site's `HeroEcg` line drawing across behind it (reuse the exact intro pattern from `home-hero.tsx` **including the 4s failsafe from Task 5**).
+- [x] **Step 2: ChapterRail.** Fixed left rail (desktop ≥1100px): a vertical hairline, one dot + `01`-style number per chapter from `chapters`. IntersectionObserver marks the active chapter (`.rail-on`: dot fills coral, number ink→navy, title fades in beside it). Click scrolls to the section. Mobile: rail becomes a sticky-top horizontal scroller of chapter pills under the header.
+- [x] **Step 3: Nav.** `navItems`: insert `{ href: "/heart-care", label: "Heart care" }` after About; remove `{ href: "/", label: "Home" }` (brand mark already goes home) so the bar stays at 6 items.
+- [x] **Step 4: Verify** — `/heart-care` renders hero + 8 empty-but-titled sections; rail tracks scroll and clicks jump correctly; mobile pills scroll; `curl -s localhost:3000/heart-care | grep MedicalWebPage` hits. Typecheck clean.
+- [x] **Step 5: Commit** — `feat: heart-care route, hero, chapter rail, nav entry`
 
 ### Task 15: Chapter 01 — blood-flow scrolly (the set-piece)
 
