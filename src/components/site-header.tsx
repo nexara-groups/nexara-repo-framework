@@ -19,7 +19,7 @@ export function SiteHeader() {
       </div>
       <header className="site-header">
         <div className="container nav-inner">
-          <Link className="brand" href="/" aria-label="Rise Medical Hub home">
+          <Link className="brand" href="/">
             <span className="brand-mark" aria-hidden="true"><span /></span>
             <span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span>
           </Link>

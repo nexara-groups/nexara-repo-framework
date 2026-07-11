@@ -1,7 +1,7 @@
 export function EecpNaturalBypass() {
   return (
     <figure className="eecp-bypass" aria-label="Animated diagram: over a course of EECP, small collateral blood vessels open around a narrowed artery, forming natural detours for blood flow.">
-      <svg viewBox="0 0 440 260" role="img" focusable="false">
+      <svg viewBox="0 0 440 260" role="img" focusable="false" aria-label="A narrowed artery with small collateral vessels opening around it as natural detours">
         {/* Main artery with a narrowed middle */}
         <path className="bypass-artery" d="M14 130 C 90 130 128 118 168 118 C 200 118 205 142 220 142 C 235 142 240 118 272 118 C 312 118 350 130 426 130" />
         <path className="bypass-artery bypass-artery-inner" d="M14 130 C 90 130 128 118 168 118 C 200 118 205 142 220 142 C 235 142 240 118 272 118 C 312 118 350 130 426 130" />

@@ -515,10 +515,10 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 
 ### Task 22: Full-site QA sweep
 
-- [ ] **Step 1: Route sweep** — every route from the sitemap returns 200; `/nonexistent` 404s.
-- [ ] **Step 2: Lighthouse (mobile emulation)** on `/`, `/heart-care`, `/eecp-therapy`, `/appointment`: Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95 each. Fix regressions before proceeding.
-- [ ] **Step 3: A11y manual pass** — keyboard-only walk of header, doctors filter, conditions accordion, form; focus always visible; `axe` DevTools zero critical issues.
-- [ ] **Step 4: The 10/10 visual checklist, per page** (screenshot each at 1280 + 375 and check):
+- [x] **Step 1: Route sweep** — every route from the sitemap returns 200; `/nonexistent` 404s.
+- [x] **Step 2: Lighthouse (mobile emulation)** on `/`, `/heart-care`, `/eecp-therapy`, `/appointment`: Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95 each. Fix regressions before proceeding.
+- [x] **Step 3: A11y manual pass** — keyboard-only walk of header, doctors filter, conditions accordion, form; focus always visible; `axe` DevTools zero critical issues.
+- [x] **Step 4: The 10/10 visual checklist, per page** (screenshot each at 1280 + 375 and check):
   - Fraunces/Instrument rendering (no Georgia anywhere — computed styles)
   - dark sections show grain + ambient glow
   - identical card hover physics site-wide
@@ -526,8 +526,8 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
   - no orphaned single word in any h1/h2 at 375px
   - every CTA arrow nudges on hover
   - images share the unified grade
-- [ ] **Step 5: Content truth audit** — grep for the removed claims: `grep -rn "Shared with patient consent\|Request received" src/` → zero hits; doctors/testimonials/gallery disclaimers present; every medical chapter ends in consult-a-doctor framing.
-- [ ] **Step 6: Commit** — `chore: QA sweep fixes` and tag the branch state.
+- [x] **Step 5: Content truth audit** — grep for the removed claims: `grep -rn "Shared with patient consent\|Request received" src/` → zero hits; doctors/testimonials/gallery disclaimers present; every medical chapter ends in consult-a-doctor framing.
+- [x] **Step 6: Commit** — `chore: QA sweep fixes` and tag the branch state.
 
 ---
 
