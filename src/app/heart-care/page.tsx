@@ -4,6 +4,7 @@ import { HeartHero } from "@/components/heart/heart-hero";
 import { ChapterRail } from "@/components/heart/chapter-rail";
 import { HeartFlowScrolly } from "@/components/heart/heart-flow-scrolly";
 import { VitalsDials } from "@/components/heart/vitals-dials";
+import { ArteryScrolly } from "@/components/heart/artery-scrolly";
 
 const DESCRIPTION =
   "How your heart works, the numbers that matter, warning signs, tests, and treatments — a plain-language guide from Rise Medical Hub, Madhurawada.";
@@ -38,6 +39,7 @@ export default function HeartCarePage() {
       {chapters.map((chapter) => {
         if (chapter.id === "how-it-works") return <HeartFlowScrolly key={chapter.id} />;
         if (chapter.id === "numbers") return <VitalsDials key={chapter.id} />;
+        if (chapter.id === "narrowing") return <ArteryScrolly key={chapter.id} />;
         return (
           <section key={chapter.id} id={chapter.id} className="section-pad">
             <div className="container">

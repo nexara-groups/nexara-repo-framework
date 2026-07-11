@@ -76,3 +76,9 @@ export const heartFaqs = [
   { q: "My BP is high only at the clinic. Does it count?", a: "It might not — 'white-coat' readings are common. A week of proper home readings, morning and evening, tells your doctor what's real." },
   { q: "Can I exercise with a heart condition?", a: "Usually yes — movement is medicine — but the dose needs a doctor. After an event, or during therapies like EECP, activity is built up gradually under guidance." },
 ];
+
+export const arterySteps = [
+  { title: "Years of quiet build-up", copy: "Cholesterol deposits — plaque — settle into the artery wall over decades. Traffic slows, but there are no symptoms yet. This is the stage where testing, not luck, finds trouble." },
+  { title: "Angina — demand outruns supply", copy: "At rest, the narrowed artery still copes. On stairs or under stress, the heart asks for more blood than can squeeze through — a pressure or heaviness in the chest that eases when you stop." },
+  { title: "The emergency", copy: "A plaque ruptures and a clot completes the block within minutes. Muscle downstream begins to die — this is a heart attack. Call 108 or reach the nearest emergency room. Do not drive yourself." },
+];

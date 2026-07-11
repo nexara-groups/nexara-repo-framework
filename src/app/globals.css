@@ -924,6 +924,35 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
   .hc-step-fig[data-beat="4"] .hf-particle:not(.hf-particle-out) { opacity: 0; }
 }
 
+/* ——— Chapter 03: artery narrowing scrolly (Task 17) ——— */
+.artery-fig { display: block; height: auto; overflow: visible; width: 100%; }
+.ar-lumen { fill: rgba(220,95,114,.06); }
+.ar-wall { stroke: var(--navy); stroke-linecap: round; stroke-width: 3; }
+.ar-plaque { fill: var(--gold); fill-opacity: .55; stroke: var(--coral-dark); stroke-width: 1.5; transform: scaleY(.55); transform-box: fill-box; }
+.ar-plaque-top { transform-origin: center top; }
+.ar-plaque-bot { transform-origin: center bottom; }
+.ar-clot { fill: var(--coral-dark); opacity: 0; stroke: var(--navy); stroke-width: 1.5; }
+.ar-downstream { opacity: 0; }
+.ar-downstream rect { fill: var(--paper); }
+.ar-downstream line { stroke: #9aa4ad; stroke-linecap: round; stroke-width: 3; }
+.ar-lane { fill: none; stroke: none; }
+.ar-cell { fill: var(--coral); }
+.ar-ecg { fill: none; opacity: .5; stroke: var(--mint-deep); stroke-dasharray: 6 7; stroke-width: 2; }
+.ar-caption { fill: var(--muted); font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 1px; opacity: 0; text-transform: uppercase; }
+.ar-caption-3 { fill: var(--coral-dark); }
+.ar-next { margin-top: 26px; }
+.hc-artery-grid { grid-template-columns: 1.15fr .85fr; }
+@media (max-width: 899px), (prefers-reduced-motion: reduce) {
+  .ar-step-fig { max-width: 100%; }
+  .ar-step-fig[data-beat="1"] .ar-caption-1 { opacity: 1; }
+  .ar-step-fig[data-beat="2"] .ar-plaque { transform: scaleY(.78); }
+  .ar-step-fig[data-beat="2"] .ar-caption-2 { opacity: 1; }
+  .ar-step-fig[data-beat="3"] .ar-plaque { transform: scaleY(.78); }
+  .ar-step-fig[data-beat="3"] .ar-clot { opacity: 1; }
+  .ar-step-fig[data-beat="3"] .ar-downstream { opacity: .85; }
+  .ar-step-fig[data-beat="3"] .ar-caption-3 { opacity: 1; }
+}
+
 /* ——— Chapter 02: vitals dials (Task 16) ——— */
 /* 270° arc: circumference 2π·48 ≈ 301.6, of which 270° ≈ 226.2 */
 .vd-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-top: 64px; }
