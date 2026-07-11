@@ -190,6 +190,7 @@ export type Post = {
   intro: string;
   sections: { heading: string; body: string }[];
   takeaways: string[];
+  guideLink?: { href: string; label: string };
 };
 
 export const posts: Post[] = [
@@ -207,6 +208,7 @@ export const posts: Post[] = [
       { heading: "What a course looks like", body: "A standard course is 35 sessions, usually one hour a day over about seven weeks. Improvement is gradual: many patients first notice they can walk further before symptoms appear. You walk in and walk out of every session — no admission required." },
     ],
     takeaways: ["EECP is non-surgical and done as an outpatient therapy", "Sessions are timed to your own heartbeat using ECG", "A standard course is 35 one-hour sessions over ~7 weeks", "Suitability is always a cardiologist's decision"],
+    guideLink: { href: "/heart-care", label: "See where EECP fits in the full heart guide" },
   },
   {
     slug: "blood-pressure-basics",
@@ -222,6 +224,7 @@ export const posts: Post[] = [
       { heading: "When to act", body: "Persistently elevated readings deserve a consultation — not panic. Lifestyle changes genuinely move these numbers, and where medicines are needed, they work best when started early and reviewed regularly." },
     ],
     takeaways: ["Both numbers matter — bring the pattern, not one reading", "Home readings beat clinic readings for spotting real trends", "Measure seated, rested, cuff at heart level", "Persistent elevation deserves a calm consultation"],
+    guideLink: { href: "/heart-care", label: "See all four numbers in the heart guide" },
   },
   {
     slug: "hba1c-what-it-tells-you",
@@ -252,6 +255,7 @@ export const posts: Post[] = [
       { heading: "What happens at a review", body: "A consultation typically involves your history, an ECG, and often an echo or treadmill test. The goal is a clear answer: reassurance where the heart is fine, and an early plan where it is not. Either outcome is a win compared to not knowing." },
     ],
     takeaways: ["Central pressure lasting minutes = emergency, act immediately", "Exertion-related discomfort that eases with rest needs planned review", "Never drive yourself during a suspected cardiac event", "An ECG and echo answer most first questions"],
+    guideLink: { href: "/heart-care", label: "Learn every warning sign in the heart guide" },
   },
   {
     slug: "annual-health-check-guide",

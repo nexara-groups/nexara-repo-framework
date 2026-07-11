@@ -76,7 +76,7 @@ export function EECPBody() {
 
       <section className="section-pad section-ink">
         <div className="container">
-          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow eyebrow-light">Who it helps</span><h2>Made for the patients<br /><em>with the fewest options.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>EECP was designed for people whose symptoms persist — or for whom another procedure is not the right next step.</p></Reveal></div>
+          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow eyebrow-light">Who it helps</span><h2>Made for the patients<br /><em>with the fewest options.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>EECP was designed for people whose symptoms persist — or for whom another procedure is not the right next step. New to these terms? <Link className="text-link text-link-light" href="/heart-care#conditions">The heart guide explains each condition plainly <b aria-hidden="true">↗</b></Link></p></Reveal></div>
           <div className="eecp-who-grid">
             {candidates.map((item, index) => (
               <Reveal key={item.title} delay={80 + index * 80}>

@@ -505,9 +505,9 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 **Files:**
 - Modify: `src/app/page.tsx`, `src/app/[slug]/page.tsx` (services body + eecp cross-links), `src/content/site-data.ts` (posts cross-link), `src/components/site-footer.tsx` (done in Task 8 — verify)
 
-- [ ] **Step 1: Home feature.** After `HomePathways`, insert a heart-guide teaser band (paper, hairline top): small `<HeartFigure />` (idle beat) left; right: eyebrow `"New — the Rise heart guide"`, h2 `"Your heart,<br/><em>fully explained."`, one line, `text-link` → `/heart-care`.
-- [ ] **Step 2: Cross-links.** EECP page "Who it helps" section gains a lead-in line linking the guide's conditions chapter (`/heart-care#conditions`); blog posts `understanding-eecp`, `chest-pain-when-to-worry`, `blood-pressure-basics` each get a takeaway linking `/heart-care`; services page Cardiology dept card links it.
-- [ ] **Step 3: Verify** — `/heart-care` reachable from: nav, footer, home teaser, EECP page, 3 posts, services. (Seven inbound paths — flagship treatment.) Commit — `feat: heart guide integrated across site`
+- [x] **Step 1: Home feature.** After `HomePathways`, insert a heart-guide teaser band (paper, hairline top): small `<HeartFigure />` (idle beat) left; right: eyebrow `"New — the Rise heart guide"`, h2 `"Your heart,<br/><em>fully explained."`, one line, `text-link` → `/heart-care`.
+- [x] **Step 2: Cross-links.** EECP page "Who it helps" section gains a lead-in line linking the guide's conditions chapter (`/heart-care#conditions`); blog posts `understanding-eecp`, `chest-pain-when-to-worry`, `blood-pressure-basics` each get a takeaway linking `/heart-care`; services page Cardiology dept card links it.
+- [x] **Step 3: Verify** — `/heart-care` reachable from: nav, footer, home teaser, EECP page, 3 posts, services. (Seven inbound paths — flagship treatment.) Commit — `feat: heart guide integrated across site`
 
 ---
 

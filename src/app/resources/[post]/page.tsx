@@ -36,7 +36,7 @@ export default async function PostPage({ params }: { params: Promise<{ post: str
             <p className="note-strip">This article is general health information, not medical advice. For guidance about your own condition, please consult a doctor.</p>
           </Reveal>
           <Reveal className="post-aside" delay={120}>
-            <div className="post-takeaways"><span className="eyebrow">Key takeaways</span><ul>{post.takeaways.map((point) => <li key={point}>{point}</li>)}</ul></div>
+            <div className="post-takeaways"><span className="eyebrow">Key takeaways</span><ul>{post.takeaways.map((point) => <li key={point}>{point}</li>)}</ul>{post.guideLink ? <Link className="text-link post-guide-link" href={post.guideLink.href}>{post.guideLink.label} <b aria-hidden="true">↗</b></Link> : null}</div>
             <div className="post-cta"><strong>Discuss this with a doctor</strong><small>Unhurried consultations, every day.</small><Link className="button button-coral" href="/appointment">Book a visit <b aria-hidden="true">↗</b></Link></div>
           </Reveal>
         </div>

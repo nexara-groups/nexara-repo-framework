@@ -5,6 +5,7 @@ import { HomeHero } from "@/components/home-hero";
 import { HomeMarquee } from "@/components/home-marquee";
 import { HomeManifesto } from "@/components/home-manifesto";
 import { HomePathways } from "@/components/home-pathways";
+import { HeartFigure } from "@/components/heart/heart-figure";
 import { contact } from "@/content/site-data";
 
 export default function HomePage() {
@@ -14,6 +15,18 @@ export default function HomePage() {
       <HomeMarquee />
       <HomeManifesto />
       <HomePathways />
+
+      <section className="hm-guide section-pad">
+        <div className="container hm-guide-grid">
+          <Reveal className="hm-guide-art"><HeartFigure ids={false} /></Reveal>
+          <Reveal delay={120}>
+            <span className="eyebrow">New — the Rise heart guide</span>
+            <h2>Your heart,<br /><em>fully explained.</em></h2>
+            <p>How it works, what goes wrong, which signs matter, and what to do next — eight animated chapters in plain language.</p>
+            <Link className="text-link" href="/heart-care">Read the heart guide <b aria-hidden="true">↗</b></Link>
+          </Reveal>
+        </div>
+      </section>
 
       <section className="eecp-feature section-pad">
         <div className="container eecp-feature-grid">

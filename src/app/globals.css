@@ -999,6 +999,16 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .triage-foot { color: #8fa0b6; font-size: 12.5px; margin: 0; }
 @media (max-width: 980px) { .triage-grid { grid-template-columns: 1fr; } }
 
+/* ——— Home: heart-guide teaser band (Task 21) ——— */
+.hm-guide { background: var(--paper); border-top: 1px solid var(--line); }
+.hm-guide-grid { align-items: center; display: grid; gap: 90px; grid-template-columns: .55fr 1.45fr; }
+.hm-guide-art { margin: 0 auto; max-width: 320px; width: 100%; }
+.hm-guide h2 { color: var(--navy); margin: 26px 0 18px; }
+.hm-guide p { font-size: 17px; max-width: 460px; }
+.hm-guide .text-link { margin-top: 14px; }
+.post-guide-link { margin-top: 18px; }
+@media (max-width: 980px) { .hm-guide-grid { gap: 40px; grid-template-columns: 1fr; } .hm-guide-art { max-width: 260px; } }
+
 /* ——— Chapters 06–08 + closer (Task 19) ——— */
 .hc-habits { display: grid; gap: 0 70px; grid-template-columns: 1fr 1fr; margin-top: 64px; }
 .ht-row h3 { font-family: var(--serif); font-size: 25px; font-weight: 400; letter-spacing: -.6px; }
