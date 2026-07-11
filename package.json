@@ -1,8 +1,8 @@
 {
-  "name": "nexara-foundation",
+  "name": "rise-medical-hub",
   "version": "1.0.0",
   "private": true,
-  "description": "Nexara Foundation V1 — provider-agnostic platform foundation (Next.js 15 + React 19 + Cloudflare Workers via OpenNext).",
+  "description": "Rise Medical Hub — patient-first healthcare in Madhurawada, Visakhapatnam.",
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -10,14 +10,11 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "check:arch": "node scripts/check-architecture.mjs",
-    "verify": "node scripts/check-architecture.mjs && tsc --noEmit",
+    "verify": "tsc --noEmit",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0",
     "gsap": "^3.15.0",
     "next": "15.5.18",
     "react": "19.1.0",
