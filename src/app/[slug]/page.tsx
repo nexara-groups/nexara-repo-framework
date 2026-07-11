@@ -9,7 +9,7 @@ import { EecpHero } from "@/components/eecp-hero";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ServiceCard } from "@/components/service-card";
-import { contact, services, departments, doctors, labCategories, healthPackages, communityPrograms, testimonials, posts } from "@/content/site-data";
+import { contact, services, departments, doctors, labCategories, healthPackages, communityPrograms, testimonials, posts, pharmacyPoints, opdTimings } from "@/content/site-data";
 
 const slugs = ["about", "services", "eecp-therapy", "diagnostics", "pharmacy", "opd", "doctors", "health-packages", "health-camps", "testimonials", "resources", "gallery", "appointment", "contact"];
 
@@ -52,6 +52,8 @@ function StandardPage({ slug }: { slug: string }) {
     : slug === "gallery" ? <GalleryBody />
     : slug === "appointment" ? <AppointmentBody />
     : slug === "contact" ? <ContactBody />
+    : slug === "pharmacy" ? <PharmacyBody />
+    : slug === "opd" ? <OpdBody />
     : <ServiceBody slug={slug} />;
   return <main>{slug === "eecp-therapy" ? <EecpHero /> : slug === "doctors" ? null : <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} image={page.image} imageAlt={page.alt} accent={page.accent} />}{body}</main>;
 }
@@ -144,14 +146,46 @@ function ResourcesBody() {
   </>;
 }
 
+// Shared split-detail intro used by every /services/:slug body (EECP has its own hero, so it never renders this).
+function ServiceIntro({ slug }: { slug: string }) {
+  const service = services.find((item) => item.slug === slug);
+  if (!service) return null;
+  return <section className="section-pad"><div className="container split-detail"><Reveal className="detail-copy"><span className="eyebrow">{service.name}</span><h2>{service.short}<br /><em>with clarity.</em></h2><p>{service.detail}</p><a className="button button-navy" href="/appointment">Request a visit <b aria-hidden="true">↗</b></a></Reveal><Reveal className="detail-image" delay={120}><Image src={service.image} alt={service.alt} fill sizes="(max-width: 800px) 100vw, 50vw" /></Reveal></div></section>;
+}
+
+// Shared "what to expect" 3-point block, reused by the generic ServiceBody and OpdBody.
+function WhatToExpect() {
+  return <section className="section-pad section-mint"><div className="container detail-points"><Reveal variant="mask"><span className="eyebrow">What to expect</span><h2>A steady, clear<br /><em>experience.</em></h2></Reveal><div className="point-list"><Reveal delay={80}><span>01</span><p>Understand what the visit involves before you arrive.</p></Reveal><Reveal delay={150}><span>02</span><p>Ask questions in a calm, respectful environment.</p></Reveal><Reveal delay={220}><span>03</span><p>Leave with a plan your care team has explained clearly.</p></Reveal></div></div></section>;
+}
+
 function ServiceBody({ slug }: { slug: string }) {
   const service = services.find((item) => item.slug === slug);
   if (!service) return null;
   if (slug === "eecp-therapy") return <EECPBody />;
   return <>
-    <section className="section-pad"><div className="container split-detail"><Reveal className="detail-copy"><span className="eyebrow">{service.name}</span><h2>{service.short}<br /><em>with clarity.</em></h2><p>{service.detail}</p><a className="button button-navy" href="/appointment">Request a visit <b aria-hidden="true">↗</b></a></Reveal><Reveal className="detail-image" delay={120}><Image src={service.image} alt={service.alt} fill sizes="(max-width: 800px) 100vw, 50vw" /></Reveal></div></section>
+    <ServiceIntro slug={slug} />
     {slug === "diagnostics" ? <section className="section-pad section-ink"><div className="container section-heading"><Reveal variant="mask"><span className="eyebrow eyebrow-light">The laboratory</span><h2>What we test,<br /><em>under one roof.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>Most pathology reports are ready the same day, and every cardiac study is reviewed by a physician before it reaches you.</p></Reveal></div><div className="container lab-grid">{labCategories.map((cat, index) => <Reveal key={cat.name} className="lab-card" delay={index * 70}><span className="lab-note">{cat.note}</span><h3>{cat.name}</h3><ul>{cat.tests.map((test) => <li key={test}>{test}</li>)}</ul></Reveal>)}</div></section> : null}
-    <section className="section-pad section-mint"><div className="container detail-points"><Reveal variant="mask"><span className="eyebrow">What to expect</span><h2>A steady, clear<br /><em>experience.</em></h2></Reveal><div className="point-list"><Reveal delay={80}><span>01</span><p>Understand what the visit involves before you arrive.</p></Reveal><Reveal delay={150}><span>02</span><p>Ask questions in a calm, respectful environment.</p></Reveal><Reveal delay={220}><span>03</span><p>Leave with a plan your care team has explained clearly.</p></Reveal></div></div></section>
+    <WhatToExpect />
+  </>;
+}
+
+function PharmacyBody() {
+  return <>
+    <ServiceIntro slug="pharmacy" />
+    <section className="section-pad section-mint"><div className="container value-grid"><Reveal><span className="eyebrow">The pharmacy standard</span><h2>Dispensed with<br /><em>due diligence.</em></h2></Reveal><div className="value-list">{pharmacyPoints.map((point, index) => <Reveal key={point.title} delay={80 + index * 70}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{point.title}</h3><p>{point.copy}</p></div></Reveal>)}</div></div></section>
+    <CtaStrip eyebrow="Ask about a medicine" title="Our pharmacists pick up the phone." href={contact.phoneHref} label={`Call ${contact.phone}`} />
+  </>;
+}
+
+function OpdBody() {
+  return <>
+    <ServiceIntro slug="opd" />
+    <section className="section-pad"><div className="container opd-table"><div className="section-heading"><Reveal variant="mask"><span className="eyebrow">OPD timings</span><h2>Plan your visit<br /><em>by department.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>Six departments, staggered across the day so mornings and evenings both have room for you.</p></Reveal></div>
+      <Reveal delay={140}><table><thead><tr><th scope="col">Department</th><th scope="col">Days</th><th scope="col">Timings</th><th scope="col" aria-label="Booking link" /></tr></thead><tbody>{opdTimings.map((row) => <tr key={row.dept}><th scope="row">{row.dept}</th><td>{row.days}</td><td>{row.hours}</td><td><Link href="/appointment">Book ↗</Link></td></tr>)}</tbody></table></Reveal>
+      <p className="note-strip">Timings are representative while we finalise the roster — please confirm when booking.</p>
+    </div></section>
+    <WhatToExpect />
+    <CtaStrip eyebrow="Skip the queue" title="Request a slot before you arrive." href="/appointment" label="Book an OPD visit" />
   </>;
 }
 
@@ -171,7 +205,29 @@ function AppointmentBody() {
 }
 
 function ContactBody() {
-  return <section className="section-pad"><div className="container contact-grid"><Reveal className="contact-copy"><span className="eyebrow">Come by, call, or write</span><h2>We are here<br /><em>to help.</em></h2><p>Our team can help with appointment requests, service questions, and directions to Rise Medical Hub.</p><div className="contact-details"><a href={contact.phoneHref}><small>Phone</small><strong>{contact.phone}</strong></a><a href={`mailto:${contact.email}`}><small>Email</small><strong>{contact.email}</strong></a><span><small>Location</small><strong>{contact.address}</strong></span></div></Reveal><Reveal className="contact-map" delay={120}><div className="map-art map-art-large" aria-hidden="true"><span /><span /><span /></div><div className="map-caption"><span>Rise Medical Hub</span><a href={`https://maps.google.com/?q=${encodeURIComponent(contact.address)}`}>Open directions ↗</a></div></Reveal></div></section>;
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(contact.address)}&output=embed`;
+  return <section className="section-pad"><div className="container contact-grid">
+    <Reveal className="contact-copy">
+      <span className="eyebrow">Come by, call, or write</span>
+      <h2>We are here<br /><em>to help.</em></h2>
+      <p>Our team can help with appointment requests, service questions, and directions to Rise Medical Hub.</p>
+      <div className="contact-details">
+        <a href={contact.phoneHref}><small>Phone</small><strong>{contact.phone}</strong></a>
+        <a href={`mailto:${contact.email}`}><small>Email</small><strong>{contact.email}</strong></a>
+        <span><small>Location</small><strong>{contact.address}</strong></span>
+      </div>
+      <p className="note-strip">How to find us: ask for the Rise Medical Hub building on the main Madhurawada road — parking available on site.</p>
+      <div className="contact-hours">
+        <span className="eyebrow">OPD hours</span>
+        <ul>{opdTimings.map((row) => <li key={row.dept}><strong>{row.dept}</strong><small>{row.days} · {row.hours}</small></li>)}</ul>
+        <p className="note-strip">Timings are representative while we finalise the roster — please confirm when booking.</p>
+      </div>
+    </Reveal>
+    <Reveal className="contact-map" delay={120}>
+      <iframe title="Map to Rise Medical Hub" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+      <div className="map-caption"><span>Rise Medical Hub</span><a href={`https://maps.google.com/?q=${encodeURIComponent(contact.address)}`}>Open directions ↗</a></div>
+    </Reveal>
+  </div></section>;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

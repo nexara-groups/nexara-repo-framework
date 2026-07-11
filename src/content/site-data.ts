@@ -143,6 +143,29 @@ export const communityPrograms: CommunityProgram[] = [
   { name: "School & college health talks", short: "Age-appropriate sessions on nutrition, screen habits, and everyday first aid.", cadence: "On invitation · academic year" },
 ];
 
+/* ——— Pharmacy standards ——— */
+export type PharmacyPoint = { title: string; copy: string };
+
+export const pharmacyPoints: PharmacyPoint[] = [
+  { title: "Genuine, tracked stock", copy: "Every medicine sourced from authorised distributors with batch-level tracking — no grey-market stock, ever." },
+  { title: "Pharmacist counselling", copy: "Doses, timings, food interactions, and what to do about a missed dose — explained before you leave the counter." },
+  { title: "Ready before you are", copy: "Prescriptions from Rise consultations are prepared while you finish — collect on your way out." },
+  { title: "Chronic-care refills", copy: "Monthly refill reminders for BP, diabetes, and cardiac medicines, with a call before you run out." },
+];
+
+/* ——— OPD timings ———
+   Mirrors the doctor roster; confirm against the final schedule before launch. */
+export type OpdTiming = { dept: string; days: string; hours: string };
+
+export const opdTimings: OpdTiming[] = [
+  { dept: "Cardiology & EECP", days: "Mon–Sat", hours: "10:00–14:00" },
+  { dept: "General & Internal Medicine", days: "Mon–Sat", hours: "09:30–13:30" },
+  { dept: "Diabetology", days: "Mon–Fri", hours: "17:00–20:00" },
+  { dept: "Women's Health", days: "Tue–Sat", hours: "11:00–14:00" },
+  { dept: "Pulmonology", days: "Mon–Sat", hours: "18:00–20:30" },
+  { dept: "Physiotherapy & Rehab", days: "Mon–Sat", hours: "08:00–13:00" },
+];
+
 /* ——— Patient testimonials ———
    Placeholder quotes: replace with consented, verified patient words before launch. */
 export type Testimonial = { quote: string; name: string; context: string };
