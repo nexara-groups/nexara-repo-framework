@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { contact, navItems } from "@/content/site-data";
+import { MobileMenu } from "@/components/mobile-menu";
 
 export function SiteHeader() {
   return (
@@ -23,13 +24,7 @@ export function SiteHeader() {
             {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
           </nav>
           <Link className="nav-cta" href="/appointment"><span>Book an appointment</span><b aria-hidden="true">↗</b></Link>
-          <details className="mobile-menu">
-            <summary aria-label="Open navigation"><span /><span /><span /></summary>
-            <nav aria-label="Mobile navigation">
-              {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
-              <Link className="mobile-menu-cta" href="/appointment">Book an appointment <b aria-hidden="true">↗</b></Link>
-            </nav>
-          </details>
+          <MobileMenu />
         </div>
       </header>
     </>

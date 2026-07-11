@@ -99,7 +99,7 @@ export function EECPBody() {
       <section className="eecp-intro section-pad section-mint">
         <div className="container eecp-story-grid">
           <div className="eecp-sticky">
-            <Reveal className="eecp-sticky-media"><Image src="/images/eecp-treatment.png" alt="Patient receiving EECP therapy while a clinician monitors the session" fill sizes="(max-width: 900px) 100vw, 48vw" /><span className="media-label">EECP / monitored outpatient care</span></Reveal>
+            <Reveal className="eecp-sticky-media"><Image src="/images/eecp-treatment.webp" alt="Patient receiving EECP therapy while a clinician monitors the session" fill sizes="(max-width: 900px) 100vw, 48vw" /><span className="media-label">EECP / monitored outpatient care</span></Reveal>
             <div className="eecp-pulse-note"><span className="pulse-icon" aria-hidden="true" /><span><strong>A measured rhythm</strong><small>Care guided by monitoring</small></span></div>
           </div>
           <div className="eecp-story">

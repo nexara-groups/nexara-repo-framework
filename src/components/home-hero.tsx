@@ -27,6 +27,10 @@ export function HomeHero() {
           .from(".hm-hero-foot > *", { autoAlpha: 0, y: 30, duration: 0.9, stagger: 0.12 }, 0.7)
           .from(".hm-stats", { autoAlpha: 0, y: 24, duration: 0.8 }, 1.0);
 
+        // Failsafe: if the ticker stalls (background tab, throttled device),
+        // snap the timeline to completion so content is never stuck invisible.
+        const failsafe = window.setTimeout(() => intro.progress(1), 4000);
+
         // The ECG line draws itself across the page, then the dot takes over
         const line = ref.current?.querySelector<SVGGeometryElement>(".hm-ecg-line");
         if (line) {
@@ -57,6 +61,8 @@ export function HomeHero() {
         const st = { trigger: ref.current, start: "top top", end: "bottom top", scrub: true } as const;
         gsap.to(".hm-hero-head", { y: -110, autoAlpha: 0.15, ease: "none", scrollTrigger: st });
         gsap.to(".hm-ecg", { y: -40, ease: "none", scrollTrigger: st });
+
+        return () => window.clearTimeout(failsafe);
       });
     }, ref);
     return () => ctx.revert();

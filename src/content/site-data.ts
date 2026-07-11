@@ -16,7 +16,7 @@ export const services: Service[] = [
     short: "A considered, non-invasive pathway for heart health.",
     detail:
       "Enhanced External Counterpulsation is delivered as an outpatient therapy with clinical monitoring and a calm, step-by-step experience.",
-    image: "/images/eecp-treatment.png",
+    image: "/images/eecp-treatment.webp",
     alt: "Patient receiving EECP therapy while a clinician monitors the session",
   },
   {
@@ -26,7 +26,7 @@ export const services: Service[] = [
     short: "Clear answers, handled with precision.",
     detail:
       "Modern diagnostic support designed to help your care team move from questions to a confident next step.",
-    image: "/images/diagnostics.png",
+    image: "/images/diagnostics.webp",
     alt: "Technician preparing a patient for a diagnostic scan",
   },
   {
@@ -36,7 +36,7 @@ export const services: Service[] = [
     short: "Reliable medication access, close to care.",
     detail:
       "An in-house pharmacy experience centred on authenticity, guidance, and everyday ease.",
-    image: "/images/pharmacy.png",
+    image: "/images/pharmacy.webp",
     alt: "Pharmacist speaking with a patient at a modern pharmacy counter",
   },
   {
@@ -46,7 +46,7 @@ export const services: Service[] = [
     short: "Thoughtful consultations across specialties.",
     detail:
       "Outpatient consultations that make space for questions, context, and a clear plan forward.",
-    image: "/images/opd-consultation.png",
+    image: "/images/opd-consultation.webp",
     alt: "Doctor listening to a patient in a calm consultation room",
   },
 ];

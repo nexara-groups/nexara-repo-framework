@@ -24,6 +24,10 @@ export function EecpHero() {
           .from(".eecp-hero-card", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.45")
           .from(".eecp-hero-ecg", { autoAlpha: 0, duration: 0.8 }, 0.5);
 
+        // Failsafe: if the ticker stalls (background tab, throttled device),
+        // snap the timeline to completion so content is never stuck invisible.
+        const failsafe = window.setTimeout(() => intro.progress(1), 4000);
+
         // The artwork never sits still — slow breathing float
         gsap.to(".art-float", { y: 13, duration: 3.2, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 1.6 });
 
@@ -67,12 +71,16 @@ export function EecpHero() {
           ref.current?.addEventListener("pointermove", move);
           ref.current?.addEventListener("pointerleave", leave);
           return () => {
+            window.clearTimeout(failsafe);
             if (bpmTick) window.clearInterval(bpmTick);
             ref.current?.removeEventListener("pointermove", move);
             ref.current?.removeEventListener("pointerleave", leave);
           };
         }
-        return () => { if (bpmTick) window.clearInterval(bpmTick); };
+        return () => {
+          window.clearTimeout(failsafe);
+          if (bpmTick) window.clearInterval(bpmTick);
+        };
       });
     }, ref);
     return () => ctx.revert();
