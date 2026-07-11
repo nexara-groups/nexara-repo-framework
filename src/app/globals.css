@@ -953,6 +953,52 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
   .ar-step-fig[data-beat="3"] .ar-caption-3 { opacity: 1; }
 }
 
+/* ——— Chapter 04: conditions accordion (Task 18) ——— */
+.cond-list { border-top: 1px solid rgba(16,32,61,.2); margin-top: 64px; }
+.cond-row { border-bottom: 1px solid rgba(16,32,61,.2); }
+.cond-head { align-items: baseline; background: none; border: 0; display: grid; gap: 24px; grid-template-columns: 44px 1fr 32px; padding: 24px 0; text-align: left; width: 100%; }
+.cond-head:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+.cond-num { color: var(--coral-dark); font-size: 11px; font-weight: 700; letter-spacing: 1.7px; }
+.cond-title { display: block; min-width: 0; }
+.cond-name { color: var(--navy); display: block; font-family: var(--serif); font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -.6px; line-height: 1.1; }
+.cond-what { color: var(--muted); display: block; font-size: 14px; margin-top: 7px; max-width: 640px; }
+.cond-plus { color: var(--coral); font-size: 24px; font-weight: 400; justify-self: end; line-height: 1; transition: transform .3s var(--ease-out); }
+.cond-plus-open { transform: rotate(45deg); }
+.cond-head:hover .cond-name { color: var(--coral-dark); }
+.cond-panel { overflow: hidden; }
+.cond-cols { display: grid; gap: 18px; grid-template-columns: 1fr 1fr 1fr; padding: 4px 0 30px 68px; }
+.cond-col small { color: var(--muted); display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; margin-bottom: 8px; text-transform: uppercase; }
+.cond-col p { font-size: 14px; margin: 0; }
+.cond-redflag { border-left: 2px solid var(--coral); padding-left: 16px; }
+.cond-redflag small { color: var(--coral-dark); }
+.cond-first { background: var(--mint); padding: 16px 18px; }
+.cond-first small { color: var(--navy); }
+.cond-first .text-link { margin-top: 12px; }
+.cond-first-emergency p { color: var(--coral-dark); font-weight: 700; }
+@media (max-width: 980px) {
+  .cond-cols { grid-template-columns: 1fr; padding-left: 0; }
+  .cond-head { gap: 14px; grid-template-columns: 34px 1fr 28px; }
+}
+
+/* ——— Chapter 05: triage panels (Task 18) ——— */
+.triage-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; margin-top: 64px; }
+.triage-grid > .reveal { display: grid; }
+.triage-panel { background: var(--navy-soft); display: flex; flex-direction: column; gap: 22px; height: 100%; padding: 34px 32px; }
+.triage-emergency { border-top: 4px solid var(--coral); }
+.triage-planned { border-top: 4px solid var(--mint-deep); }
+.triage-head { align-items: center; display: flex; gap: 14px; }
+.triage-emergency .eyebrow { color: var(--coral); }
+.triage-planned .eyebrow { color: var(--mint-deep); }
+.triage-panel ul { display: grid; gap: 13px; list-style: none; margin: 0; padding: 0; }
+.triage-panel li { color: #d5dce6; font-size: 14.5px; line-height: 1.5; padding-left: 20px; position: relative; }
+.triage-emergency li::before { background: var(--coral); border-radius: 100%; content: ""; height: 7px; left: 0; position: absolute; top: 7px; width: 7px; }
+.triage-planned li::before { background: var(--mint-deep); border-radius: 100%; content: ""; height: 7px; left: 0; position: absolute; top: 7px; width: 7px; }
+.triage-cta { justify-content: center; margin-top: auto; width: 100%; }
+.triage-actions { display: grid; gap: 10px; margin-top: auto; }
+.triage-actions .triage-cta { margin-top: 0; }
+.triage-foot { color: #8fa0b6; font-size: 12.5px; margin: 0; }
+@media (max-width: 980px) { .triage-grid { grid-template-columns: 1fr; } }
+
 /* ——— Chapter 02: vitals dials (Task 16) ——— */
 /* 270° arc: circumference 2π·48 ≈ 301.6, of which 270° ≈ 226.2 */
 .vd-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-top: 64px; }
