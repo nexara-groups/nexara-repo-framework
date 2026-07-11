@@ -999,6 +999,40 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .triage-foot { color: #8fa0b6; font-size: 12.5px; margin: 0; }
 @media (max-width: 980px) { .triage-grid { grid-template-columns: 1fr; } }
 
+/* ——— Chapters 06–08 + closer (Task 19) ——— */
+.hc-habits { display: grid; gap: 0 70px; grid-template-columns: 1fr 1fr; margin-top: 64px; }
+.ht-row h3 { font-family: var(--serif); font-size: 25px; font-weight: 400; letter-spacing: -.6px; }
+.ht-when { color: var(--muted); font-size: 13px !important; margin-top: 8px !important; }
+.ht-when small { color: var(--navy); font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+.ht-meta { display: grid; gap: 10px; justify-items: end; max-width: 220px; text-align: right; }
+.ht-meta small { color: var(--muted); font-size: 12px; }
+.hc-tests-cta { margin-top: 90px; }
+.hc-treat-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr 2fr; margin-top: 64px; }
+.hc-treat-grid > .reveal { display: grid; }
+.hc-treat-wide { grid-column: auto; }
+.hc-treat-card { background: var(--white); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; height: 100%; padding: 30px 28px; }
+.hc-treat-card h3 { color: var(--navy); font-size: 21px; margin: 0; }
+.hc-treat-card p { font-size: 14.5px; margin: 0; }
+.hc-treat-eecp { background: var(--navy); border-color: var(--navy); border-top: 4px solid var(--coral); }
+.hc-treat-eecp h3 { color: var(--white); }
+.hc-treat-eecp p { color: #b7c0cf; }
+.hc-treat-eecp .chapter-number { color: var(--coral); }
+.hc-treat-eecp .eecp-hero-chips { margin-top: 4px; }
+.hc-treat-eecp .button { align-self: flex-start; margin-top: auto; }
+.hc-closer { overflow: hidden; }
+.hc-closer .eecp-hero-ecg { bottom: auto; opacity: .35; top: 0; }
+.hc-closer-inner { align-items: end; display: grid; gap: 44px; grid-template-columns: 1.15fr .85fr; position: relative; }
+.hc-closer-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-self: end; }
+@media (max-width: 980px) {
+  .hc-habits { gap: 0; grid-template-columns: 1fr; }
+  .hc-treat-grid { grid-template-columns: 1fr 1fr; }
+  .hc-treat-wide { grid-column: 1 / -1; }
+  .hc-closer-inner { grid-template-columns: 1fr; }
+  .hc-closer-actions { justify-self: start; }
+  .ht-meta { justify-items: start; max-width: none; text-align: left; }
+}
+@media (max-width: 620px) { .hc-treat-grid { grid-template-columns: 1fr; } }
+
 /* ——— Chapter 02: vitals dials (Task 16) ——— */
 /* 270° arc: circumference 2π·48 ≈ 301.6, of which 270° ≈ 226.2 */
 .vd-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-top: 64px; }

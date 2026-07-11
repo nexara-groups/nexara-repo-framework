@@ -483,12 +483,12 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 - Create: `src/components/heart/protect-tests-treat.tsx` (server) — three sections + closer in one file (they're simple compositions)
 - Modify: `src/app/heart-care/page.tsx` (FAQ schema)
 
-- [ ] **Step 1: Protect (06).** Mint section, 6 `protectHabits` as the numbered `value-list` pattern (2×3). Heading `"Six habits.<br/><em>Zero prescriptions."` Sub-line links `/health-packages` ("Know your numbers" → Comprehensive Heart Check).
-- [ ] **Step 2: Tests (07).** From `heartTests`: 5 rows in the `camp-row` layout style — name (serif) + `sees`, then `when`, then a meta column with `feels` and a `time` chip. Footer CtaStrip variant → `/diagnostics`.
-- [ ] **Step 3: Treatment (08).** Three-stage stepper: `Medicines` ("Statins quiet the plaque, BP tablets drop the workload, antiplatelets keep blood slippery — unglamorous, life-extending"), `Procedures` ("Angioplasty props a narrowed artery open; bypass builds a detour around it — the right call when anatomy demands it"), `EECP — the third option` (coral-accent card, 2× width: one-paragraph pitch + chips reused from home + button `Explore EECP therapy` → `/eecp-therapy`). This is the page's conversion moment — the whole guide funnels here and to the closer.
-- [ ] **Step 4: Closer.** Ink section, `HeroEcg`, h2 `"Twenty minutes of reading.<br/><em>One conversation to act on it."` — buttons: `Book a heart check` (coral → `/appointment`), `Call {contact.phone}` (ghost). Then `heartFaqs` as `<details>` list (EECP FAQ styles) + `FAQPage` JSON-LD in `page.tsx` built from `heartFaqs`.
-- [ ] **Step 5: Verify** — full page scroll top-to-bottom reads as one narrative; every chapter link in the rail lands correctly; FAQ schema present exactly once; typecheck clean.
-- [ ] **Step 6: Commit** — `feat: protect/tests/treatment chapters, closer, FAQ schema`
+- [x] **Step 1: Protect (06).** Mint section, 6 `protectHabits` as the numbered `value-list` pattern (2×3). Heading `"Six habits.<br/><em>Zero prescriptions."` Sub-line links `/health-packages` ("Know your numbers" → Comprehensive Heart Check).
+- [x] **Step 2: Tests (07).** From `heartTests`: 5 rows in the `camp-row` layout style — name (serif) + `sees`, then `when`, then a meta column with `feels` and a `time` chip. Footer CtaStrip variant → `/diagnostics`.
+- [x] **Step 3: Treatment (08).** Three-stage stepper: `Medicines` ("Statins quiet the plaque, BP tablets drop the workload, antiplatelets keep blood slippery — unglamorous, life-extending"), `Procedures` ("Angioplasty props a narrowed artery open; bypass builds a detour around it — the right call when anatomy demands it"), `EECP — the third option` (coral-accent card, 2× width: one-paragraph pitch + chips reused from home + button `Explore EECP therapy` → `/eecp-therapy`). This is the page's conversion moment — the whole guide funnels here and to the closer.
+- [x] **Step 4: Closer.** Ink section, `HeroEcg`, h2 `"Twenty minutes of reading.<br/><em>One conversation to act on it."` — buttons: `Book a heart check` (coral → `/appointment`), `Call {contact.phone}` (ghost). Then `heartFaqs` as `<details>` list (EECP FAQ styles) + `FAQPage` JSON-LD in `page.tsx` built from `heartFaqs`.
+- [x] **Step 5: Verify** — full page scroll top-to-bottom reads as one narrative; every chapter link in the rail lands correctly; FAQ schema present exactly once; typecheck clean.
+- [x] **Step 6: Commit** — `feat: protect/tests/treatment chapters, closer, FAQ schema`
 
 ### Task 20: Heart page — mobile, reduced-motion, performance hardening
 
