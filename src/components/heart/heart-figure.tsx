@@ -34,7 +34,7 @@ const labels = [
   { id: "pv", text: "Pulmonary veins", x: 470, y: 300, anchor: "end" as const },
 ];
 
-export function HeartFigure({ ids = true }: { ids?: boolean } = {}) {
+export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs?: boolean } = {}) {
   const id = (name: string) => (ids ? name : undefined);
   return (
     <svg
@@ -43,56 +43,57 @@ export function HeartFigure({ ids = true }: { ids?: boolean } = {}) {
       role="img"
       aria-label="Stylised cross-section of the human heart showing four chambers, valves, and the great vessels"
     >
-      {/* ——— Lungs: soft rounded lobes behind the upper corners (context, low opacity) ——— */}
-      <g className="hf-lungs" aria-hidden="true">
-        <path
-          className="hf-lung"
-          d="M126 150 C 78 150 44 190 44 250 C 44 300 66 340 104 356 C 118 362 128 352 126 336
-             C 120 292 122 224 138 172 C 142 156 138 150 126 150 Z"
-        />
-        <path
-          className="hf-lung"
-          d="M394 150 C 442 150 476 190 476 250 C 476 300 454 340 416 356 C 402 362 392 352 394 336
-             C 400 292 398 224 382 172 C 378 156 382 150 394 150 Z"
-        />
-      </g>
+      {/* ——— Lungs: soft lobes behind the upper corners (context for the flow chapter's
+          "to the lungs" beat; dropped on the hero via lungs={false}). ——— */}
+      {lungs ? (
+        <g className="hf-lungs" aria-hidden="true">
+          <path
+            className="hf-lung"
+            d="M132 158 C 84 158 50 198 50 256 C 50 306 72 344 110 360 C 124 366 134 356 132 340
+               C 126 296 128 228 144 178 C 148 162 144 158 132 158 Z"
+          />
+          <path
+            className="hf-lung"
+            d="M388 158 C 436 158 470 198 470 256 C 470 306 448 344 410 360 C 396 366 386 356 388 340
+               C 394 296 392 228 376 178 C 372 162 376 158 388 158 Z"
+          />
+        </g>
+      ) : null}
 
-      {/* ——— Great vessels (drawn under the chambers so chamber walls sit on top) ——— */}
+      {/* ——— Great vessels — a clean bundle emerging from the base (drawn under the chambers
+          so the chamber walls sit on top). ——— */}
 
-      {/* Aorta — thick tube rising from the LV, arching over the top and exiting up-left.
+      {/* Aorta — the signature arch: rises from the LV, hooks over to viewer-left, exits.
           Arterial / coral. */}
       <path
         id={id("hf-aorta")}
         className="hf-vessel hf-arterial hf-aorta"
-        d="M262 232 C 268 176 268 132 268 108 C 268 78 250 60 214 60 C 176 60 150 74 150 74
-           L150 104 C 150 104 172 92 200 92 C 226 92 232 108 232 132 C 232 158 232 190 232 232 Z"
+        d="M240 216 C 240 156 240 122 236 104 C 230 76 206 64 182 70 C 158 76 148 96 146 120
+           L172 126 C 174 106 184 98 196 98 C 210 98 214 114 214 138 C 214 168 214 194 214 216 Z"
       />
 
-      {/* Pulmonary artery / trunk — exits the RV, rises past the aorta, and branches toward
-          both lungs. Venous / blue. */}
+      {/* Pulmonary trunk — a single tube rising from the RV, leaning slightly right. Venous. */}
       <path
         id={id("hf-pa")}
         className="hf-vessel hf-venous hf-pa"
-        d="M214 232 C 210 176 214 128 226 96 C 232 74 224 44 206 34 C 236 44 250 74 248 100
-           C 246 140 244 188 248 232 Z
-           M226 70 C 190 46 146 50 116 78 L126 108 C 154 84 190 84 216 104 Z
-           M236 70 C 274 46 320 50 352 78 L342 108 C 312 84 272 86 244 106 Z"
+        d="M250 216 C 252 156 256 124 262 104 C 268 84 262 60 246 54 C 268 58 284 80 282 106
+           C 280 140 276 180 278 216 Z"
       />
 
-      {/* Superior + inferior vena cava — tube at top-right descending into the RA. Venous. */}
+      {/* Superior vena cava — a clean tube descending from top-right into the RA. Venous. */}
       <path
         id={id("hf-vc")}
         className="hf-vessel hf-venous hf-vc"
-        d="M312 30 C 344 30 364 52 366 92 C 367 122 362 160 352 196 L318 190
-           C 326 156 330 124 328 100 C 326 74 320 58 306 54 Z"
+        d="M316 48 C 346 50 362 74 362 106 C 362 138 356 174 348 198 L320 192
+           C 328 168 332 138 330 112 C 328 84 320 66 306 62 Z"
       />
 
-      {/* Pulmonary veins — short tapered stubs joining the LA to the right lung. Arterial. */}
+      {/* Pulmonary veins — two short blunt tubes joining the LA to the right lung. Arterial. */}
       <path
         id={id("hf-pv")}
         className="hf-vessel hf-arterial hf-pv"
-        d="M360 236 C 380 232 400 232 416 240 C 404 244 396 250 392 258 C 382 248 372 242 360 242 Z
-           M360 300 C 380 296 400 298 416 306 C 404 310 396 316 392 324 C 382 314 372 308 360 306 Z"
+        d="M356 236 C 378 234 398 238 414 246 C 419 248 419 256 414 258 C 398 250 378 248 356 250 C 351 249 351 237 356 236 Z
+           M356 300 C 378 298 398 302 414 310 C 419 312 419 320 414 322 C 398 314 378 312 356 314 C 351 313 351 301 356 300 Z"
       />
 
       {/* ——— The whole-heart silhouette — the exact outer boundary of the four tiled
@@ -170,26 +171,22 @@ export function HeartFigure({ ids = true }: { ids?: boolean } = {}) {
            C 344 388 300 440 250 470 C 251 476 249 484 244 490 Z"
       />
 
-      {/* ——— Valves: paired-leaflet marks along the AV groove + outflow roots ——— */}
-      {/* Tricuspid — RA → RV (viewer-left, on the groove) */}
+      {/* ——— Valves: two-cusp leaflet marks (a small double scallop) at each opening ——— */}
+      {/* Tricuspid — RA → RV (viewer-left, on the AV groove) */}
       <g className="hf-valve" aria-hidden="true">
-        <path d="M156 300 q20 15 40 3" />
-        <path d="M158 309 q19 -11 38 -1" />
+        <path d="M152 302 q11 12 22 0 q11 12 22 0" />
       </g>
-      {/* Pulmonary — RV → PA (outflow root, sits higher) */}
+      {/* Mitral — LA → LV (viewer-right, on the AV groove) */}
       <g className="hf-valve" aria-hidden="true">
-        <path d="M210 240 q14 -13 28 0" />
-        <path d="M212 233 q13 11 26 0" />
+        <path d="M300 302 q11 12 22 0 q11 12 22 0" />
       </g>
-      {/* Mitral — LA → LV (viewer-right, on the groove) */}
+      {/* Pulmonary — RV → pulmonary trunk (outflow root, sits higher, smaller) */}
       <g className="hf-valve" aria-hidden="true">
-        <path d="M300 300 q20 13 40 1" />
-        <path d="M302 309 q19 -12 38 -3" />
+        <path d="M250 226 q6 8 12 0 q6 8 12 0" />
       </g>
-      {/* Aortic — LV → aorta (outflow root, sits higher) */}
+      {/* Aortic — LV → aorta (outflow root, sits higher, smaller) */}
       <g className="hf-valve" aria-hidden="true">
-        <path d="M234 236 q14 -13 28 0" />
-        <path d="M236 229 q13 11 26 0" />
+        <path d="M212 226 q6 8 12 0 q6 8 12 0" />
       </g>
 
       {/* ——— Motion lanes (invisible rails for particle animation) ——— */}

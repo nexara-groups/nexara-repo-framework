@@ -874,7 +874,6 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .hc-hero .heart-fig .hf-chamber,
 .hc-hero .heart-fig .hf-vessel,
 .hc-hero .heart-fig .hf-lung,
-.hc-hero .heart-fig .hf-outline,
 .hc-hero .heart-fig .hf-septum,
 .hc-hero .heart-fig .hf-lv-wall,
 .hc-hero .heart-fig .hf-valve path { stroke: rgba(255,255,255,.72); }
