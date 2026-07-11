@@ -88,8 +88,10 @@ p { color: var(--muted); }
   .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .reveal-blur { opacity: 0; filter: blur(14px); transform: translateY(18px); transition: opacity var(--dur-slow) var(--ease-out), filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
   .reveal-blur.is-visible { opacity: 1; filter: blur(0); transform: none; }
-  .reveal-mask { clip-path: inset(0 0 100% 0); transition: clip-path var(--dur-slow) var(--ease-inout); }
-  .reveal-mask.is-visible { clip-path: inset(0 0 -8% 0); }
+  /* Clip on the inner wrapper, never on the observed .reveal node — a fully clipped
+     target reports zero intersection and the IntersectionObserver never fires. */
+  .reveal-mask-inner { clip-path: inset(0 0 100% 0); transition: clip-path var(--dur-slow) var(--ease-inout); transition-delay: inherit; }
+  .reveal.is-visible .reveal-mask-inner { clip-path: inset(0 0 -8% 0); }
   .page-enter { opacity: 0; transform: translateY(14px); }
   .page-enter-done { opacity: 1; transform: none; transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
 }
