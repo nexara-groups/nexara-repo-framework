@@ -1,9 +1,24 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ClinicSchema } from "@/components/clinic-schema";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  axes: ["opsz"],
+  style: ["normal", "italic"],
+  weight: "variable",
+});
+
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://risemedicalhub.com"),
@@ -21,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${fraunces.variable} ${instrument.variable}`}>
       <body>
         <ClinicSchema />
         <SiteHeader />
