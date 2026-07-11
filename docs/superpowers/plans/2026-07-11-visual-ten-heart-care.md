@@ -495,10 +495,10 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 **Files:**
 - Modify: all `src/components/heart/*`, `src/app/globals.css`
 
-- [ ] **Step 1: Mobile sweep at 375×812 and 768×1024** — pinned scrollies disable below 900px (use `gsap.matchMedia` width conditions: `"(min-width: 900px) and (prefers-reduced-motion: no-preference)"`) and render their static stepped fallbacks; rail pills sticky without covering content; hero heart scales to ~78vw.
-- [ ] **Step 2: Reduced-motion sweep** — OS setting on: zero pins, zero particles, all content legible, idle heartbeat stops.
-- [ ] **Step 3: Perf** — Lighthouse on `/heart-care` (mobile): Performance ≥ 90, CLS < 0.05 (pinned sections reserve height via fixed `min-height` on stage), no long tasks > 200ms during scroll, page JS payload delta from GSAP already-paid (no new deps confirmed via `npm ls --depth=0`).
-- [ ] **Step 4: Commit** — `fix: heart page responsive, reduced-motion, perf hardening`
+- [x] **Step 1: Mobile sweep at 375×812 and 768×1024** — pinned scrollies disable below 900px (use `gsap.matchMedia` width conditions: `"(min-width: 900px) and (prefers-reduced-motion: no-preference)"`) and render their static stepped fallbacks; rail pills sticky without covering content; hero heart scales to ~78vw.
+- [x] **Step 2: Reduced-motion sweep** — OS setting on: zero pins, zero particles, all content legible, idle heartbeat stops.
+- [x] **Step 3: Perf** — Lighthouse on `/heart-care` (mobile): Performance ≥ 90, CLS < 0.05 (pinned sections reserve height via fixed `min-height` on stage), no long tasks > 200ms during scroll, page JS payload delta from GSAP already-paid (no new deps confirmed via `npm ls --depth=0`).
+- [x] **Step 4: Commit** — `fix: heart page responsive, reduced-motion, perf hardening`
 
 ### Task 21: Weave heart care into the site
 

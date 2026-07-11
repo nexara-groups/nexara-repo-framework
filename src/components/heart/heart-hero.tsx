@@ -14,7 +14,9 @@ export function HeartHero() {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Desktop-only intro: on phones the hero paints instantly (better LCP);
+      // the idle CSS heartbeat still runs there.
+      mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
         const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
         intro
           .from(".hc-hero .eyebrow", { autoAlpha: 0, y: 20, duration: 0.7 }, 0.1)
