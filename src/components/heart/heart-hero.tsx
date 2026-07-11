@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HeroEcg } from "@/components/brand-art";
-import { HeartFigure } from "@/components/heart/heart-figure";
+import { LivingHeart } from "@/components/heart/living-heart";
 
 export function HeartHero() {
   const ref = useRef<HTMLElement>(null);
@@ -67,7 +67,9 @@ export function HeartHero() {
           </div>
         </div>
         <div className="hc-hero-art">
-          <HeartFigure ids={false} lungs={false} />
+          {/* The hero's own HeroEcg line runs across the section, so the organ drops
+              its base ECG here; a gentle ambient stage keeps the flow lively. */}
+          <LivingHeart ecg={false} ambientStage={0.5} ariaLabel="A luminous, beating heart with blood flowing through it in time with the pulse." />
         </div>
       </div>
     </section>
