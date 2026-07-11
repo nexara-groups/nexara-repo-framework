@@ -454,9 +454,9 @@ The centrepiece SVG, reused by hero (idle beat) and Chapter 1 scrolly (flow stat
 **Files:**
 - Create: `src/components/heart/vitals-dials.tsx` (client)
 
-- [ ] **Step 1:** Grid of 4 cards from `vitals`. Each card: an SVG arc gauge (270° track, `stroke-dasharray` fill animated on first intersection — IntersectionObserver, GSAP `drawSVG`-style via dashoffset, 1.1s `--ease-inout`), the big reading in Fraunces (`120/80`), unit small, then the three bands as stacked pills colored by tone (`good`→mint-deep, `watch`→gold, `act`→coral) and the note in `.note-strip` style. Section heading: eyebrow `"Chapter 02"`, h2 `"Four numbers,<br/><em>one dashboard."`
-- [ ] **Step 2:** Counter tick-up on the reading (reuse the exact counter approach from `home-hero.tsx` stats), skipped under reduced motion (values render statically — they're in the SSR HTML regardless).
-- [ ] **Step 3: Verify** — dials sweep once when scrolled into view, never re-trigger; tones read correctly; static + complete with JS disabled (`curl -s localhost:3000/heart-care | grep "120/80"` hits). Commit — `feat: vitals dial chapter`
+- [x] **Step 1:** Grid of 4 cards from `vitals`. Each card: an SVG arc gauge (270° track, `stroke-dasharray` fill animated on first intersection — IntersectionObserver, GSAP `drawSVG`-style via dashoffset, 1.1s `--ease-inout`), the big reading in Fraunces (`120/80`), unit small, then the three bands as stacked pills colored by tone (`good`→mint-deep, `watch`→gold, `act`→coral) and the note in `.note-strip` style. Section heading: eyebrow `"Chapter 02"`, h2 `"Four numbers,<br/><em>one dashboard."`
+- [x] **Step 2:** Counter tick-up on the reading (reuse the exact counter approach from `home-hero.tsx` stats), skipped under reduced motion (values render statically — they're in the SSR HTML regardless).
+- [x] **Step 3: Verify** — dials sweep once when scrolled into view, never re-trigger; tones read correctly; static + complete with JS disabled (`curl -s localhost:3000/heart-care | grep "120/80"` hits). Commit — `feat: vitals dial chapter`
 
 ### Task 17: Chapter 03 — artery narrowing scrolly
 
