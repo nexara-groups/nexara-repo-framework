@@ -13,10 +13,10 @@
 // sit near each lane's entry point; the animation rides them along the lanes.
 type Lane = "in" | "lungs" | "return" | "out";
 const laneStart: Record<Lane, { x: number; y: number }> = {
-  in: { x: 250, y: 40 },
-  lungs: { x: 214, y: 250 },
-  return: { x: 470, y: 214 },
-  out: { x: 300, y: 250 },
+  in: { x: 168, y: 52 },
+  lungs: { x: 214, y: 300 },
+  return: { x: 462, y: 214 },
+  out: { x: 300, y: 300 },
 };
 const particles = (["in", "lungs", "return", "out"] as Lane[]).flatMap((lane) =>
   [0, 1, 2].map((i) => ({ lane, i })),
@@ -28,9 +28,9 @@ const labels = [
   { id: "rv", text: "Right ventricle", x: 84, y: 396, anchor: "start" as const },
   { id: "la", text: "Left atrium", x: 430, y: 250, anchor: "end" as const },
   { id: "lv", text: "Left ventricle", x: 438, y: 396, anchor: "end" as const },
-  { id: "aorta", text: "Aorta", x: 150, y: 46, anchor: "middle" as const },
-  { id: "pa", text: "Pulmonary artery", x: 250, y: 22, anchor: "middle" as const },
-  { id: "vc", text: "Vena cava", x: 356, y: 40, anchor: "end" as const },
+  { id: "aorta", text: "Aorta", x: 372, y: 108, anchor: "start" as const },
+  { id: "pa", text: "Pulmonary artery", x: 226, y: 26, anchor: "middle" as const },
+  { id: "vc", text: "Vena cava", x: 126, y: 108, anchor: "end" as const },
   { id: "pv", text: "Pulmonary veins", x: 470, y: 300, anchor: "end" as const },
 ];
 
@@ -60,32 +60,35 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
         </g>
       ) : null}
 
-      {/* ——— Great vessels — a clean bundle emerging from the base (drawn under the chambers
-          so the chamber walls sit on top). ——— */}
+      {/* ——— Great vessels — emerging from the base over the correct chambers (drawn under
+          the chambers so the chamber walls sit on top). Venous vessels (PA, VC) rise over
+          the RIGHT heart (viewer-left); the aorta rises over the LEFT ventricle (viewer-
+          right) and arches away. ——— */}
 
-      {/* Aorta — the signature arch: rises from the LV, hooks over to viewer-left, exits.
-          Arterial / coral. */}
+      {/* Aorta — the signature arch: rises from the LV (viewer-right), arches over the top
+          and exits. Arterial / coral. */}
       <path
         id={id("hf-aorta")}
         className="hf-vessel hf-arterial hf-aorta"
-        d="M240 216 C 240 156 240 122 236 104 C 230 76 206 64 182 70 C 158 76 148 96 146 120
-           L172 126 C 174 106 184 98 196 98 C 210 98 214 114 214 138 C 214 168 214 194 214 216 Z"
+        d="M260 216 C 260 156 260 122 264 104 C 270 76 294 64 318 70 C 342 76 352 96 354 120
+           L328 126 C 326 106 316 98 304 98 C 290 98 286 114 286 138 C 286 168 286 194 286 216 Z"
       />
 
-      {/* Pulmonary trunk — a single tube rising from the RV, leaning slightly right. Venous. */}
+      {/* Pulmonary trunk — a single tube rising from the RV (viewer-left). Venous / blue. */}
       <path
         id={id("hf-pa")}
         className="hf-vessel hf-venous hf-pa"
-        d="M250 216 C 252 156 256 124 262 104 C 268 84 262 60 246 54 C 268 58 284 80 282 106
-           C 280 140 276 180 278 216 Z"
+        d="M250 216 C 248 156 244 124 238 104 C 232 84 238 60 254 54 C 232 58 216 80 218 106
+           C 220 140 224 180 222 216 Z"
       />
 
-      {/* Superior vena cava — a clean tube descending from top-right into the RA. Venous. */}
+      {/* Superior vena cava — a clean tube descending from the top into the RA (viewer-left).
+          Venous / blue. */}
       <path
         id={id("hf-vc")}
         className="hf-vessel hf-venous hf-vc"
-        d="M316 48 C 346 50 362 74 362 106 C 362 138 356 174 348 198 L320 192
-           C 328 168 332 138 330 112 C 328 84 320 66 306 62 Z"
+        d="M184 48 C 154 50 138 74 138 106 C 138 138 144 174 152 198 L180 192
+           C 172 168 168 138 170 112 C 172 84 180 66 194 62 Z"
       />
 
       {/* Pulmonary veins — two short blunt tubes joining the LA to the right lung. Arterial. */}
@@ -96,17 +99,18 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
            M356 300 C 378 298 398 302 414 310 C 419 312 419 320 414 322 C 398 314 378 312 356 314 C 351 313 351 301 356 300 Z"
       />
 
-      {/* ——— The whole-heart silhouette — the exact outer boundary of the four tiled
-          chambers, used only as the idle-beat scale target (not painted; the chamber and
-          LV-wall strokes already draw the perimeter). ——— */}
+      {/* ——— The whole-heart silhouette — traces the exact outer boundary of the four
+          tiled chambers (left side via RA+RV, apex, right side via the LV wall then LA),
+          so it can carry the heavy perimeter stroke while the chambers stay stroke-less. ——— */}
       <path
         id={id("hf-outline")}
         className="hf-outline"
         d="M250 206
            C 226 176 194 164 168 170 C 134 178 114 210 112 250
-           C 112 316 138 388 206 462 C 220 476 234 484 244 490
-           C 258 480 286 458 312 430 C 372 364 410 306 410 246
-           C 410 232 406 216 398 206 C 380 176 300 168 250 206 Z"
+           C 112 268 116 286 122 302 C 128 356 158 416 206 462
+           C 220 476 234 484 244 488 C 258 480 286 458 312 430
+           C 372 364 410 306 410 246 C 404 244 396 249 388 250
+           C 386 210 366 178 332 170 C 306 164 274 176 250 206 Z"
       />
 
       {/* ——— The four chambers (tile the body via shared septum + AV-groove borders) ——— */}
@@ -154,11 +158,17 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
              C 320 312 292 314 256 314 Z"
         />
 
-        {/* Interventricular septum — wall between the two ventricles. */}
+        {/* Interventricular + interatrial septum — the vertical divide (light internal line). */}
         <path
           id={id("hf-septum")}
           className="hf-septum"
           d="M250 206 C 246 262 248 316 250 360 C 251 410 248 452 246 488"
+        />
+
+        {/* AV groove — the horizontal divide between atria and ventricles (light line). */}
+        <path
+          className="hf-groove"
+          d="M122 302 C 160 312 208 316 250 314 C 292 316 340 312 378 302"
         />
       </g>
 
@@ -190,29 +200,29 @@ export function HeartFigure({ ids = true, lungs = true }: { ids?: boolean; lungs
       </g>
 
       {/* ——— Motion lanes (invisible rails for particle animation) ——— */}
-      {/* in: vena cava (top-right) → RA → down toward RV */}
+      {/* in: vena cava (top-left) → RA → down toward RV */}
       <path
         id={id("lane-in")}
         className="hf-lane lane-in"
-        d="M330 70 C 338 120 330 160 300 200 C 260 250 200 260 168 300 C 158 340 168 400 200 452"
+        d="M168 52 C 164 110 172 160 188 200 C 202 244 210 270 206 310 C 202 350 202 402 206 452"
       />
       {/* lungs: RV → pulmonary trunk → up to the lungs */}
       <path
         id={id("lane-lungs")}
         className="hf-lane lane-lungs"
-        d="M200 452 C 190 380 196 320 210 270 C 218 220 224 160 228 108 C 200 92 150 96 110 120"
+        d="M206 452 C 200 380 205 320 218 270 C 226 220 232 160 236 108 C 210 92 150 96 110 120"
       />
       {/* return: lungs / pulmonary veins → LA → down toward LV */}
       <path
         id={id("lane-return")}
         className="hf-lane lane-return"
-        d="M470 214 C 420 220 380 236 350 270 C 320 300 312 340 310 390 C 300 430 290 460 262 476"
+        d="M462 214 C 416 220 380 236 350 270 C 320 300 312 340 310 390 C 300 430 290 460 262 476"
       />
-      {/* out: LV → aortic root → up and off top-left */}
+      {/* out: LV → aortic root (viewer-right) → up and off top-right */}
       <path
         id={id("lane-out")}
         className="hf-lane lane-out"
-        d="M262 470 C 268 400 264 320 258 260 C 254 200 256 150 250 108 C 240 84 200 74 150 74"
+        d="M300 470 C 300 400 296 330 288 270 C 282 210 280 156 288 112 C 296 86 320 74 352 96"
       />
 
       {/* ——— Flow particles (3 per lane, hidden by default) ——— */}
