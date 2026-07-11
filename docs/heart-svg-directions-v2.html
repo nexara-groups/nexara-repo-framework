@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rise Medical Hub — heart artwork v2, rebuilt from scratch</title>
+<style>
+  :root{
+    --navy:#10203d; --navy-soft:#1b2f51; --coral:#dc5f72; --coral-dark:#b84159;
+    --mint:#dcefeb; --mint-deep:#a8d4ce; --blue-venous:#6f8fc9; --gold:#d9a441;
+    --paper:#fbfcfa; --muted:#6c7782; --line:#dce3e4; --white:#ffffff;
+    --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{background:var(--paper);color:var(--navy);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  .bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:11px;padding:18px clamp(18px,4vw,48px);background:rgba(251,252,250,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .brand-mark{width:34px;height:34px;border-radius:50%;border:2px solid var(--coral);position:relative;display:grid;place-items:center;flex:none;}
+  .brand-mark::before,.brand-mark::after{content:"";position:absolute;background:var(--navy);}
+  .brand-mark::before{width:2px;height:12px;}.brand-mark::after{height:2px;width:12px;}
+  .brand-mark i{width:8px;height:8px;border-radius:50%;background:var(--coral);border:2px solid var(--paper);position:relative;z-index:1;}
+  .brand b{font-size:17px;letter-spacing:2px;color:var(--coral-dark);font-weight:700;}
+  h1.title{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,40px);letter-spacing:-.5px;margin:34px 0 6px;text-align:center;}
+  .sub{text-align:center;color:var(--muted);font-size:14px;margin:0 0 8px;max-width:620px;padding:0 20px;margin-left:auto;margin-right:auto;line-height:1.5;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;padding:8px clamp(18px,4vw,48px) 70px;max-width:1440px;margin:0 auto;}
+  .card{background:var(--white);border:1px solid var(--line);display:flex;flex-direction:column;transition:box-shadow .3s ease,transform .3s ease;}
+  .card:hover{box-shadow:0 24px 48px -24px rgba(16,32,61,.28);transform:translateY(-4px);}
+  .card-art{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;padding:22px;position:relative;overflow:hidden;}
+  .card-art svg{width:100%;height:100%;}
+  .card-body{border-top:1px solid var(--line);padding:20px 22px 24px;}
+  .k{color:var(--coral-dark);font-size:10.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;}
+  .card-body h3{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.3px;margin:8px 0 8px;}
+  .card-body p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0;}
+  .paper-ground{background:var(--paper);}
+  .mint-ground{background:var(--mint);}
+  .navy2-ground{background:linear-gradient(160deg,#0d1a33,#10203d);}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:0 20px 60px;max-width:700px;margin:0 auto;line-height:1.6;}
+</style>
+</head>
+<body>
+  <header class="bar"><span class="brand-mark"><i></i></span><b>RISE MEDICAL HUB</b></header>
+
+  <h1 class="title">The heart, rebuilt</h1>
+  <p class="sub">A fresh silhouette — the domed-top, small-atria, single-apex proportions used in standard patient-education anatomy diagrams (Mayo Clinic / Cleveland Clinic style), not a valentine sliced by a cross. Same shape underneath every card below; only the rendering style changes.</p>
+
+  <div class="grid">
+
+    <!-- A: Refined line -->
+    <div class="card">
+      <div class="card-art paper-ground">
+        <svg viewBox="-30 -70 460 480">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 178 60 C 176 20 174 -5 172 -20" stroke="var(--blue-venous)" stroke-width="20" stroke-opacity=".85"/>
+            <path d="M 172 -20 C 148 -34 116 -34 92 -18" stroke="var(--blue-venous)" stroke-width="15" stroke-opacity=".85"/>
+            <path d="M 172 -20 C 196 -36 228 -38 254 -24" stroke="var(--blue-venous)" stroke-width="15" stroke-opacity=".85"/>
+            <path d="M 214 60 C 216 14 214 -20 202 -42 C 190 -62 160 -66 138 -52" stroke="var(--coral)" stroke-width="19" stroke-opacity=".9"/>
+            <path d="M 124 66 C 104 34 92 6 92 -22" stroke="var(--blue-venous)" stroke-width="15" stroke-opacity=".85"/>
+            <path d="M 300 132 C 322 126 340 128 354 138" stroke="var(--coral)" stroke-width="12" stroke-opacity=".85"/>
+            <path d="M 300 176 C 322 172 342 176 356 188" stroke="var(--coral)" stroke-width="12" stroke-opacity=".85"/>
+          </g>
+          <path d="M200 40 Q 165 42 130 72 C 92 78 57 104 46 146 C 36 186 42 226 64 268 C 90 320 132 378 178 428 C 185 300 195 150 200 40 Z" fill="var(--blue-venous)" fill-opacity=".2"/>
+          <path d="M200 40 C 195 150 185 300 178 428 C 224 378 268 322 296 272 C 320 230 326 188 316 148 C 305 105 270 78 232 70 Q 235 42 200 40 Z" fill="var(--coral)" fill-opacity=".17"/>
+          <path d="M 130 72 Q 165 42 200 40 Q 235 42 232 70 C 270 78 305 105 316 148 C 326 188 320 230 296 272 C 268 322 224 378 178 428 C 132 378 90 320 64 268 C 42 226 36 186 46 146 C 57 104 92 78 130 72 Z" fill="none" stroke="var(--navy)" stroke-width="2.6" stroke-linejoin="round"/>
+          <path d="M 200 40 C 195 150 185 300 178 428" fill="none" stroke="var(--navy)" stroke-width="1.2" stroke-opacity=".4" stroke-linecap="round"/>
+          <path d="M 58 172 C 110 190 150 195 200 190 C 250 195 290 185 306 165" fill="none" stroke="var(--navy)" stroke-width="1.2" stroke-opacity=".4" stroke-linecap="round"/>
+          <path d="M 90 186 q 10 11 20 0 q 10 11 20 0" fill="none" stroke="var(--navy)" stroke-width="1.4" stroke-linecap="round" stroke-opacity=".7"/>
+          <path d="M 250 190 q 10 11 20 0 q 10 11 20 0" fill="none" stroke="var(--navy)" stroke-width="1.4" stroke-linecap="round" stroke-opacity=".7"/>
+        </svg>
+      </div>
+      <div class="card-body"><span class="k">A · Refined line</span><h3>Editorial anatomy</h3><p>Hairline navy strokes, soft translucent halves, clean tube vessels. Reads immediately as a heart, not a diagram — calm and precise.</p></div>
+    </div>
+
+    <!-- B: Bold poster -->
+    <div class="card">
+      <div class="card-art mint-ground">
+        <svg viewBox="-30 -70 460 480">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 178 60 C 176 20 174 -5 172 -20" stroke="var(--navy)" stroke-width="24"/>
+            <path d="M 172 -20 C 148 -34 116 -34 92 -18" stroke="var(--navy)" stroke-width="18"/>
+            <path d="M 172 -20 C 196 -36 228 -38 254 -24" stroke="var(--navy)" stroke-width="18"/>
+            <path d="M 214 60 C 216 14 214 -20 202 -42 C 190 -62 160 -66 138 -52" stroke="var(--navy)" stroke-width="23"/>
+            <path d="M 124 66 C 104 34 92 6 92 -22" stroke="var(--navy)" stroke-width="18"/>
+            <path d="M 178 60 C 176 20 174 -5 172 -20" stroke="var(--blue-venous)" stroke-width="15"/>
+            <path d="M 172 -20 C 148 -34 116 -34 92 -18" stroke="var(--blue-venous)" stroke-width="11"/>
+            <path d="M 172 -20 C 196 -36 228 -38 254 -24" stroke="var(--blue-venous)" stroke-width="11"/>
+            <path d="M 214 60 C 216 14 214 -20 202 -42 C 190 -62 160 -66 138 -52" stroke="var(--coral)" stroke-width="14"/>
+            <path d="M 124 66 C 104 34 92 6 92 -22" stroke="var(--blue-venous)" stroke-width="11"/>
+            <path d="M 300 132 C 322 126 340 128 354 138" stroke="var(--navy)" stroke-width="15"/>
+            <path d="M 300 176 C 322 172 342 176 356 188" stroke="var(--navy)" stroke-width="15"/>
+            <path d="M 300 132 C 322 126 340 128 354 138" stroke="var(--coral)" stroke-width="9"/>
+            <path d="M 300 176 C 322 172 342 176 356 188" stroke="var(--coral)" stroke-width="9"/>
+          </g>
+          <path d="M200 40 Q 165 42 130 72 C 92 78 57 104 46 146 C 36 186 42 226 64 268 C 90 320 132 378 178 428 C 185 300 195 150 200 40 Z" fill="var(--blue-venous)"/>
+          <path d="M200 40 C 195 150 185 300 178 428 C 224 378 268 322 296 272 C 320 230 326 188 316 148 C 305 105 270 78 232 70 Q 235 42 200 40 Z" fill="var(--coral)"/>
+          <path d="M 130 72 Q 165 42 200 40 Q 235 42 232 70 C 270 78 305 105 316 148 C 326 188 320 230 296 272 C 268 322 224 378 178 428 C 132 378 90 320 64 268 C 42 226 36 186 46 146 C 57 104 92 78 130 72 Z" fill="none" stroke="var(--navy)" stroke-width="5"/>
+          <path d="M 200 40 C 195 150 185 300 178 428" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M 58 172 C 110 190 150 195 200 190 C 250 195 290 185 306 165" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="110" cy="190" r="7" fill="var(--white)" stroke="var(--navy)" stroke-width="3"/>
+          <circle cx="270" cy="190" r="7" fill="var(--white)" stroke="var(--navy)" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="card-body"><span class="k">B · Bold poster</span><h3>Flat, saturated, confident</h3><p>Thick uniform outlines, flat saturated fills, no gradients. Reads instantly at small sizes — an app icon or campaign poster.</p></div>
+    </div>
+
+    <!-- C: Soft painterly -->
+    <div class="card">
+      <div class="card-art paper-ground">
+        <svg viewBox="-30 -70 460 480">
+          <defs>
+            <linearGradient id="cCoral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2a3ae"/><stop offset="1" stop-color="var(--coral-dark)"/></linearGradient>
+            <linearGradient id="cVenous" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b6c9ec"/><stop offset="1" stop-color="var(--blue-venous)"/></linearGradient>
+            <filter id="cShadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#10203d" flood-opacity=".2"/></filter>
+          </defs>
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 178 60 C 176 20 174 -5 172 -20" stroke="url(#cVenous)" stroke-width="20"/>
+            <path d="M 172 -20 C 148 -34 116 -34 92 -18" stroke="url(#cVenous)" stroke-width="15"/>
+            <path d="M 172 -20 C 196 -36 228 -38 254 -24" stroke="url(#cVenous)" stroke-width="15"/>
+            <path d="M 214 60 C 216 14 214 -20 202 -42 C 190 -62 160 -66 138 -52" stroke="url(#cCoral)" stroke-width="19"/>
+            <path d="M 124 66 C 104 34 92 6 92 -22" stroke="url(#cVenous)" stroke-width="15"/>
+            <path d="M 300 132 C 322 126 340 128 354 138" stroke="url(#cCoral)" stroke-width="12"/>
+            <path d="M 300 176 C 322 172 342 176 356 188" stroke="url(#cCoral)" stroke-width="12"/>
+          </g>
+          <g filter="url(#cShadow)">
+            <path d="M200 40 Q 165 42 130 72 C 92 78 57 104 46 146 C 36 186 42 226 64 268 C 90 320 132 378 178 428 C 185 300 195 150 200 40 Z" fill="url(#cVenous)"/>
+            <path d="M200 40 C 195 150 185 300 178 428 C 224 378 268 322 296 272 C 320 230 326 188 316 148 C 305 105 270 78 232 70 Q 235 42 200 40 Z" fill="url(#cCoral)"/>
+          </g>
+          <path d="M 200 40 C 195 150 185 300 178 428" fill="none" stroke="var(--white)" stroke-width="2" stroke-opacity=".55" stroke-linecap="round"/>
+          <path d="M 58 172 C 110 190 150 195 200 190 C 250 195 290 185 306 165" fill="none" stroke="var(--white)" stroke-width="2" stroke-opacity=".55" stroke-linecap="round"/>
+          <ellipse cx="115" cy="150" rx="30" ry="18" fill="var(--white)" opacity=".25"/>
+        </svg>
+      </div>
+      <div class="card-body"><span class="k">C · Soft painterly</span><h3>Warm, rounded, human</h3><p>Gradient fills, a soft drop shadow, a gentle highlight. Approachable and reassuring — fits a patient-first, less clinical tone.</p></div>
+    </div>
+
+    <!-- D: Duotone technical -->
+    <div class="card">
+      <div class="card-art navy2-ground">
+        <svg viewBox="-30 -70 460 480">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 178 60 C 176 20 174 -5 172 -20" stroke="var(--mint-deep)" stroke-width="1.6" stroke-opacity=".9"/>
+            <path d="M 172 -20 C 148 -34 116 -34 92 -18" stroke="var(--mint-deep)" stroke-width="1.4" stroke-opacity=".9"/>
+            <path d="M 172 -20 C 196 -36 228 -38 254 -24" stroke="var(--mint-deep)" stroke-width="1.4" stroke-opacity=".9"/>
+            <path d="M 214 60 C 216 14 214 -20 202 -42 C 190 -62 160 -66 138 -52" stroke="var(--coral)" stroke-width="1.6" stroke-opacity=".9"/>
+            <path d="M 124 66 C 104 34 92 6 92 -22" stroke="var(--mint-deep)" stroke-width="1.4" stroke-opacity=".9"/>
+            <path d="M 300 132 C 322 126 340 128 354 138" stroke="var(--coral)" stroke-width="1.4" stroke-opacity=".9"/>
+            <path d="M 300 176 C 322 172 342 176 356 188" stroke="var(--coral)" stroke-width="1.4" stroke-opacity=".9"/>
+          </g>
+          <path d="M 130 72 Q 165 42 200 40 Q 235 42 232 70 C 270 78 305 105 316 148 C 326 188 320 230 296 272 C 268 322 224 378 178 428 C 132 378 90 320 64 268 C 42 226 36 186 46 146 C 57 104 92 78 130 72 Z" fill="none" stroke="var(--mint-deep)" stroke-width="1.8" stroke-opacity=".95"/>
+          <path d="M 200 40 C 195 150 185 300 178 428 M 58 172 C 110 190 150 195 200 190 C 250 195 290 185 306 165" fill="none" stroke="var(--coral)" stroke-width="1" stroke-dasharray="3 4" stroke-opacity=".7"/>
+          <g stroke="var(--mint-deep)" stroke-width="1" stroke-opacity=".5" fill="none">
+            <line x1="0" y1="150" x2="46" y2="150"/><line x1="0" y1="146" x2="0" y2="154"/>
+            <line x1="316" y1="148" x2="362" y2="148"/><line x1="362" y1="144" x2="362" y2="152"/>
+          </g>
+          <g font-family="var(--sans)" font-size="9" letter-spacing="1.4" fill="var(--mint-deep)">
+            <text x="-30" y="153">RA · RV</text><text x="330" y="152">LA · LV</text>
+          </g>
+          <circle cx="110" cy="190" r="2.5" fill="var(--coral)"/>
+          <circle cx="270" cy="190" r="2.5" fill="var(--coral)"/>
+        </svg>
+      </div>
+      <div class="card-body"><span class="k">D · Technical / blueprint</span><h3>Schematic, instrumented</h3><p>Thin mint lines on ink, dashed guide rules, callout labels. Pairs with the ECG / vitals language already elsewhere on the page.</p></div>
+    </div>
+
+  </div>
+  <footer>All four share the exact same underlying silhouette and vessel geometry (domed top → small atria → dominant ventricles → single offset apex, with the aorta, pulmonary trunk, vena cava, and pulmonary veins all correctly rooted) — only the rendering style differs. Tell me which one, a hybrid, or what to adjust, and I'll port it into <code>heart-figure.tsx</code> with the same animation hooks (ids, particle lanes, labels) the current component already exposes.</footer>
+</body>
+</html>
