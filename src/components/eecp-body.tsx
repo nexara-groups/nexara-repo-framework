@@ -39,7 +39,7 @@ export function EECPBody() {
       />
       <section className="section-pad eecp-glance">
         <div className="container">
-          <Reveal className="section-heading eecp-glance-heading">
+          <Reveal className="section-heading eecp-glance-heading" variant="mask">
             <div><span className="eyebrow">The therapy at a glance</span><h2>Strong medicine.<br /><em>Gentle delivery.</em></h2></div>
           </Reveal>
           <Reveal delay={120}>
@@ -76,7 +76,7 @@ export function EECPBody() {
 
       <section className="section-pad section-ink">
         <div className="container">
-          <div className="section-heading"><Reveal><span className="eyebrow eyebrow-light">Who it helps</span><h2>Made for the patients<br /><em>with the fewest options.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>EECP was designed for people whose symptoms persist — or for whom another procedure is not the right next step.</p></Reveal></div>
+          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow eyebrow-light">Who it helps</span><h2>Made for the patients<br /><em>with the fewest options.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>EECP was designed for people whose symptoms persist — or for whom another procedure is not the right next step.</p></Reveal></div>
           <div className="eecp-who-grid">
             {candidates.map((item, index) => (
               <Reveal key={item.title} delay={80 + index * 80}>
@@ -114,7 +114,7 @@ export function EECPBody() {
 
       <section className="section-pad">
         <div className="container eecp-compare">
-          <div className="section-heading"><Reveal><span className="eyebrow">In perspective</span><h2>Gentler by design.</h2></Reveal><Reveal className="heading-aside" delay={100}><p>A general comparison for understanding — not a decision tool. Different treatments solve different problems, and your cardiologist will advise what fits you.</p></Reveal></div>
+          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow">In perspective</span><h2>Gentler by design.</h2></Reveal><Reveal className="heading-aside" delay={100}><p>A general comparison for understanding — not a decision tool. Different treatments solve different problems, and your cardiologist will advise what fits you.</p></Reveal></div>
           <Reveal delay={140}>
             <table>
               <thead><tr><th scope="col" aria-label="Aspect" /><th scope="col">EECP therapy</th><th scope="col">Angioplasty / bypass</th></tr></thead>
@@ -131,7 +131,7 @@ export function EECPBody() {
 
       <section className="section-pad section-mint">
         <div className="container eecp-faq">
-          <div className="section-heading"><Reveal><span className="eyebrow">Common questions</span><h2>Asked in our rooms,<br /><em>answered plainly.</em></h2></Reveal></div>
+          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow">Common questions</span><h2>Asked in our rooms,<br /><em>answered plainly.</em></h2></Reveal></div>
           <div className="faq-list">
             {faqs.map((faq, index) => (
               <Reveal key={faq.q} delay={60 + index * 50}>

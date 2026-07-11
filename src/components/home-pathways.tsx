@@ -21,7 +21,7 @@ export function HomePathways() {
   return (
     <section className="section-pad hm-paths">
       <div className="container section-heading">
-        <Reveal><span className="eyebrow">Our care pathways</span><h2>Four doors.<br /><em>One standard of care.</em></h2></Reveal>
+        <Reveal variant="mask"><span className="eyebrow">Our care pathways</span><h2>Four doors.<br /><em>One standard of care.</em></h2></Reveal>
         <Reveal className="heading-aside" delay={100}>
           <p>From outpatient consultations to specialist EECP therapy, each pathway is shaped around clarity, comfort, and continuity.</p>
           <Link className="text-link" href="/services">View all services <b aria-hidden="true">↗</b></Link>

@@ -57,7 +57,7 @@ export function DoctorsDirectory() {
       {/* The roster */}
       <section className="section-pad" ref={rosterRef}>
         <div className="container section-heading">
-          <Reveal><span className="eyebrow">The roster</span><h2>Find your<br /><em>specialist.</em></h2></Reveal>
+          <Reveal variant="mask"><span className="eyebrow">The roster</span><h2>Find your<br /><em>specialist.</em></h2></Reveal>
           <Reveal className="heading-aside" delay={100}><p>Filter by department, check the days, and book a slot. Every consultation protects time for your questions.</p></Reveal>
         </div>
         <div className="container">
@@ -94,7 +94,7 @@ export function DoctorsDirectory() {
       {/* Symptom router */}
       <section className="section-pad section-mint">
         <div className="container section-heading">
-          <Reveal><span className="eyebrow">Not sure who to see?</span><h2>Start from what<br /><em>you feel.</em></h2></Reveal>
+          <Reveal variant="mask"><span className="eyebrow">Not sure who to see?</span><h2>Start from what<br /><em>you feel.</em></h2></Reveal>
           <Reveal className="heading-aside" delay={100}><p>Pick the concern that sounds closest — we&rsquo;ll show you the right specialist. Still unsure? Our OPD physician is the right first door.</p></Reveal>
         </div>
         <div className="container dr-concerns">

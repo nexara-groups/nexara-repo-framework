@@ -31,7 +31,7 @@ export default function HomePage() {
 
       <section className="section-pad hm-flow">
         <div className="container section-heading">
-          <Reveal><span className="eyebrow">How a visit flows</span><h2>Three moves,<br /><em>one rhythm.</em></h2></Reveal>
+          <Reveal variant="mask"><span className="eyebrow">How a visit flows</span><h2>Three moves,<br /><em>one rhythm.</em></h2></Reveal>
           <Reveal className="heading-aside" delay={100}><p>Good healthcare is more than a single visit. It is a sequence of thoughtful moments, made easier to navigate.</p></Reveal>
         </div>
         <div className="container hm-flow-grid">
