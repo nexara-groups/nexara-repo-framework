@@ -37,7 +37,11 @@ img { max-width: 100%; }
 .section-pad + .section-pad:not(.section-ink):not(.section-mint) { border-top: 1px solid var(--line); }
 
 /* ——— Depth: grain + ambient light on dark surfaces ——— */
+/* z-index: 0 (with the position: relative each surface already has) makes every dark
+   section its own stacking context, so the grain ::after's z-index:-1 paints above the
+   section's background instead of escaping to the root context behind it. */
 .section-ink, .hm-hero, .eecp-hero, .dr-hero, .hm-closer, .footer-cta {
+  z-index: 0;
   background-image: radial-gradient(1200px 600px at 78% -10%, rgba(220,95,114,.14), transparent 60%), radial-gradient(900px 500px at 8% 110%, rgba(168,212,206,.10), transparent 60%);
 }
 .section-ink::after, .hm-hero::after, .eecp-hero::after, .dr-hero::after, .hm-closer::after, .footer-cta::after {
