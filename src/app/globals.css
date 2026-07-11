@@ -520,7 +520,18 @@ body:has(.hm-closer) .footer-cta { display: none; }
 .hm-flow-item { border-right: 1px solid var(--line); padding: 38px 40px 8px 0; }
 .hm-flow-item + .hm-flow-item { padding-left: 40px; }
 .hm-flow-item:last-child { border-right: 0; padding-right: 0; }
-.hm-flow-num { -webkit-text-stroke: 1px rgba(184,65,89,.55); color: transparent; display: block; font-family: var(--serif); font-size: 92px; letter-spacing: -3px; line-height: 1; }
+.hm-flow-num { -webkit-text-stroke: 1px rgba(184,65,89,.55); color: transparent; display: block; font-family: var(--serif); font-size: 92px; letter-spacing: -3px; line-height: 1; transition: color .35s ease; }
+.hm-flow-item:hover .hm-flow-num { color: var(--coral); }
+/* On reveal each numeral takes one coral beat, staggered across the row — one rhythm. */
+@media (prefers-reduced-motion: no-preference) {
+  .hm-flow-item.is-visible .hm-flow-num { animation: hm-flow-beat 1.1s var(--ease-out) 1; }
+  .hm-flow-item.is-visible:nth-child(2) .hm-flow-num { animation-delay: .11s; }
+  .hm-flow-item.is-visible:nth-child(3) .hm-flow-num { animation-delay: .22s; }
+}
+@keyframes hm-flow-beat {
+  0%, 100% { color: transparent; }
+  35% { color: var(--coral); }
+}
 .hm-flow-item h3 { color: var(--navy); margin: 22px 0 8px; }
 .hm-flow-item p { max-width: 280px; }
 

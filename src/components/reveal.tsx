@@ -19,6 +19,12 @@ export function Reveal({
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    // Scrolled past before the observer attached (fast scroll during hydration):
+    // it will never intersect again unless the user scrolls back up — show it now.
+    if (node.getBoundingClientRect().bottom < 0) {
+      setVisible(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
