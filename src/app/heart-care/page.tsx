@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { chapters, heartFaqs } from "@/content/heart-guide";
 import { HeartHero } from "@/components/heart/heart-hero";
 import { ChapterRail } from "@/components/heart/chapter-rail";
-import { HeartFlowLiving } from "@/components/heart/heart-flow-living";
+import { HeartFlowScrolly } from "@/components/heart/heart-flow-scrolly";
 import { VitalsDials } from "@/components/heart/vitals-dials";
 import { ArteryScrolly } from "@/components/heart/artery-scrolly";
 import { ConditionsGuide } from "@/components/heart/conditions-guide";
@@ -50,7 +50,7 @@ export default function HeartCarePage() {
       <HeartHero />
       <ChapterRail />
       {chapters.map((chapter) => {
-        if (chapter.id === "how-it-works") return <HeartFlowLiving key={chapter.id} />;
+        if (chapter.id === "how-it-works") return <HeartFlowScrolly key={chapter.id} />;
         if (chapter.id === "numbers") return <VitalsDials key={chapter.id} />;
         if (chapter.id === "narrowing") return <ArteryScrolly key={chapter.id} />;
         if (chapter.id === "conditions") return <ConditionsGuide key={chapter.id} />;
