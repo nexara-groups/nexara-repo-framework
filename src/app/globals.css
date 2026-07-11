@@ -815,3 +815,41 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
   position: absolute;
 }
 .media-label { z-index: 1; }
+
+/* ——— Heart figure (Task 13): stylised cross-section, GSAP-animated later ——— */
+.heart-fig { display: block; height: auto; width: 100%; overflow: visible; }
+.heart-fig .hf-chamber { stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; }
+.heart-fig .hf-venous { fill: var(--blue-venous); fill-opacity: .18; }
+.heart-fig .hf-arterial { fill: var(--coral); fill-opacity: .16; }
+.heart-fig .hf-vessel { stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; }
+.heart-fig .hf-lung { fill: var(--mint); fill-opacity: .55; stroke: var(--navy); stroke-width: 1.5; stroke-linejoin: round; }
+.heart-fig #hf-outline { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-opacity: .5; }
+.heart-fig #hf-septum { fill: var(--navy); fill-opacity: .08; stroke: var(--navy); stroke-width: 1.5; }
+.heart-fig .hf-lv-wall { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-opacity: .85; }
+.heart-fig .hf-valve path { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linecap: round; }
+.heart-fig .hf-lane { fill: none; stroke: none; }
+.heart-fig .hf-particle { opacity: 0; fill: var(--coral); }
+.heart-fig .hf-label {
+  opacity: 0;
+  fill: var(--navy);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heart-fig #hf-outline,
+  .heart-fig .hf-chambers {
+    animation: hf-beat 1.9s var(--ease-inout) infinite;
+    transform-origin: 52% 55%;
+    transform-box: view-box;
+  }
+  @keyframes hf-beat {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.025); }
+    24% { transform: scale(.99); }
+    36% { transform: scale(1); }
+  }
+}
