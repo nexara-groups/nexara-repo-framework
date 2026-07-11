@@ -115,7 +115,7 @@ p { color: var(--muted); }
 .utility-links { display: flex; gap: 25px; }
 .utility-links a:hover { color: var(--white); }
 .site-header { background: rgba(251,252,250,.94); border-bottom: 1px solid rgba(220,227,228,.8); position: sticky; top: 0; z-index: 20; backdrop-filter: blur(0); transition: box-shadow var(--dur-quick) var(--ease-out), backdrop-filter var(--dur-quick) var(--ease-out); }
-body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba(251,252,250,.72); box-shadow: 0 1px 0 rgba(16,32,61,.08), 0 12px 32px -24px rgba(16,32,61,.25); }
+body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba(251,252,250,.85); box-shadow: 0 1px 0 rgba(16,32,61,.08), 0 12px 32px -24px rgba(16,32,61,.25); }
 .nav-inner { align-items: center; display: flex; min-height: 86px; }
 .brand { align-items: center; display: inline-flex; gap: 11px; min-width: 210px; }
 .brand-mark { align-items: center; border: 2px solid var(--coral); border-radius: 100%; display: inline-flex; height: 39px; justify-content: center; position: relative; width: 39px; }
@@ -413,6 +413,9 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 /* Footer */
 .site-footer { background: var(--navy); color: var(--white); }
 .footer-cta { background-color: var(--navy); overflow: hidden; padding: clamp(72px, 9vw, 110px) 0; position: relative; }
+/* Home ends with its own closer (Ready when you are + book/call + address) — suppress the
+   generic footer CTA there so the same button pair doesn't stack twice in one scroll. */
+body:has(.hm-closer) .footer-cta { display: none; }
 .footer-cta-inner { align-items: center; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; position: relative; z-index: 1; }
 .footer-cta h2 { color: var(--white); font-size: clamp(40px, 4.6vw, 64px); margin: 0; }
 .footer-cta-inner > div { display: flex; flex-wrap: wrap; gap: 14px; }
@@ -493,8 +496,14 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
 .hm-path-row strong { color: var(--navy); display: block; font-family: var(--serif); font-size: clamp(28px, 3.1vw, 41px); font-weight: 400; letter-spacing: -1.2px; line-height: 1.05; transition: color .25s ease, transform .35s ease; }
 .hm-path-row p { color: var(--muted); font-size: 13px; margin: 8px 0 0; max-width: 380px; }
 .hm-path-arrow { align-items: center; border: 1px solid var(--line); border-radius: 100%; color: var(--navy); display: flex; font-size: 15px; height: 46px; justify-content: center; transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .35s ease; width: 46px; }
-.hm-path-row:hover strong, .hm-path-row-active strong { color: var(--coral-dark); transform: translateX(10px); }
-.hm-path-row:hover .hm-path-arrow, .hm-path-row-active .hm-path-arrow { background: var(--coral); border-color: var(--coral); color: var(--white); transform: rotate(45deg); }
+.hm-path-row:hover strong { color: var(--coral-dark); transform: translateX(10px); }
+.hm-path-row:hover .hm-path-arrow { background: var(--coral); border-color: var(--coral); color: var(--white); transform: rotate(45deg); }
+/* Row-active mirrors the sticky media pane, which only exists ≥981px — below that the
+   highlight would read as a stuck hover state. */
+@media (min-width: 981px) {
+  .hm-path-row-active strong { color: var(--coral-dark); transform: translateX(10px); }
+  .hm-path-row-active .hm-path-arrow { background: var(--coral); border-color: var(--coral); color: var(--white); transform: rotate(45deg); }
+}
 .hm-paths-media-wrap { position: sticky; top: 104px; }
 .hm-paths-media { aspect-ratio: .94 / 1; display: block; overflow: hidden; position: relative; }
 .hm-paths-shot { inset: 0; opacity: 0; position: absolute; transform: scale(1.05); transition: opacity .5s ease, transform 1.1s ease; }
