@@ -23,9 +23,9 @@ const pageMeta: Record<string, { eyebrow: string; title: string; description: st
   doctors: { eyebrow: "The people behind the care", title: "Meet the team you can talk to.", description: "Physicians and specialists who explain before they act — with time protected for your questions.", image: "/images/opd-consultation.png", alt: "Doctor in a consultation room", accent: "coral" },
   "health-packages": { eyebrow: "Preventive care", title: "Small checks. Meaningful peace of mind.", description: "Considered health packages that tell you what to check, when to check it, and what your numbers mean.", image: "/images/diagnostics.png", alt: "Modern diagnostic environment", accent: "mint" },
   "health-camps": { eyebrow: "Community care", title: "Care that reaches further.", description: "Screening camps, workplace drives, and awareness programmes that bring preventive care closer to the community.", image: "/images/rise-medical-hero.png", alt: "Doctor speaking with a patient and family member", accent: "coral" },
-  testimonials: { eyebrow: "In their words", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and a third option for the heart — told by the people who experienced it.", accent: "mint" },
+  testimonials: { eyebrow: "The experience we're building", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and a third option for the heart — told by the people who experienced it.", accent: "mint" },
   resources: { eyebrow: "Health awareness blog", title: "Better questions lead to better care.", description: "Clear, medically sensible reading for the moments before, between, and after appointments.", image: "/images/eecp-treatment.png", alt: "Patient receiving monitored EECP therapy", accent: "navy" },
-  gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "A visual look at the people, spaces, and small details that shape the Rise experience.", image: "/images/pharmacy.png", alt: "Pharmacist speaking with a patient", accent: "mint" },
+  gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "A visual preview of the Rise environment — concept renders of the spaces we're building, ahead of opening photography.", image: "/images/pharmacy.png", alt: "Pharmacist speaking with a patient", accent: "mint" },
   appointment: { eyebrow: "Book your visit", title: "Your next step starts here.", description: "Share a few details and our team will help confirm the right pathway and available time.", accent: "coral" },
   contact: { eyebrow: "We are here to help", title: "Find your way to Rise.", description: "Call, write, or visit us in Madhurawada. Our team is ready to help you take the next step.", accent: "mint" },
 };
@@ -79,16 +79,7 @@ function ServicesBody() {
 }
 
 function DoctorsBody() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    name: "Rise Medical Hub",
-    address: contact.address,
-    telephone: contact.phone,
-    physician: doctors.map((doc) => ({ "@type": "Physician", name: doc.name, jobTitle: doc.role, medicalSpecialty: doc.department })),
-  };
   return <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
     <section className="dr-hero">
       <HeroEcg />
       <div className="container dr-hero-inner">
@@ -136,7 +127,7 @@ function CampsBody() {
 function TestimonialsBody() {
   return <>
     <section className="section-pad"><div className="container tst-grid">{testimonials.map((t, index) => <Reveal key={t.name} className="tst-card" delay={index * 70}><span className="tst-mark" aria-hidden="true">&ldquo;</span><blockquote>{t.quote}</blockquote><footer><strong>{t.name}</strong><small>{t.context}</small></footer></Reveal>)}</div>
-    <div className="container"><p className="note-strip">Shared with patient consent; names shortened for privacy. Individual outcomes vary — every treatment decision belongs with your doctor.</p></div></section>
+    <div className="container"><p className="note-strip">Illustrative patient stories, shown while we collect consented testimonials from our first patients. Individual outcomes vary — every treatment decision belongs with your doctor.</p></div></section>
     <CtaStrip eyebrow="Write your own" title="Start with one conversation." href="/appointment" label="Book an appointment" />
   </>;
 }
@@ -172,7 +163,7 @@ function GalleryBody() {
     { src: "/images/opd-consultation.png", alt: "Doctor listening to a patient", caption: "Unhurried OPD rooms" },
     { src: "/images/pharmacy.png", alt: "Pharmacist speaking with a patient", caption: "The in-house pharmacy" },
   ];
-  return <section className="section-pad"><div className="container gallery-grid">{images.map((image, index) => <Reveal key={image.src} className={`gallery-item gallery-item-${index + 1}`} delay={index * 70}><Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 100vw, 50vw" /><span className="gallery-cap">{image.caption}</span></Reveal>)}</div></section>;
+  return <section className="section-pad"><div className="container gallery-grid">{images.map((image, index) => <Reveal key={image.src} className={`gallery-item gallery-item-${index + 1}`} delay={index * 70}><Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 100vw, 50vw" /><span className="gallery-cap">{image.caption}</span></Reveal>)}</div><div className="container"><p className="note-strip">These are design visualisations. Real photography replaces them as each space opens.</p></div></section>;
 }
 
 function AppointmentBody() {

@@ -35,10 +35,10 @@ export function DoctorsDirectory() {
           <div className="container dr-spotlight">
             <Reveal className="dr-spotlight-copy">
               <span className="eyebrow eyebrow-light">Leading the signature pathway</span>
-              <blockquote>&ldquo;Most patients don&rsquo;t need another test. They need someone to sit down, connect the ones they have, and explain the road ahead.&rdquo;</blockquote>
-              <div className="dr-spotlight-who"><strong>{featured.name}</strong><span>{featured.role} · {featured.qualifications}</span></div>
+              <blockquote>&ldquo;Our rule for every consultation: no test without a reason, no report without an explanation, no visit without a written next step.&rdquo;</blockquote>
+              <div className="dr-spotlight-who"><strong>The Rise care team</strong><span>Cardiology & EECP pathway</span></div>
               <div className="dr-spotlight-actions">
-                <Link className="button button-coral" href="/appointment">Consult {featured.name.split(" ").slice(0, 2).join(" ")} <b aria-hidden="true">↗</b></Link>
+                <Link className="button button-coral" href="/appointment">Consult our cardiology team <b aria-hidden="true">↗</b></Link>
                 <Link className="button button-ghost-light" href="/eecp-therapy">About EECP therapy <b aria-hidden="true">↗</b></Link>
               </div>
             </Reveal>
