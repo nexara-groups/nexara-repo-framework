@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rise Medical Hub — heart hero, four directions</title>
+<style>
+  :root{
+    --navy-0:#0a1628; --navy-1:#0b1e3a;
+    --coral:#e26a7c; --coral-glow:#ff8a9c; --venous:#6f8fc9; --venous-glow:#93b4ef;
+    --mint:#a8d4ce; --paper:#eef2f7; --muted:#93a6bd; --line:rgba(255,255,255,.12);
+    --serif:"Hoefler Text","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --bg:var(--navy-0); --ink:var(--paper); --sub:#c3cfe0; --chip:#c8d3e2; --eyebrow:var(--mint);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .5s ease,color .5s ease;}
+
+  /* per-variant grounds */
+  body[data-v="A"]{--bg:var(--navy-0);--ink:var(--paper);--sub:#c3cfe0;--chip:#c8d3e2;--eyebrow:var(--mint);--line:rgba(255,255,255,.12);}
+  body[data-v="B"]{--bg:#f2ede2;--ink:#1b2536;--sub:#4b586b;--chip:#3a4658;--eyebrow:#b0854a;--line:rgba(28,37,54,.16);}
+  body[data-v="C"]{--bg:#06080e;--ink:#f2f4f8;--sub:#96a0b2;--chip:#aeb7c6;--eyebrow:#ff6076;--line:rgba(255,255,255,.1);}
+  body[data-v="D"]{--bg:#0a111d;--ink:#e7edf5;--sub:#9db0c6;--chip:#bcccdd;--eyebrow:#5fd0bd;--line:rgba(255,255,255,.1);}
+
+  .stage{position:relative;min-height:100svh;display:flex;flex-direction:column;isolation:isolate;}
+  body[data-v="A"] .stage{background:radial-gradient(1100px 620px at 80% 6%,rgba(226,106,124,.18),transparent 60%),radial-gradient(900px 560px at 4% 98%,rgba(111,143,201,.16),transparent 60%),linear-gradient(160deg,var(--navy-1),var(--navy-0) 60%);}
+  body[data-v="B"] .stage{background:radial-gradient(1000px 560px at 82% 8%,rgba(200,84,106,.10),transparent 60%),linear-gradient(165deg,#f6f1e7,#efe8db 70%);}
+  body[data-v="C"] .stage{background:radial-gradient(760px 760px at 72% 46%,rgba(255,93,115,.10),transparent 62%),#06080e;}
+  body[data-v="D"] .stage{background:radial-gradient(900px 560px at 78% 10%,rgba(95,208,189,.10),transparent 60%),linear-gradient(160deg,#0d1626,#0a111d 62%);}
+  .stage::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");}
+  body[data-v="B"] .stage::after{mix-blend-mode:multiply;opacity:.04;}
+
+  /* top bar + variant switcher */
+  .bar{position:relative;z-index:7;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px clamp(18px,4vw,56px);border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand-mark{width:36px;height:36px;border-radius:50%;border:2px solid var(--coral);position:relative;display:grid;place-items:center;flex:none;}
+  .brand-mark::before,.brand-mark::after{content:"";position:absolute;background:var(--ink);}
+  .brand-mark::before{width:2px;height:13px;}.brand-mark::after{height:2px;width:13px;}
+  .brand-mark i{width:8px;height:8px;border-radius:50%;background:var(--coral);border:2px solid var(--bg);position:relative;z-index:1;}
+  .brand-name{display:flex;flex-direction:column;line-height:1;}
+  .brand-name b{font-size:18px;letter-spacing:2px;color:var(--coral);font-weight:700;}
+  .brand-name small{font-size:8px;letter-spacing:2.4px;color:var(--sub);margin-top:5px;}
+  .switch{display:flex;gap:7px;background:color-mix(in srgb,var(--ink) 6%,transparent);padding:5px;border-radius:100px;border:1px solid var(--line);}
+  .switch button{appearance:none;border:0;background:transparent;color:var(--sub);font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.3px;padding:9px 15px;border-radius:100px;cursor:pointer;transition:background .25s,color .25s;white-space:nowrap;}
+  .switch button .k{opacity:.6;margin-right:6px;font-variant-numeric:tabular-nums;}
+  .switch button[aria-pressed="true"]{background:var(--coral);color:#fff;}
+  body[data-v="B"] .switch button[aria-pressed="true"]{color:#fff;}
+  .switch button:focus-visible{outline:2px solid var(--mint);outline-offset:2px;}
+
+  /* hero */
+  .hero{position:relative;z-index:5;flex:1;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:40px;padding:clamp(24px,4.5vw,52px) clamp(18px,4vw,56px);max-width:1360px;margin:0 auto;width:100%;}
+  @media(max-width:900px){.hero{grid-template-columns:1fr;gap:6px;}}
+  .eyebrow{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--eyebrow);}
+  .eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.7;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,6.4vw,88px);line-height:.98;letter-spacing:-.01em;margin:20px 0 0;text-wrap:balance;color:var(--ink);}
+  h1 em{font-style:italic;color:var(--coral);}
+  .standfirst{color:var(--sub);font-size:clamp(15px,1.5vw,18px);line-height:1.6;max-width:30em;margin:20px 0 0;}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 0;}
+  .chips span{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--chip);border:1px solid var(--line);border-radius:100px;padding:8px 14px;}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0;}
+  .btn{display:inline-flex;align-items:center;gap:13px;font-size:13px;font-weight:700;padding:15px 22px;border-radius:100px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:transform .25s cubic-bezier(.22,.9,.24,1),background .25s,border-color .25s;}
+  .btn b{font-weight:400;font-size:17px;line-height:1;transition:transform .25s;}
+  .btn-coral{background:var(--coral);color:#2a0d14;}
+  body[data-v="C"] .btn-coral,body[data-v="A"] .btn-coral{color:#2a0d14;}
+  .btn-coral:hover{background:var(--coral-glow);transform:translateY(-2px);}
+  .btn-ghost{border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{background:color-mix(in srgb,var(--ink) 8%,transparent);transform:translateY(-2px);}
+  .btn:hover b{transform:translate(2px,-2px);}
+  .btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px;}
+
+  .visual{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(76svh,660px);}
+  @media(max-width:900px){.visual{min-height:52svh;order:-1;}}
+  canvas{display:block;width:100%;height:100%;}
+
+  .readout{position:absolute;left:5%;bottom:7%;z-index:2;display:flex;align-items:center;gap:12px;padding:11px 15px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(6px);}
+  .readout .dot{width:9px;height:9px;border-radius:50%;background:var(--coral);}
+  .readout .bpm{font-variant-numeric:tabular-nums;font-family:var(--serif);font-size:25px;line-height:1;color:var(--ink);}
+  .readout .bpm sup{font-family:var(--sans);font-size:10px;letter-spacing:1.4px;color:var(--sub);margin-left:4px;text-transform:uppercase;}
+  .readout small{display:block;font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--sub);margin-top:3px;}
+  @media(max-width:900px){.readout{left:auto;right:4%;bottom:2%;}}
+  .caption{position:absolute;top:14px;left:0;right:0;text-align:center;z-index:2;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);opacity:.75;}
+</style>
+</head>
+<body data-v="A">
+  <div class="stage">
+    <header class="bar">
+      <div class="brand"><span class="brand-mark"><i></i></span><span class="brand-name"><b>RISE</b><small>MEDICAL&nbsp;HUB</small></span></div>
+      <div class="switch" role="group" aria-label="Choose a hero direction">
+        <button data-set="A" aria-pressed="true"><span class="k">A</span>Living organ</button>
+        <button data-set="B" aria-pressed="false"><span class="k">B</span>Editorial line</button>
+        <button data-set="C" aria-pressed="false"><span class="k">C</span>Pure pulse</button>
+        <button data-set="D" aria-pressed="false"><span class="k">D</span>Vitals</button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <div class="copy">
+        <span class="eyebrow">The Rise heart guide</span>
+        <h1>Know the engine.<br><em>Own the journey.</em></h1>
+        <p class="standfirst">Everything we wish every patient knew about the heart — how it works, what goes wrong, which signs matter, and what to do next. Twenty minutes, plain language, no jargon.</p>
+        <div class="chips"><span>8 chapters</span><span>Doctor-reviewed</span><span>Telugu · English · Hindi</span></div>
+        <div class="actions">
+          <a class="btn btn-coral" href="#">Start reading <b aria-hidden="true">↓</b></a>
+          <a class="btn btn-ghost" href="#">Book a heart check <b aria-hidden="true">↗</b></a>
+        </div>
+      </div>
+      <div class="visual">
+        <span class="caption" id="caption">A · Living organ</span>
+        <canvas id="c" aria-label="Animated heart hero"></canvas>
+        <div class="readout" id="readout" aria-hidden="true">
+          <span class="dot" id="pulseDot"></span>
+          <span><span class="bpm"><span id="bpm">72</span><sup>bpm</sup></span><small>Resting rhythm</small></span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  const canvas=document.getElementById("c"), ctx=canvas.getContext("2d");
+  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const bpmEl=document.getElementById("bpm"), pulseDot=document.getElementById("pulseDot"),
+        readout=document.getElementById("readout"), caption=document.getElementById("caption");
+
+  // shared geometry (design box 300x340, apex down)
+  const BOX={w:300,h:340};
+  const heartPath=new Path2D("M154 46 C 176 30 210 34 234 58 C 258 82 262 122 256 162 C 250 214 226 264 184 306 C 174 316 165 322 158 328 C 148 314 132 298 116 276 C 84 232 66 184 66 138 C 66 92 88 56 122 48 C 136 44 146 44 154 46 Z");
+  const septumPath=new Path2D("M150 52 C 146 120 150 200 156 300");
+  const groovePath=new Path2D("M78 168 C 130 188 190 190 236 168");
+  const vessels=[
+    {c:"coral",w:26,d:"M196 78 C 200 44 202 22 214 8 C 226 -6 250 -4 262 12"},
+    {c:"venous",w:24,d:"M150 76 C 146 42 140 20 128 8 C 118 -2 100 0 92 14"},
+    {c:"venous",w:19,d:"M112 84 C 104 50 98 26 84 12 C 74 2 58 4 52 18"},
+  ].map(v=>({...v,path:new Path2D(v.d)}));
+  const flows=[
+    {c:"venous",pts:[[150,300],[96,244],[78,150],[104,58]],n:14},
+    {c:"coral",pts:[[152,300],[210,238],[224,150],[196,64]],n:14},
+  ];
+  function cubic(p,t){const u=1-t,a=u*u*u,b=3*u*u*t,cc=3*u*t*t,d=t*t*t;return [a*p[0][0]+b*p[1][0]+cc*p[2][0]+d*p[3][0],a*p[0][1]+b*p[1][1]+cc*p[2][1]+d*p[3][1]];}
+  const COL={coral:[226,106,124],coralGlow:[255,138,156],venous:[111,143,201],venousGlow:[147,180,239],mint:[168,212,206],ink:[27,37,54],gold:[176,133,74]};
+  const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  const particles=[];flows.forEach((f,fi)=>{for(let i=0;i<f.n;i++)particles.push({f:fi,t:Math.random(),sp:0.05+Math.random()*0.03,sz:1.6+Math.random()*2.1});});
+
+  let W=0,H=0,dpr=1,scale=1,ox=0,oy=0;
+  function resize(){const r=canvas.parentElement.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);W=Math.max(320,r.width);H=Math.max(320,r.height);canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);scale=Math.min(W/BOX.w,H/BOX.h)*0.82;ox=(W-BOX.w*scale)/2;oy=(H-BOX.h*scale)/2;}
+  window.addEventListener("resize",resize,{passive:true});resize();
+
+  const PERIOD=0.86;
+  function beatEnv(ph){const s=(c,w)=>Math.exp(-((ph-c)*(ph-c))/(2*w*w));return Math.min(1,s(0.04,0.028)+s(0.20,0.05)*0.55);}
+  function ecgY(x){const g=(c,w,h)=>h*Math.exp(-((x-c)*(x-c))/(2*w*w));return -(g(0.16,0.03,6)-g(0.30,0.012,7)+g(0.34,0.014,42)-g(0.38,0.014,12)+g(0.62,0.05,10));}
+
+  function withHeart(beat,fn){ctx.save();ctx.translate(ox+BOX.w*scale*0.52,oy+BOX.h*scale*0.56);const s=scale*(1+0.035*beat);ctx.scale(s,s);ctx.translate(-BOX.w*0.52,-BOX.h*0.56);fn();ctx.restore();}
+
+  // ---------- A: living organ ----------
+  function drawA(beat){
+    withHeart(beat,()=>{
+      vessels.forEach(v=>{const g=v.c==="coral"?COL.coral:COL.venous,gg=v.c==="coral"?COL.coralGlow:COL.venousGlow;ctx.save();ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle=rgba(g,.5);ctx.lineWidth=v.w;ctx.shadowColor=rgba(gg,.5);ctx.shadowBlur=14;ctx.stroke(v.path);ctx.shadowBlur=0;ctx.strokeStyle=rgba(gg,.35);ctx.lineWidth=v.w*0.42;ctx.stroke(v.path);ctx.restore();});
+      ctx.save();ctx.shadowColor=rgba(COL.coralGlow,.55);ctx.shadowBlur=26+52*beat;const grad=ctx.createLinearGradient(60,120,250,220);grad.addColorStop(0,rgba([70,96,150],.9));grad.addColorStop(.42,rgba([120,80,110],.92));grad.addColorStop(.6,rgba([180,74,96],.95));grad.addColorStop(1,rgba([210,92,112],.96));ctx.fillStyle=grad;ctx.fill(heartPath);ctx.restore();
+      ctx.save();ctx.clip(heartPath);const rg=ctx.createRadialGradient(150,150,10,150,180,190);rg.addColorStop(0,rgba(COL.coralGlow,.3+.28*beat));rg.addColorStop(.5,rgba(COL.coral,.05));rg.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=rg;ctx.fillRect(0,0,BOX.w,BOX.h);const lg=ctx.createLinearGradient(50,0,170,0);lg.addColorStop(0,rgba(COL.venousGlow,.16));lg.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=lg;ctx.fillRect(0,0,BOX.w,BOX.h);ctx.restore();
+      ctx.save();ctx.lineWidth=1.4;ctx.strokeStyle=rgba(COL.coralGlow,.45);ctx.shadowColor=rgba(COL.coralGlow,.5);ctx.shadowBlur=8;ctx.stroke(heartPath);ctx.restore();
+      ctx.save();ctx.clip(heartPath);ctx.globalCompositeOperation="lighter";particles.forEach(p=>{const f=flows[p.f],[x,y]=cubic(f.pts,p.t),gl=f.c==="coral"?COL.coralGlow:COL.venousGlow,r=p.sz*(1+0.5*beat)*4;const pg=ctx.createRadialGradient(x,y,0,x,y,r);pg.addColorStop(0,rgba(gl,.9));pg.addColorStop(1,rgba(gl,0));ctx.fillStyle=pg;ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();});ctx.restore();
+    });
+    baseEcg(rgba(COL.mint,.5),rgba(COL.mint,.14));
+  }
+
+  // ---------- B: editorial line (light) ----------
+  function drawB(beat){
+    withHeart(beat*0.5,()=>{
+      // soft paper shadow
+      ctx.save();ctx.fillStyle="rgba(27,37,54,.05)";ctx.translate(3,6);ctx.fill(heartPath);ctx.restore();
+      // faint tonal fills
+      ctx.save();ctx.clip(heartPath);ctx.fillStyle=rgba(COL.venous,.10);ctx.fillRect(0,0,150,BOX.h);ctx.fillStyle=rgba(COL.coral,.10);ctx.fillRect(150,0,150,BOX.h);ctx.restore();
+      // vessels — thin ink strokes
+      ctx.save();ctx.lineCap="round";ctx.lineJoin="round";vessels.forEach(v=>{ctx.strokeStyle=rgba(COL.ink,.75);ctx.lineWidth=v.w*0.5;ctx.stroke(v.path);ctx.strokeStyle=rgba(v.c==="coral"?COL.coral:COL.venous,.85);ctx.lineWidth=1.4;ctx.stroke(v.path);});ctx.restore();
+      // internal lines + rim
+      ctx.save();ctx.strokeStyle=rgba(COL.ink,.35);ctx.lineWidth=1;ctx.stroke(septumPath);ctx.stroke(groovePath);ctx.restore();
+      ctx.save();ctx.strokeStyle=rgba(COL.coral,.9);ctx.lineWidth=2;ctx.lineJoin="round";ctx.stroke(heartPath);ctx.restore();
+      // gold hairline echo
+      ctx.save();ctx.strokeStyle=rgba(COL.gold,.5);ctx.lineWidth=1;ctx.setLineDash([1,6]);ctx.translate(-6,-6);ctx.stroke(heartPath);ctx.restore();
+      // travelling flow dashes (thin, elegant)
+      ctx.save();particles.forEach(p=>{const f=flows[p.f],[x,y]=cubic(f.pts,p.t),c=f.c==="coral"?COL.coral:COL.venous;ctx.fillStyle=rgba(c,.9);ctx.beginPath();ctx.arc(x,y,2.1,0,6.2832);ctx.fill();});ctx.restore();
+    });
+    baseEcg(rgba(COL.gold,.55),rgba(COL.ink,.12));
+  }
+
+  // ---------- C: pure pulse ----------
+  let ecgScroll=0;
+  function drawC(beat){
+    // faint heart ghost
+    withHeart(0,()=>{ctx.save();ctx.strokeStyle=rgba(COL.coral,.10);ctx.lineWidth=2;ctx.stroke(heartPath);ctx.restore();});
+    // bloom on beat, centered on the visual
+    const cx=ox+BOX.w*scale*0.52, cy=oy+BOX.h*scale*0.52;
+    ctx.save();ctx.globalCompositeOperation="lighter";const R=40+220*beat;const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,R);bg.addColorStop(0,rgba(COL.coralGlow,.22*beat));bg.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=bg;ctx.beginPath();ctx.arc(cx,cy,R,0,6.2832);ctx.fill();ctx.restore();
+    // big bold ECG across the whole visual
+    const midY=cy;const amp=Math.min(H*0.28,150);const win=Math.max(220,W*0.5);
+    ctx.save();ctx.translate(0,midY);ctx.strokeStyle=rgba(COL.coral,.9);ctx.lineWidth=2.6;ctx.lineJoin="round";ctx.lineCap="round";ctx.shadowColor=rgba(COL.coralGlow,.7);ctx.shadowBlur=14;ctx.beginPath();
+    let hx=null,hy=null;
+    for(let sx=0;sx<=W;sx+=2){const f=((sx/win)+ecgScroll);const ff=f-Math.floor(f);const y=ecgY(ff)*(amp/42);if(sx===0)ctx.moveTo(sx,y);else ctx.lineTo(sx,y);if(hx===null&&f>=Math.floor(ecgScroll)+1){hx=sx;hy=y;}}
+    ctx.stroke();
+    // leading dot
+    const headX=(( -ecgScroll % 1 +1)%1)*0 ; void headX;void hx;void hy;
+    ctx.restore();
+    // travelling glow dot on the trace
+    const dotFrac=(ecgScroll % 1);const dotX=(1-dotFrac)*W;const dy=ecgY(((dotX/win)+ecgScroll)-Math.floor((dotX/win)+ecgScroll))*(amp/42);
+    ctx.save();ctx.translate(0,midY);ctx.fillStyle=rgba(COL.coralGlow,.95);ctx.shadowColor=rgba(COL.coralGlow,.9);ctx.shadowBlur=16;ctx.beginPath();ctx.arc(dotX,dy,4,0,6.2832);ctx.fill();ctx.restore();
+  }
+
+  // ---------- D: vitals dashboard ----------
+  function drawD(beat){
+    const cx=ox+BOX.w*scale*0.52, cy=oy+BOX.h*scale*0.46;
+    const rad=Math.min(W,H)*0.24;
+    // ring track
+    ctx.save();ctx.lineCap="round";
+    ctx.strokeStyle=rgba(COL.mint,.14);ctx.lineWidth=12;ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI*0.75,Math.PI*2.25);ctx.stroke();
+    // ring fill (bpm ~72/200 of the sweep, breathing)
+    const frac=0.34+0.03*beat;ctx.strokeStyle=rgba(COL.coral,.9);ctx.shadowColor=rgba(COL.coralGlow,.6);ctx.shadowBlur=12;ctx.lineWidth=12;ctx.beginPath();ctx.arc(cx,cy,rad,Math.PI*0.75,Math.PI*0.75+Math.PI*1.5*frac);ctx.stroke();ctx.restore();
+    // center bpm
+    ctx.save();ctx.textAlign="center";ctx.fillStyle=rgba([231,237,245],1);ctx.font=`600 ${Math.round(rad*0.62)}px Georgia,serif`;ctx.fillText(String(bpmDyn),cx,cy+rad*0.16);
+    ctx.fillStyle=rgba(COL.mint,.9);ctx.font="700 12px system-ui,sans-serif";ctx.fillText("BEATS / MIN",cx,cy+rad*0.5);ctx.restore();
+    // mini waveform strip below the ring
+    const wy=cy+rad+46, ww=rad*2.1, wx=cx-ww/2, amp=22;
+    ctx.save();ctx.strokeStyle=rgba(COL.mint,.12);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(wx,wy);ctx.lineTo(wx+ww,wy);ctx.stroke();
+    ctx.strokeStyle=rgba(COL.mint,.85);ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";ctx.shadowColor=rgba(COL.mint,.5);ctx.shadowBlur=6;ctx.beginPath();
+    for(let i=0;i<=ww;i+=2){const f=((i/ww*2)+ecgScroll);const ff=f-Math.floor(f);const y=ecgY(ff)*(amp/42);if(i===0)ctx.moveTo(wx+i,wy+y);else ctx.lineTo(wx+i,wy+y);}
+    ctx.stroke();ctx.restore();
+    // three stat chips
+    const stats=[["120/80","BLOOD PRESSURE",COL.coral],["98%","OXYGEN",COL.mint],["Sinus","RHYTHM",COL.venousGlow]];
+    const chW=ww/3, sy=wy+54;
+    ctx.save();ctx.textAlign="center";
+    stats.forEach((s,i)=>{const sx=wx+chW*i+chW/2;ctx.fillStyle=rgba([231,237,245],1);ctx.font="500 22px Georgia,serif";ctx.fillText(s[0],sx,sy+4);ctx.fillStyle=rgba(s[2],.9);ctx.font="700 10px system-ui,sans-serif";ctx.fillText(s[1],sx,sy+24);});
+    ctx.restore();
+  }
+
+  function baseEcg(stroke,base){
+    const baseY=H-Math.max(46,H*0.09),amp=Math.min(1,scale/1.1),win=Math.max(150,W*0.34);
+    ctx.save();ctx.translate(0,baseY);
+    ctx.strokeStyle=base;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(W,0);ctx.stroke();
+    ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";ctx.shadowColor=stroke;ctx.shadowBlur=6;ctx.beginPath();
+    for(let sx=0;sx<=W;sx+=2){const f=((sx/win)+ecgScroll);const ff=f-Math.floor(f);const y=ecgY(ff)*amp;if(sx===0)ctx.moveTo(sx,y);else ctx.lineTo(sx,y);}
+    ctx.stroke();ctx.restore();
+  }
+
+  const drawers={A:drawA,B:drawB,C:drawC,D:drawD};
+  let current="A", start=null, lastBeat=-1, bpmDyn=72;
+  window.bpmDyn=72;
+
+  function frame(ts){
+    if(start===null)start=ts;
+    const el=(ts-start)/1000, ph=(el%PERIOD)/PERIOD, beat=reduce?0.12:beatEnv(ph);
+    if(!reduce){particles.forEach(p=>{p.t+=p.sp*(0.4+1.7*beat)*0.016;if(p.t>1)p.t-=1;});ecgScroll+=0.0018+0.02*beat;}
+    ctx.clearRect(0,0,W,H);
+    drawers[current](beat);
+    const bi=Math.floor(el/PERIOD);
+    if(bi!==lastBeat){lastBeat=bi;bpmDyn=68+Math.round(Math.abs(Math.sin(el*0.7))*8);if(bpmEl)bpmEl.textContent=bpmDyn;if(pulseDot&&pulseDot.animate)pulseDot.animate([{boxShadow:"0 0 0 0 rgba(226,106,124,.6)"},{boxShadow:"0 0 0 12px rgba(226,106,124,0)"}],{duration:700,easing:"ease-out"});}
+    requestAnimationFrame(frame);
+  }
+  if(reduce){ctx.clearRect(0,0,W,H);drawers[current](0.12);}
+  requestAnimationFrame(frame);
+
+  // switcher
+  const labels={A:"A · Living organ",B:"B · Editorial line",C:"C · Pure pulse",D:"D · Vitals"};
+  document.querySelectorAll(".switch button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const set=btn.dataset.set;current=set;
+      document.body.dataset.v=set;
+      document.querySelectorAll(".switch button").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
+      caption.textContent=labels[set];
+      // readout only for A / D (BPM-centric)
+      readout.style.display=(set==="A")?"flex":"none";
+      resize();
+    });
+  });
+  readout.style.display="flex";
+})();
+</script>
+</body>
+</html>
