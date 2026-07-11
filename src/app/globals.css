@@ -784,3 +784,34 @@ body[data-scrolled] .site-header { backdrop-filter: blur(14px); background: rgba
   .dr-avatar { font-size: 17px; height: 48px; width: 48px; }
   .dr-book { height: 48px; width: 48px; }
 }
+
+/* ——— Unified image grade (Task 11) ——— */
+/* The 5 AI-render photos were generated in different sessions and read as an inconsistent
+   set. One shared duotone — a slight desaturation on the img plus a navy multiply veil on
+   a ::after above it — makes them read as one family until real photography replaces them.
+   Each frame below already has position: relative (+ overflow: hidden), so the ::after can
+   sit inset: 0 without needing a new z-index/stacking-context hack: the img is a real DOM
+   child painted first and the ::after is generated as the frame's last child, so — as long
+   as z-index stays auto on both — normal painting order alone puts the veil above the img.
+   .gallery-cap and .media-label are caption/label chips that sit in the same frames; they
+   keep explicit z-index: 1 so they stay on top of the veil instead of being tinted by it. */
+.service-card-image img,
+.detail-image img,
+.page-hero-media img,
+.gallery-item img,
+.eecp-sticky-media img {
+  filter: saturate(.82) contrast(1.02);
+}
+.service-card-image::after,
+.detail-image::after,
+.page-hero-media::after,
+.gallery-item::after,
+.eecp-sticky-media::after {
+  background: linear-gradient(180deg, rgba(16,32,61,0), rgba(16,32,61,.18));
+  content: "";
+  inset: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  position: absolute;
+}
+.media-label { z-index: 1; }
