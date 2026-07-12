@@ -1,6 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import { EecpCourseGrid, EecpNaturalBypass } from "@/components/eecp-diagram";
+import { EecpCourseGrid, EecpNaturalBypass, EecpSessionScene } from "@/components/eecp-diagram";
 import { EecpScrolly } from "@/components/eecp-scrolly";
 import { Reveal } from "@/components/reveal";
 
@@ -11,9 +10,60 @@ const candidates = [
   { title: "When surgery is not an option", copy: "Patients advised against surgery — or who want to explore a non-invasive pathway first, with their cardiologist's guidance." },
 ];
 
+const references = [
+  {
+    tag: "Clinical guideline · 2023",
+    title: "AHA/ACC multisociety guideline for chronic coronary disease",
+    note: "Places EECP within the broader care pathway for chronic coronary disease and refractory angina—not as a universal replacement for medicines or revascularisation.",
+    href: "https://www.acc.org/Guidelines/Guidelines/2023/07/20/12/34/Chronic-Coronary-Disease",
+  },
+  {
+    tag: "Regulatory record · FDA",
+    title: "FDA 510(k) summary for the EECP Therapy System",
+    note: "The device-specific record describing intended use, operation, and reviewed indications. Clearance should not be read as a promise of benefit for every patient.",
+    href: "https://www.accessdata.fda.gov/cdrh_docs/pdf2/k020857.pdf",
+  },
+  {
+    tag: "Overview · 2013",
+    title: "The Role of Enhanced External Counterpulsation Therapy in Clinical Practice",
+    note: "A plain-language review of how EECP works, who it helps, and what the evidence shows. Clinical Medicine & Research (Sharma, Ramsey, Tak).",
+    href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3917995/",
+  },
+  {
+    tag: "Angina trial · 1999",
+    title: "MUST-EECP: effect of EECP on exercise-induced ischaemia and anginal episodes",
+    note: "The landmark randomised, sham-controlled trial in refractory angina. Journal of the American College of Cardiology (Arora et al.).",
+    href: "https://pubmed.ncbi.nlm.nih.gov/10362181/",
+  },
+  {
+    tag: "Heart-failure trial · 2006",
+    title: "EECP improves exercise tolerance in patients with chronic heart failure (PEECH)",
+    note: "A randomised, controlled trial in stable heart failure with reduced pumping strength. Journal of the American College of Cardiology (Feldman et al.).",
+    href: "https://pubmed.ncbi.nlm.nih.gov/16979005/",
+  },
+  {
+    tag: "Long-term outcomes · 2008",
+    title: "EECP in chronic refractory angina: long-term follow-up from the international registry",
+    note: "Real-world outcomes tracked well beyond the treatment course, from the International EECP Patient Registry (IEPR).",
+    href: "https://pubmed.ncbi.nlm.nih.gov/18404725/",
+  },
+  {
+    tag: "Evidence synthesis · 2021",
+    title: "Safety and effectiveness of EECP in refractory angina",
+    note: "A meta-analysis of 17 studies, useful for reviewing symptom and exercise outcomes while noting the authors' call for larger controlled trials.",
+    href: "https://pubmed.ncbi.nlm.nih.gov/35047131/",
+  },
+  {
+    tag: "Cautious review · 2009",
+    title: "EECP for stable angina and heart failure: systematic review and economic analysis",
+    note: "An important counterweight: it found the controlled evidence insufficient for firm conclusions and documented uncertainty around long-term benefit and adverse events.",
+    href: "https://pubmed.ncbi.nlm.nih.gov/19409154/",
+  },
+];
+
 const faqs = [
   { q: "Does EECP hurt?", a: "No. The cuffs squeeze firmly — most patients describe it as a strong hug on the legs, similar to a blood-pressure cuff. Many read, listen to music, or nap through their sessions." },
-  { q: "Is EECP safe?", a: "EECP is a non-invasive, FDA-cleared class of therapy that has been used for decades. Before starting, a clinician reviews your history and examines you to confirm it is suitable for you." },
+  { q: "Is EECP safe?", a: "EECP is non-invasive, and specific prescription devices have FDA 510(k) clearance. That does not make it suitable for everyone. Before starting, a clinician reviews your history and examines you for reasons the treatment may be unsafe or unhelpful." },
   { q: "When do patients notice a difference?", a: "It varies. Some patients report easier walking and fewer episodes of chest discomfort partway through the course; for others, changes come later. Your care team tracks your progress session by session." },
   { q: "Can EECP replace bypass surgery or stents?", a: "It is not a replacement in every case — these treat different problems in different ways. EECP is often considered when procedures are not suitable, or when symptoms persist after them. Your cardiologist will advise what fits your condition." },
   { q: "What happens after the 35 sessions?", a: "Your clinician reviews your response and fits the results into your wider care plan — medication, activity, and follow-up. The studied benefits of a completed course have been reported to last well beyond the final session for many patients." },
@@ -86,6 +136,10 @@ export function EECPBody() {
               </Reveal>
             ))}
           </div>
+          <Reveal className="eecp-notfit" delay={120}>
+            <strong>When EECP is not advised</strong>
+            <p>EECP is gentle, but it is not right for everyone. It is generally avoided in people with significant leaking of the aortic valve, an uncontrolled or very irregular heart rhythm, severe artery disease or a clot in the legs, an aortic aneurysm, uncontrolled high blood pressure, or during pregnancy. A clinician checks for these before recommending a course.</p>
+          </Reveal>
         </div>
       </section>
 
@@ -99,7 +153,7 @@ export function EECPBody() {
       <section className="eecp-intro section-pad section-mint">
         <div className="container eecp-story-grid">
           <div className="eecp-sticky">
-            <Reveal className="eecp-sticky-media"><Image src="/images/eecp-treatment.webp" alt="Patient receiving EECP therapy while a clinician monitors the session" fill sizes="(max-width: 900px) 100vw, 48vw" /><span className="media-label">EECP / monitored outpatient care</span></Reveal>
+            <Reveal className="eecp-sticky-media"><EecpSessionScene /><span className="media-label">EECP / monitored outpatient care</span></Reveal>
             <div className="eecp-pulse-note"><span className="pulse-icon" aria-hidden="true" /><span><strong>A measured rhythm</strong><small>Care guided by monitoring</small></span></div>
           </div>
           <div className="eecp-story">
@@ -142,6 +196,27 @@ export function EECPBody() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section-pad eecp-refs">
+        <div className="container">
+          <div className="section-heading"><Reveal variant="mask"><span className="eyebrow">Approved &amp; studied</span><h2>Backed by evidence<br /><em>you can read yourself.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>We link the original research and the regulatory record so you and your cardiologist can weigh the evidence directly. These are independent, peer-reviewed sources — not our own claims.</p></Reveal></div>
+          <Reveal className="ref-reg" delay={120}>
+            <strong>Regulatory status</strong>
+            <p>Specific external counterpulsation devices have US FDA 510(k) clearance with intended uses that include angina and congestive heart failure. Clearance is device-specific; it is not proof that every patient will benefit. EECP has also been evaluated in controlled trials, registries, guidelines, and evidence reviews—with both encouraging findings and meaningful limitations.</p>
+          </Reveal>
+          <Reveal className="ref-list" delay={160}>
+            {references.map((ref) => (
+              <div className="ref-item" key={ref.href}>
+                <span className="ref-tag">{ref.tag}</span>
+                <a className="ref-title" href={ref.href} target="_blank" rel="noopener noreferrer">{ref.title} <b aria-hidden="true">↗</b></a>
+                <p>{ref.note}</p>
+              </div>
+            ))}
+          </Reveal>
+          <Reveal className="ref-foot" delay={185}><Link className="button button-navy" href="/resources/understanding-eecp">Read the plain-language EECP guide <b aria-hidden="true">↗</b></Link></Reveal>
+          <Reveal className="ref-foot" delay={200}><p>Links open the original publishers, including the American College of Cardiology, US FDA, PubMed, and PubMed Central. Rise is not affiliated with them. This page is for general understanding and is not a substitute for advice from your own cardiologist.</p></Reveal>
         </div>
       </section>
 

@@ -66,8 +66,16 @@ export function HeartHero() {
             <Link className="button button-ghost-light" href="/appointment">Book a heart check <b aria-hidden="true">↗</b></Link>
           </div>
         </div>
-        <div className="hc-hero-art">
+        <div className="hc-hero-art hc-alt-heart-stage">
+          <div className="hc-alt-stage-top"><span className="hc-alt-live-dot" /> LIVE SYSTEM <b>72 BPM</b></div>
+          <div className="hc-alt-orbit orbit-outer" aria-hidden="true" />
+          <div className="hc-alt-orbit orbit-inner" aria-hidden="true" />
+          <div className="hc-alt-stage-axis axis-x" aria-hidden="true" />
+          <div className="hc-alt-stage-axis axis-y" aria-hidden="true" />
           <HeartFigure ids={false} lungs={false} />
+          <span className="hc-alt-callout callout-in">deoxygenated in</span>
+          <span className="hc-alt-callout callout-out">oxygenated out</span>
+          <div className="hc-alt-stage-foot"><span>patient education / not a diagnosis</span><span>scroll to examine</span></div>
         </div>
       </div>
     </section>

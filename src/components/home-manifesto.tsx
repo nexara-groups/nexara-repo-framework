@@ -26,7 +26,7 @@ export function HomeManifesto() {
             opacity: 1,
             stagger: 0.5,
             ease: "none",
-            scrollTrigger: { trigger: ref.current, start: "top 72%", end: "bottom 62%", scrub: true },
+            scrollTrigger: { trigger: ".hm-manifesto-text", start: "top 80%", end: "bottom 68%", scrub: true },
           },
         );
       });

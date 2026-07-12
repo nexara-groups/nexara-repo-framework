@@ -28,6 +28,14 @@ function ArteryFigure({ ids = true }: { ids?: boolean }) {
       <line className="ar-wall" x1="40" y1="90" x2="860" y2="90" />
       <line className="ar-wall" x1="40" y1="210" x2="860" y2="210" />
 
+      {/* Blood cells riding the centre lane — painted BELOW the plaque, clot,
+          and downstream wash so a cell crossing the block slips behind it
+          instead of sailing over the top */}
+      <path id={id("ar-lane")} className="ar-lane" d="M20 150 H880" />
+      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+        <circle key={i} className="ar-cell" r="7" cx="20" cy="150" />
+      ))}
+
       {/* Plaque — soft blobs anchored to each wall, scaleY-grown by the beats */}
       <path
         id={id("ar-plaque-top")}
@@ -40,11 +48,13 @@ function ArteryFigure({ ids = true }: { ids?: boolean }) {
         d="M350 210 C 396 210 410 156 452 156 C 494 156 508 210 554 210 Z"
       />
 
-      {/* Clot — completes the block at the narrowest point */}
+      {/* Clot — sized to the final lumen gap (plaque at scaleY .78 leaves
+          y≈135–168 open) with a ~3px tuck under each plaque hump so it reads
+          as a plug, not a blob spilling past the narrowing */}
       <path
         id={id("ar-clot")}
         className="ar-clot"
-        d="M420 138 C 434 128 458 126 472 134 C 486 128 500 136 498 148 C 506 158 494 170 480 168 C 468 176 446 176 436 166 C 424 164 414 150 420 138 Z"
+        d="M424 142 C 434 134 452 132 464 138 C 476 132 490 138 488 148 C 496 156 486 166 474 164 C 464 171 444 170 436 162 C 426 160 418 150 424 142 Z"
       />
 
       {/* Downstream wash — greys out everything past the block in beat 3 */}
@@ -53,12 +63,6 @@ function ArteryFigure({ ids = true }: { ids?: boolean }) {
         <line x1="560" y1="90" x2="860" y2="90" />
         <line x1="560" y1="210" x2="860" y2="210" />
       </g>
-
-      {/* Blood cells riding the centre lane */}
-      <path id={id("ar-lane")} className="ar-lane" d="M20 150 H880" />
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-        <circle key={i} className="ar-cell" r="7" cx="20" cy="150" />
-      ))}
 
       {/* Demand ECG — quickens when the heart works harder */}
       <path
@@ -100,12 +104,16 @@ export function ArteryScrolly() {
         gsap.set(".s-bar", { scaleX: 0, transformOrigin: "left center" });
 
         // Continuous traffic: 8 cells looping along the lane, single-file.
+        // repeat lives INSIDE the stagger so each cell loops its own traversal
+        // (evenly spaced conveyor). A whole-tween repeat instead makes cells
+        // finish and park stacked at the path end until the cycle restarts —
+        // freezing at the block beat then shows a pile past the vessel mouth
+        // and no traffic behind the clot.
         const loop = gsap.to(q(".ar-cell"), {
           motionPath: { path: lanePath, align: lanePath, alignOrigin: [0.5, 0.5] },
           duration: 4,
           ease: "none",
-          repeat: -1,
-          stagger: { each: 0.5 },
+          stagger: { each: 0.5, repeat: -1 },
         });
         loop.totalTime(8); // skip the staggered lead-in — traffic already flowing
 
@@ -152,7 +160,7 @@ export function ArteryScrolly() {
 
         // 03 — the emergency: clot pops in, traffic stops, downstream greys out
         tl.to(q(".ar-clot"), { opacity: 1, duration: 0.25, ease: "power2.out" }, "block")
-          .to(loop, { timeScale: 0, duration: 0.4 }, "block")
+          .to(loop, { timeScale: 0, duration: 0.15, ease: "power2.out" }, "block")
           .to(ecgLoop, { timeScale: 0.6, duration: 0.6 }, "block+=0.4")
           .to(q(".ar-downstream"), { opacity: 0.85, duration: 0.9 }, "block+=0.2")
           .to(q(".ar-caption-2"), { opacity: 0, duration: 0.3 }, "block")
@@ -171,7 +179,86 @@ export function ArteryScrolly() {
         };
       });
     }, rootRef);
-    return () => ctx.revert();
+
+    // Phone: play each narrowing beat as its figure scrolls into view —
+    // plaque grows, traffic slows, the clot pops — instead of static frames.
+    // Plain matchMedia + IntersectionObserver (see heart-flow-scrolly note).
+    let mobileCleanup: (() => void) | undefined;
+    if (window.matchMedia("(max-width: 899px) and (prefers-reduced-motion: no-preference)").matches) {
+      const root = rootRef.current;
+      if (root) {
+        root.classList.add("mob-anim");
+        const figs = gsap.utils.toArray<HTMLElement>(".ar-step-fig", root);
+
+        figs.forEach((fig) => {
+          const q = gsap.utils.selector(fig);
+          gsap.set(q(".ar-plaque"), { scaleY: 0 });
+          gsap.set(q(".ar-clot"), { opacity: 0 });
+          gsap.set(q(".ar-downstream"), { opacity: 0 });
+          gsap.set(q(".ar-caption"), { opacity: 0 });
+        });
+
+        const loops = new Map<Element, gsap.core.Tween>();
+        const cellLoop = (fig: HTMLElement) => {
+          const q = gsap.utils.selector(fig);
+          const lane = q(".ar-lane")[0] as unknown as SVGPathElement;
+          const t = gsap.to(q(".ar-cell"), {
+            motionPath: { path: lane, align: lane, alignOrigin: [0.5, 0.5] },
+            duration: 4,
+            ease: "none",
+            stagger: { each: 0.5, repeat: -1 },
+          });
+          t.totalTime(8);
+          return t;
+        };
+
+        const playBeat = (fig: HTMLElement, beat: number) => {
+          const q = gsap.utils.selector(fig);
+          const cells = loops.get(fig) ?? loops.set(fig, cellLoop(fig)).get(fig)!;
+          const grow = beat === 1 ? 0.55 : 0.78;
+          const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
+          tl.to(q(".ar-plaque"), { scaleY: grow, duration: 1.2 }, 0)
+            .to(q(`.ar-caption-${beat}`), { opacity: 1, duration: 0.4 }, 0.6);
+          if (beat === 1) tl.to(cells, { timeScale: 0.55, duration: 1 }, 0.2);
+          else if (beat === 2) tl.to(cells, { timeScale: 0.3, duration: 0.8 }, 0);
+          else {
+            tl.to(q(".ar-clot"), { opacity: 1, duration: 0.25, ease: "power2.out" }, 0.6)
+              .to(cells, { timeScale: 0, duration: 0.15, ease: "power2.out" }, 0.6)
+              .to(q(".ar-downstream"), { opacity: 0.85, duration: 0.9 }, 0.7);
+          }
+          return tl;
+        };
+
+        const timelines = new Map<Element, gsap.core.Timeline>();
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const fig = entry.target as HTMLElement;
+              if (entry.isIntersecting) {
+                if (!timelines.has(fig)) timelines.set(fig, playBeat(fig, Number(fig.dataset.beat)));
+                loops.get(fig)?.play();
+              } else {
+                loops.get(fig)?.pause();
+              }
+            });
+          },
+          { threshold: 0.35 },
+        );
+        figs.forEach((fig) => io.observe(fig));
+
+        mobileCleanup = () => {
+          root.classList.remove("mob-anim");
+          io.disconnect();
+          timelines.forEach((tl) => tl.kill());
+          loops.forEach((t) => t.kill());
+        };
+      }
+    }
+
+    return () => {
+      ctx.revert();
+      mobileCleanup?.();
+    };
   }, []);
 
   return (

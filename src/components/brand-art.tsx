@@ -193,6 +193,52 @@ export function OpdArt() {
   );
 }
 
+export function AboutArt() {
+  // Ticks start tall and wild on the left, decaying toward the core — noise calming.
+  const ticks = Array.from({ length: 13 }, (_, i) => ({
+    x: 90 + i * 11,
+    h: 66 - i * 4,
+    dur: [3.1, 2.4, 3.6, 2.8, 3.9, 2.6, 3.3, 2.9, 3.7, 2.5, 3.4, 2.7, 3.2][i],
+    delay: (i % 5) * 0.14,
+  }));
+  return (
+    <svg viewBox="0 0 560 560" role="img" focusable="false" aria-label="Animated artwork: restless noise on the left calms as it nears the Rise pulse at the centre, then resolves into one clear, steady heartbeat on the right — trust, not noise.">
+      <circle className="hero-ring-dash" cx="280" cy="280" r="236" />
+
+      {/* Noise — restless, decaying toward the core */}
+      {ticks.map((t, i) => (
+        <rect
+          key={i}
+          className="ab-noise"
+          x={t.x}
+          y={280 - t.h / 2}
+          width="3.4"
+          height={t.h}
+          rx="1.7"
+          style={{ animationDuration: `${t.dur}s`, animationDelay: `${t.delay}s` }}
+        />
+      ))}
+      <line className="ab-wire" x1="236" y1="280" x2="300" y2="280" />
+
+      {/* The Rise pulse — noise in, signal out */}
+      <g className="ab-core">
+        <circle className="ab-flarecore" cx="280" cy="280" r="30" />
+        <circle className="ab-core-ring" cx="280" cy="280" r="41" />
+        <circle className="ab-core-dot" cx="280" cy="280" r="20" />
+      </g>
+
+      {/* One clear heartbeat */}
+      <path className="ab-beat" d="M300 280 h40 l11 -18 13 18 h20 l15 -66 19 104 13 -50 h56" />
+      <circle className="ab-flare" cx="404" cy="248" r="15" />
+      <circle className="ab-beat-dot" cx="0" cy="0" r="5.5" />
+
+      {/* Labels */}
+      <text className="ab-tag ab-tag-mute" x="158" y="392" textAnchor="middle">Noise</text>
+      <text className="ab-tag ab-tag-hot" x="420" y="392" textAnchor="middle">One clear signal</text>
+    </svg>
+  );
+}
+
 const quadrants = [
   { x: 368, y: 176, label: "EECP therapy" },
   { x: 192, y: 176, label: "Diagnostics" },

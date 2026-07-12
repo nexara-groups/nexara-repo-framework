@@ -103,7 +103,7 @@ export function EecpScrolly() {
       <div className="container scrolly-heading">
         <span className="eyebrow eyebrow-light">How it works</span>
         <h2>One heartbeat,<br /><em>frame by frame.</em></h2>
-        <p>Scroll slowly — this is what happens inside every one of the 3,600 heartbeats in a session.</p>
+        <p>Scroll slowly — this is what happens inside a single heartbeat, and it repeats around 3,600 times over an hour-long session.</p>
       </div>
       <div className="scrolly-stage">
         <div className="scrolly-grid">

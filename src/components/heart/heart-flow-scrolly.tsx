@@ -125,7 +125,103 @@ export function HeartFlowScrolly() {
         };
       });
     }, rootRef);
-    return () => ctx.revert();
+
+    // Phone: no pin/scrub (scroll-hijack reads badly on a small screen).
+    // Each per-step figure plays its own beat once it scrolls into view —
+    // same story, told frame by frame, fully in motion. Plain matchMedia +
+    // IntersectionObserver (mirrors VitalsDials; gsap.matchMedia's desktop/
+    // mobile split fired unreliably here). gsap still drives the tweens.
+    let mobileCleanup: (() => void) | undefined;
+    if (window.matchMedia("(max-width: 899px) and (prefers-reduced-motion: no-preference)").matches) {
+      const root = rootRef.current;
+      if (root) {
+        root.classList.add("mob-anim");
+        const figs = gsap.utils.toArray<HTMLElement>(".hc-step-fig", root);
+
+        // Baseline: wipe every figure back to a blank heart so the beat can
+        // paint in on entry (inline styles override the static-frame CSS).
+        figs.forEach((fig) => {
+          const q = gsap.utils.selector(fig);
+          gsap.set(q(".hf-particle"), { opacity: 0 });
+          gsap.set(q(".hf-label"), { opacity: 0 });
+          gsap.set(q(".hf-venous"), { fillOpacity: 0.2 });
+          gsap.set(q(".hf-arterial"), { fillOpacity: 0.17 });
+          gsap.set(q(".hf-lung"), { fillOpacity: 0.55 });
+          gsap.set(q(".hf-lv-wall"), { strokeWidth: 1.4 });
+        });
+
+        const rideIn = (q: ReturnType<typeof gsap.utils.selector>, laneName: string) => {
+          const path = q(`.${laneName}`)[0] as unknown as SVGPathElement;
+          return { motionPath: { path, align: path, alignOrigin: [0.5, 0.5] as [number, number] }, duration: 2, stagger: 0.2, ease: "none" as const };
+        };
+
+        const playBeat = (fig: HTMLElement, beat: number) => {
+          const q = gsap.utils.selector(fig);
+          const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
+          if (beat === 1) {
+            const ride = rideIn(q, "lane-in");
+            tl.to(q(".hf-particle-in"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0)
+              .to(q(".hf-particle-in"), { ...ride, repeat: -1 }, 0)
+              .to(q(".hf-ra"), { fillOpacity: 0.45, duration: 0.5 }, 0.3)
+              .to(q(".hf-rv"), { fillOpacity: 0.45, duration: 0.5 }, 0.7)
+              .to(q(".hf-label-vc, .hf-label-ra, .hf-label-rv"), { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.3);
+          } else if (beat === 2) {
+            const ride = rideIn(q, "lane-lungs");
+            tl.to(q(".hf-lung"), { fillOpacity: 0.95, duration: 0.6 }, 0)
+              .to(q(".hf-particle-lungs"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0.1)
+              .to(q(".hf-particle-lungs"), { ...ride, repeat: -1 }, 0.1)
+              .to(q(".hf-particle-lungs"), { fill: "#dc5f72", duration: 0.5, stagger: 0.16 }, 0.9)
+              .to(q(".hf-label-pa"), { opacity: 1, duration: 0.4 }, 0.4);
+          } else if (beat === 3) {
+            const ride = rideIn(q, "lane-return");
+            tl.to(q(".hf-la"), { fillOpacity: 0.45, duration: 0.5 }, 0.3)
+              .to(q(".hf-lv"), { fillOpacity: 0.45, duration: 0.5 }, 0.7)
+              .to(q(".hf-lv-wall"), { strokeWidth: 3, duration: 0.6 }, 0.7)
+              .to(q(".hf-particle-return"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0)
+              .to(q(".hf-particle-return"), { ...ride, repeat: -1 }, 0)
+              .to(q(".hf-label-pv, .hf-label-la, .hf-label-lv"), { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.3);
+          } else {
+            const ride = rideIn(q, "lane-out");
+            tl.to(q(".hf-lv"), { scale: 0.96, transformOrigin: "center center", duration: 0.35, ease: "power2.out" }, 0)
+              .to(q(".hf-lv"), { scale: 1, duration: 0.6 }, 0.5)
+              .to(q(".hf-valve path"), { stroke: "#dc5f72", duration: 0.18, stagger: 0.09 }, 0.1)
+              .to(q(".hf-valve path"), { stroke: "#10203d", duration: 0.4, stagger: 0.09 }, 0.7)
+              .to(q(".hf-particle-out"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0.2)
+              .to(q(".hf-particle-out"), { ...ride, repeat: -1 }, 0.2)
+              .to(q(".hf-label-aorta"), { opacity: 1, duration: 0.4 }, 0.5);
+          }
+          return tl;
+        };
+
+        const timelines = new Map<Element, gsap.core.Timeline>();
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const fig = entry.target as HTMLElement;
+              if (entry.isIntersecting) {
+                if (!timelines.has(fig)) timelines.set(fig, playBeat(fig, Number(fig.dataset.beat)));
+                else timelines.get(fig)?.play();
+              } else {
+                timelines.get(fig)?.pause();
+              }
+            });
+          },
+          { threshold: 0.35 },
+        );
+        figs.forEach((fig) => io.observe(fig));
+
+        mobileCleanup = () => {
+          root.classList.remove("mob-anim");
+          io.disconnect();
+          timelines.forEach((tl) => tl.kill());
+        };
+      }
+    }
+
+    return () => {
+      ctx.revert();
+      mobileCleanup?.();
+    };
   }, []);
 
   return (

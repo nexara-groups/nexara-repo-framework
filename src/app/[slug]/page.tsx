@@ -1,21 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AboutPage } from "@/components/about-page";
 import { AppointmentForm } from "@/components/appointment-form";
 import { HeroEcg, OpdArt } from "@/components/brand-art";
+import { CareServicesPage } from "@/components/care-services-page";
 import { DoctorsDirectory } from "@/components/doctors-directory";
 import { EECPBody } from "@/components/eecp-body";
 import { EecpHero } from "@/components/eecp-hero";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
-import { ServiceCard } from "@/components/service-card";
-import { contact, services, departments, doctors, labCategories, healthPackages, communityPrograms, testimonials, posts, pharmacyPoints, opdTimings } from "@/content/site-data";
+import { ResourcesPage } from "@/components/resources-page";
+import { contact, services, doctors, labCategories, healthPackages, communityPrograms, testimonials, pharmacyPoints, opdTimings } from "@/content/site-data";
 
 const slugs = ["about", "services", "eecp-therapy", "diagnostics", "pharmacy", "opd", "doctors", "health-packages", "health-camps", "testimonials", "resources", "gallery", "appointment", "contact"];
 
 const pageMeta: Record<string, { eyebrow: string; title: string; description: string; image?: string; alt?: string; accent?: "mint" | "coral" | "navy" }> = {
-  about: { eyebrow: "The Rise approach", title: "Care built on trust, not noise.", description: "Rise Medical Hub brings medical expertise, modern infrastructure, and a patient-first rhythm to the care journey.", image: "/images/opd-consultation.webp", alt: "Doctor listening to a patient in a consultation room", accent: "mint" },
-  services: { eyebrow: "Departments & specialties", title: "A clear place to begin.", description: "Four care pathways and eight specialties under one roof — each shaped around clarity, comfort, and continuity.", image: "/images/rise-medical-hero.webp", alt: "Doctor speaking with a patient and family member", accent: "navy" },
+  about: { eyebrow: "The Rise approach", title: "Care built on trust, not noise.", description: "Rise Medical Hub brings medical expertise, modern infrastructure, and a patient-first rhythm to the care journey.", accent: "mint" },
+  services: { eyebrow: "Care services at Rise", title: "Care that stays connected.", description: "Consultations, diagnostics, medicines, and restorative heart care brought together at Rise Medical Hub in Madhurawada, Visakhapatnam.", accent: "navy" },
   "eecp-therapy": { eyebrow: "Signature care", title: "EECP Therapy — a third option for your heart", description: "When medicines aren't enough and surgery isn't the answer: EECP is a non-surgical, FDA-cleared class of therapy that helps blood reach your heart, one quiet hour a day.", image: "/images/eecp-treatment.webp", alt: "Patient receiving EECP therapy while a clinician monitors the session", accent: "navy" },
   diagnostics: { eyebrow: "Diagnostic & laboratory services", title: "Clarity for the next decision.", description: "Cardiac diagnostics, pathology, and imaging — precise answers with a human pace, most reports the same day.", image: "/images/diagnostics.webp", alt: "Technician preparing a patient for a diagnostic scan", accent: "mint" },
   pharmacy: { eyebrow: "Pharmacy services", title: "Medication access, made easier.", description: "A reliable in-house pharmacy experience shaped around authenticity, guidance, and patient safety.", image: "/images/pharmacy.webp", alt: "Pharmacist speaking with a patient", accent: "coral" },
@@ -24,7 +26,7 @@ const pageMeta: Record<string, { eyebrow: string; title: string; description: st
   "health-packages": { eyebrow: "Preventive care", title: "Small checks. Meaningful peace of mind.", description: "Considered health packages that tell you what to check, when to check it, and what your numbers mean.", image: "/images/diagnostics.webp", alt: "Modern diagnostic environment", accent: "mint" },
   "health-camps": { eyebrow: "Community care", title: "Care that reaches further.", description: "Screening camps, workplace drives, and awareness programmes that bring preventive care closer to the community.", image: "/images/rise-medical-hero.webp", alt: "Doctor speaking with a patient and family member", accent: "coral" },
   testimonials: { eyebrow: "The experience we're building", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and a third option for the heart — told by the people who experienced it.", accent: "mint" },
-  resources: { eyebrow: "Health awareness blog", title: "Better questions lead to better care.", description: "Clear, medically sensible reading for the moments before, between, and after appointments.", image: "/images/eecp-treatment.webp", alt: "Patient receiving monitored EECP therapy", accent: "navy" },
+  resources: { eyebrow: "The decision library", title: "Read past the headline.", description: "Plain-language health guides with direct links to guidelines, clinical trials, regulatory records, and evidence reviews.", accent: "navy" },
   gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "A visual preview of the Rise environment — concept renders of the spaces we're building, ahead of opening photography.", image: "/images/pharmacy.webp", alt: "Pharmacist speaking with a patient", accent: "mint" },
   appointment: { eyebrow: "Book your visit", title: "Your next step starts here.", description: "Share a few details and our team will help confirm the right pathway and available time.", accent: "coral" },
   contact: { eyebrow: "We are here to help", title: "Find your way to Rise.", description: "Call, write, or visit us in Madhurawada. Our team is ready to help you take the next step.", accent: "mint" },
@@ -42,45 +44,28 @@ function StandardPage({ slug }: { slug: string }) {
   const page = pageMeta[slug];
   if (!page) return null;
   const body =
-    slug === "about" ? <AboutBody />
-    : slug === "services" ? <ServicesBody />
+    slug === "about" ? <AboutPage />
+    : slug === "services" ? <CareServicesPage />
     : slug === "doctors" ? <DoctorsBody />
     : slug === "health-packages" ? <PackagesBody />
     : slug === "health-camps" ? <CampsBody />
     : slug === "testimonials" ? <TestimonialsBody />
-    : slug === "resources" ? <ResourcesBody />
+    : slug === "resources" ? <ResourcesPage />
     : slug === "gallery" ? <GalleryBody />
     : slug === "appointment" ? <AppointmentBody />
     : slug === "contact" ? <ContactBody />
     : slug === "pharmacy" ? <PharmacyBody />
     : slug === "opd" ? <OpdBody />
     : <ServiceBody slug={slug} />;
-  return <main>{slug === "eecp-therapy" ? <EecpHero /> : slug === "doctors" ? null : <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} image={page.image} imageAlt={page.alt} accent={page.accent} />}{body}</main>;
+  return <main>{slug === "eecp-therapy" ? <EecpHero /> : slug === "doctors" || slug === "services" || slug === "resources" || slug === "about" ? null : <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} image={page.image} imageAlt={page.alt} accent={page.accent} />}{body}</main>;
 }
 
 function CtaStrip({ eyebrow, title, href, label }: { eyebrow: string; title: string; href: string; label: string }) {
   return <section className="section-pad section-ink"><div className="container cta-strip"><Reveal><span className="eyebrow eyebrow-light">{eyebrow}</span><h2>{title}</h2></Reveal><Reveal delay={100}>{href.startsWith("tel:") ? <a className="button button-coral" href={href}>{label} <b aria-hidden="true">↗</b></a> : <Link className="button button-coral" href={href}>{label} <b aria-hidden="true">↗</b></Link>}</Reveal></div></section>;
 }
 
-function AboutBody() {
-  return <>
-    <section className="section-pad"><div className="container editorial-grid"><Reveal><span className="eyebrow">Why Rise exists</span><h2>Healthcare is not only treatment.<br /><em>It is how people feel along the way.</em></h2></Reveal><Reveal className="editorial-copy" delay={120}><p>Rise Medical Hub was established with a vision to provide accessible, ethical, and high-quality healthcare to the community of Madhurawada and greater Visakhapatnam. We believe a good care experience begins with being heard and continues with being guided clearly.</p><p>Our mission is to deliver reliable, affordable, patient-centric support using advanced medical practices and technology, while keeping the human relationship at the centre. That is why our signature pathway is EECP — a therapy that asks for patience and precision rather than an operating theatre.</p></Reveal></div>
-    <div className="container stat-row"><Reveal><strong>04</strong><span>care pathways</span></Reveal><Reveal delay={90}><strong>08</strong><span>specialties</span></Reveal><Reveal delay={180}><strong>35</strong><span>sessions per EECP course</span></Reveal><Reveal delay={270}><strong>24h</strong><span>support line</span></Reveal></div></section>
-    <section className="section-pad section-mint"><div className="container value-grid"><Reveal><span className="eyebrow">Our promise</span><h2>Modern where it helps.<br /><em>Human where it matters.</em></h2></Reveal><div className="value-list"><Reveal delay={80}><span>01</span><div><h3>Accessible</h3><p>Clear pathways, straightforward communication, and care that feels easier to reach — in Telugu, English, and Hindi.</p></div></Reveal><Reveal delay={150}><span>02</span><div><h3>Ethical</h3><p>Respect for patient context, informed decisions, and responsible medical communication. No test without a reason.</p></div></Reveal><Reveal delay={220}><span>03</span><div><h3>Patient-centric</h3><p>Every interaction shaped around the person, not only the process — with time protected for questions.</p></div></Reveal><Reveal delay={290}><span>04</span><div><h3>Transparent</h3><p>Reports explained, options compared honestly, and next steps written down before you leave.</p></div></Reveal></div></div></section>
-    <section className="section-pad"><div className="container detail-points"><Reveal variant="mask"><span className="eyebrow">Under one roof</span><h2>Built so care<br /><em>doesn&rsquo;t scatter.</em></h2></Reveal><div className="point-list"><Reveal delay={80}><span>01</span><p>A dedicated EECP suite with ECG-guided therapy and rehab support.</p></Reveal><Reveal delay={150}><span>02</span><p>Same-day diagnostics — cardiac, pathology, and imaging — reviewed in-house.</p></Reveal><Reveal delay={220}><span>03</span><p>An in-house pharmacy so prescriptions are filled before you reach the door.</p></Reveal><Reveal delay={290}><span>04</span><p>Consultation rooms designed for conversations, not queues.</p></Reveal></div></div></section>
-    <CtaStrip eyebrow="Meet the team" title="The people behind the care." href="/doctors" label="See our doctors" />
-  </>;
-}
-
-function ServicesBody() {
-  return <>
-    <section className="section-pad"><div className="container section-heading"><Reveal variant="mask"><span className="eyebrow">Four ways to begin</span><h2>Choose your next<br /><em>right step.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>Every service is a doorway into a more considered care experience. Start with the pathway that feels closest to your need.</p></Reveal></div><div className="container service-grid services-grid-page">{services.map((service, index) => <ServiceCard key={service.slug} service={service} index={index} />)}</div></section>
-    <section className="section-pad section-mint"><div className="container section-heading"><Reveal variant="mask"><span className="eyebrow">Departments & specialties</span><h2>Eight specialties.<br /><em>One considered standard.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>Whichever door you enter through, the same promise applies: unhurried consultations, honest options, and a clear plan.</p></Reveal></div><div className="container dept-grid">{departments.map((dept, index) => <Reveal key={dept.name} className="dept-card" delay={index * 60}><span className="dept-num">{String(index + 1).padStart(2, "0")}</span>{dept.note ? <span className="dept-note">{dept.note}</span> : null}<h3>{dept.name}</h3><p>{dept.short}</p>{dept.name === "Cardiology & EECP" ? <Link className="text-link" href="/heart-care">Read the heart guide <b aria-hidden="true">↗</b></Link> : null}</Reveal>)}</div></section>
-    <CtaStrip eyebrow="Need help choosing?" title="Talk to our care team." href={contact.phoneHref} label={`Call ${contact.phone}`} />
-  </>;
-}
-
 function DoctorsBody() {
+  const deptCount = new Set(doctors.map((doc) => doc.department)).size;
   return <>
     <section className="dr-hero">
       <HeroEcg />
@@ -88,14 +73,29 @@ function DoctorsBody() {
         <Reveal className="dr-hero-copy">
           <span className="eyebrow eyebrow-light">The people behind the care</span>
           <h1>Doctors who<br /><em>make time.</em></h1>
-          <p>Six specialists, eight departments, one habit in common: they explain before they act. Consultations at Rise are scheduled so your questions fit inside them.</p>
-          <div className="eecp-hero-chips"><span>{doctors.length} specialists</span><span>Telugu · English · Hindi</span><span>OPD morning & evening</span></div>
+          <p>From cardiothoracic surgery to newborn care — {doctors.length} specialists with one habit in common: they explain before they act. Consultations at Rise are scheduled so your questions fit inside them.</p>
+          <div className="dr-hero-stats">
+            <span><strong>{doctors.length}</strong><small>specialists</small></span>
+            <span><strong>{deptCount}</strong><small>departments</small></span>
+            <span><strong>MS · MCh · DNB</strong><small>board-trained faculty</small></span>
+          </div>
           <div className="hero-actions"><Link className="button button-coral" href="/appointment">Book an appointment <b aria-hidden="true">↗</b></Link><a className="button button-ghost-light" href={contact.phoneHref}>Call {contact.phone}</a></div>
           <div className="breadcrumbs"><Link href="/">Home</Link><span>/</span><span>Our doctors</span></div>
         </Reveal>
         <Reveal className="dr-hero-art" delay={140}><OpdArt /></Reveal>
       </div>
     </section>
+    <div className="hm-marquee dr-marquee" aria-hidden="true">
+      <div className="hm-marquee-track">
+        {(["a", "b"] as const).map((key) => (
+          <div className="hm-marquee-half" key={key}>
+            {Array.from(new Set(doctors.map((doc) => doc.department))).map((dept) => (
+              <span className="hm-marquee-item" key={dept}>{dept}<i className="hm-marquee-dot" /></span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
     <DoctorsDirectory />
     <CtaStrip eyebrow="Ready when you are" title="One conversation starts it." href="/appointment" label="Request an appointment" />
   </>;
@@ -131,18 +131,6 @@ function TestimonialsBody() {
     <section className="section-pad"><div className="container tst-grid">{testimonials.map((t, index) => <Reveal key={t.name} className="tst-card" delay={index * 70}><span className="tst-mark" aria-hidden="true">&ldquo;</span><blockquote>{t.quote}</blockquote><footer><strong>{t.name}</strong><small>{t.context}</small></footer></Reveal>)}</div>
     <div className="container"><p className="note-strip">Illustrative patient stories, shown while we collect consented testimonials from our first patients. Individual outcomes vary — every treatment decision belongs with your doctor.</p></div></section>
     <CtaStrip eyebrow="Write your own" title="Start with one conversation." href="/appointment" label="Book an appointment" />
-  </>;
-}
-
-function ResourcesBody() {
-  const [featured, ...rest] = posts;
-  if (!featured) return null;
-  return <>
-    <section className="section-pad"><div className="container">
-      <Reveal className="blog-featured"><Link href={`/resources/${featured.slug}`}><span className="blog-tag">{featured.tag}</span><h2>{featured.title}</h2><p>{featured.excerpt}</p><span className="blog-meta">{featured.readMinutes} min read · {new Date(featured.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span><span className="text-link">Read the article <b aria-hidden="true">↗</b></span></Link></Reveal>
-      <div className="blog-grid">{rest.map((post, index) => <Reveal key={post.slug} className="blog-card" delay={index * 70}><Link href={`/resources/${post.slug}`}><span className="blog-tag">{post.tag}</span><h3>{post.title}</h3><p>{post.excerpt}</p><span className="blog-meta">{post.readMinutes} min read</span></Link></Reveal>)}</div>
-    </div></section>
-    <CtaStrip eyebrow="A question the blog can't answer?" title="Ask a doctor instead." href="/appointment" label="Book a consultation" />
   </>;
 }
 

@@ -32,12 +32,10 @@ export function ProtectHabits() {
             <div className="value-list" key={columnIndex}>
               {column.map((habit, index) => (
                 <Reveal key={habit.title} delay={60 * index}>
+                  <span>{`0${columnIndex * 3 + index + 1}`}</span>
                   <div>
-                    <span>{`0${columnIndex * 3 + index + 1}`}</span>
-                    <div>
-                      <h3>{habit.title}</h3>
-                      <p>{habit.copy}</p>
-                    </div>
+                    <h3>{habit.title}</h3>
+                    <p>{habit.copy}</p>
                   </div>
                 </Reveal>
               ))}

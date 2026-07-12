@@ -20,23 +20,68 @@ export function HomeHero() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // The beat word hides in its mask until the spike throws it up —
+        // set immediately so it never flashes during the flat-line phase.
+        gsap.set(".hm-line-beat .hm-line-inner", { yPercent: 115 });
         const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
         intro
           .from(".hm-hero .eyebrow", { autoAlpha: 0, y: 20, duration: 0.7 }, 0.1)
-          .from(".hm-line-inner", { yPercent: 115, duration: 1.15, stagger: 0.15, ease: "power4.out" }, 0.2)
-          .from(".hm-hero-foot > *", { autoAlpha: 0, y: 30, duration: 0.9, stagger: 0.12 }, 0.7)
-          .from(".hm-stats", { autoAlpha: 0, y: 24, duration: 0.8 }, 1.0);
+          .from(".hm-line-calm .hm-line-inner", { yPercent: 115, duration: 1.15, ease: "power4.out" }, 0.2)
+          .from(".hm-hero-foot > *", { autoAlpha: 0, y: 30, duration: 0.9, stagger: 0.12 }, 2.2)
+          .from(".hm-stats", { autoAlpha: 0, y: 24, duration: 0.8 }, 2.5);
 
         // Failsafe: if the ticker stalls (background tab, throttled device),
         // snap the timeline to completion so content is never stuck invisible.
-        const failsafe = window.setTimeout(() => intro.progress(1), 4000);
+        const failsafe = window.setTimeout(() => intro.progress(1), 5000);
 
-        // The ECG line draws itself across the page, then the dot takes over
+        // The trace tells the brand story in three phases: it draws FLAT and
+        // unhurried; strikes the R-spike in one fast punch — and that punch
+        // throws the word "considered." up out of its mask; then settles out.
+        // Fractions are path-length positions of the spike (measured, not tuned).
         const line = ref.current?.querySelector<SVGGeometryElement>(".hm-ecg-line");
         if (line) {
           const len = line.getTotalLength();
+          const FLAT_END = 0.417, SPIKE_END = 0.574;
           gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
-          intro.to(line, { strokeDashoffset: 0, duration: 1.7, ease: "power2.inOut" }, 0.5);
+          intro
+            .to(line, { strokeDashoffset: len * (1 - FLAT_END), duration: 1.3, ease: "power1.inOut" }, 0.5)
+            .to(line, { strokeDashoffset: len * (1 - SPIKE_END), duration: 0.26, ease: "power4.in" }, ">0.12")
+            .to(".hm-line-beat .hm-line-inner", { yPercent: 0, duration: 0.85, ease: "power4.out" }, "<0.05")
+            .fromTo(".hm-hero h1 em", { textShadow: "0 0 42px rgba(220,95,114,.85)" }, { textShadow: "0 0 0px rgba(220,95,114,0)", duration: 1.1, ease: "power2.out" }, "<0.15")
+            .to(line, { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, ">-0.1");
+        }
+
+        // Engagement: an echo-dot rides the trace under the cursor. Cross the
+        // spike and it flares — visitors can literally play the heartbeat.
+        const echo = ref.current?.querySelector<SVGCircleElement>(".hm-ecg-echo");
+        const hero = ref.current;
+        let removeEcho: (() => void) | undefined;
+        if (line && echo && hero && window.matchMedia("(pointer: fine)").matches) {
+          const len = line.getTotalLength();
+          const pos = { p: 0.5 };
+          let lastP = pos.p;
+          const place = () => {
+            const pt = line.getPointAtLength(pos.p * len);
+            gsap.set(echo, { attr: { cx: pt.x, cy: pt.y } });
+            const spike = pos.p > 0.42 && pos.p < 0.58;
+            if (spike !== (lastP > 0.42 && lastP < 0.58) && spike) {
+              gsap.fromTo(echo, { scale: 1 }, { scale: 2.4, duration: 0.16, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "center" });
+            }
+            lastP = pos.p;
+          };
+          const glide = gsap.quickTo(pos, "p", { duration: 0.45, ease: "power3.out", onUpdate: place });
+          const onMove = (e: PointerEvent) => {
+            const rect = hero.getBoundingClientRect();
+            gsap.to(echo, { autoAlpha: 1, duration: 0.3 });
+            glide(Math.min(0.99, Math.max(0.01, (e.clientX - rect.left) / rect.width)));
+          };
+          const onLeave = () => gsap.to(echo, { autoAlpha: 0, duration: 0.5 });
+          hero.addEventListener("pointermove", onMove);
+          hero.addEventListener("pointerleave", onLeave);
+          removeEcho = () => {
+            hero.removeEventListener("pointermove", onMove);
+            hero.removeEventListener("pointerleave", onLeave);
+          };
         }
 
         // Stat counters tick up as the strip arrives
@@ -62,7 +107,10 @@ export function HomeHero() {
         gsap.to(".hm-hero-head", { y: -110, autoAlpha: 0.15, ease: "none", scrollTrigger: st });
         gsap.to(".hm-ecg", { y: -40, ease: "none", scrollTrigger: st });
 
-        return () => window.clearTimeout(failsafe);
+        return () => {
+          window.clearTimeout(failsafe);
+          removeEcho?.();
+        };
       });
     }, ref);
     return () => ctx.revert();
@@ -73,14 +121,15 @@ export function HomeHero() {
       <div className="container hm-hero-head">
         <span className="eyebrow eyebrow-light">Rise Medical Hub · Madhurawada, Visakhapatnam</span>
         <h1>
-          <span className="hm-line"><span className="hm-line-inner">Your health,</span></span>
-          <span className="hm-line"><span className="hm-line-inner"><em>considered.</em></span></span>
+          <span className="hm-line hm-line-calm"><span className="hm-line-inner">Your health,</span></span>
+          <span className="hm-line hm-line-beat"><span className="hm-line-inner"><em>considered.</em></span></span>
         </h1>
       </div>
 
       <svg className="hm-ecg" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path className="hm-ecg-line" d="M0 120 H600 l16 -20 18 20 h42 l18 -72 26 124 18 -58 h52 q16 -22 32 0 H1440" />
         <circle className="hm-ecg-dot" r="5" />
+        <circle className="hm-ecg-echo" r="4" />
       </svg>
 
       <div className="container hm-hero-foot">

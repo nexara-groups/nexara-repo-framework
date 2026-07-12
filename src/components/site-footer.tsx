@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { HeroEcg } from "@/components/brand-art";
 import { contact, services } from "@/content/site-data";
@@ -17,7 +18,7 @@ export function SiteFooter() {
       </div>
       <div className="container footer-top">
         <div>
-          <div className="brand brand-footer"><span className="brand-mark" aria-hidden="true"><span /></span><span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span></div>
+          <Link className="brand brand-footer" href="/"><Image className="brand-logo-image brand-logo-footer" src="/rise-medical-hub-logo.png" alt="" width={112} height={112} /><span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span></Link>
           <p className="footer-intro">A more considered way to find care, ask questions, and take the next step toward better health.</p>
         </div>
         <div className="footer-links">

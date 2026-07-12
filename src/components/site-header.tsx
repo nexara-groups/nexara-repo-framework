@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { contact } from "@/content/site-data";
 import { MobileMenu } from "@/components/mobile-menu";
@@ -20,7 +21,7 @@ export function SiteHeader() {
       <header className="site-header">
         <div className="container nav-inner">
           <Link className="brand" href="/">
-            <span className="brand-mark" aria-hidden="true"><span /></span>
+            <Image className="brand-logo-image" src="/rise-medical-hub-logo.png" alt="" width={64} height={64} priority />
             <span className="brand-copy"><strong>RISE</strong><small>MEDICAL HUB</small></span>
           </Link>
           <nav className="desktop-nav" aria-label="Primary navigation">
