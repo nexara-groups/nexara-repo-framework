@@ -30,23 +30,17 @@ export function HeartFlowScrolly() {
         const lane = (name: string) => q(`.${name}`)[0] as unknown as SVGPathElement;
         const ride = (laneName: string) => ({
           motionPath: { path: lane(laneName), align: lane(laneName), alignOrigin: [0.5, 0.5] as [number, number] },
-          duration: 1.6,
+          duration: 1.8,
           stagger: 0.18,
           ease: "none" as const,
         });
 
         gsap.set(q(".hf-label"), { opacity: 0 });
         gsap.set(q(".hf-particle"), { opacity: 0 });
+        gsap.set(q(".hf-lung-exchange"), { strokeOpacity: 0.24 });
         gsap.set(".s-step", { autoAlpha: 0, y: 34 });
         gsap.set(".s-step-0", { autoAlpha: 1, y: 0 });
         gsap.set(".s-bar", { scaleX: 0, transformOrigin: "left center" });
-
-        // Post-scrolly idle loop: venous and arterial traffic keeps circulating.
-        const loop = gsap.timeline({ paused: true, repeat: -1 });
-        loop
-          .set(q(".hf-particle-in, .hf-particle-return"), { opacity: 1 })
-          .fromTo(q(".hf-particle-in"), { opacity: 1 }, { ...ride("lane-in"), duration: 3.4 }, 0)
-          .fromTo(q(".hf-particle-return"), { opacity: 1 }, { ...ride("lane-return"), duration: 3.4 }, 0);
 
         const tl = gsap.timeline({
           defaults: { ease: "power1.inOut" },
@@ -57,8 +51,6 @@ export function HeartFlowScrolly() {
             pin: true,
             scrub: 0.7,
             anticipatePin: 1,
-            onLeave: () => loop.play(0),
-            onEnterBack: () => loop.pause(0),
           },
         });
 
@@ -66,8 +58,9 @@ export function HeartFlowScrolly() {
         tl.addLabel("in")
           .to(q(".hf-particle-in"), { opacity: 1, duration: 0.2, stagger: 0.15 }, "in")
           .to(q(".hf-particle-in"), ride("lane-in"), "in")
-          .to(q(".hf-ra"), { fillOpacity: 0.45, duration: 0.5 }, "in+=0.4")
-          .to(q(".hf-rv"), { fillOpacity: 0.45, duration: 0.5 }, "in+=0.8")
+          .to(q(".hf-ra"), { fillOpacity: 1, duration: 0.5 }, "in+=0.4")
+          .to(q(".hf-rv"), { fillOpacity: 1, duration: 0.5 }, "in+=0.8")
+          .to(q(".hf-valve-tricuspid path"), { stroke: "#8eb0ed", duration: 0.35 }, "in+=0.62")
           .to(q(".hf-label-vc, .hf-label-ra, .hf-label-rv"), { opacity: 1, duration: 0.4, stagger: 0.15 }, "in+=0.4")
           .to(q(".hf-particle-in"), { opacity: 0, duration: 0.25 }, "in+=1.55")
           .to(".s-bar", { scaleX: 0.25, duration: 1.8 }, "in");
@@ -76,11 +69,13 @@ export function HeartFlowScrolly() {
           .to(".s-step-1", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
           .addLabel("lungs");
 
-        // 02 — out to the lungs; mid-path the particles pick up oxygen (blue → coral)
+        // 02 — RV → pulmonary valve → pulmonary arteries → lungs. Blood remains blue
+        // on this outward path; oxygenation is shown only at the lung exchange bed.
         tl.to(q(".hf-particle-lungs"), { opacity: 1, duration: 0.2, stagger: 0.15 }, "lungs")
           .to(q(".hf-particle-lungs"), ride("lane-lungs"), "lungs")
-          .to(q(".hf-particle-lungs"), { fill: "#dc5f72", duration: 0.35, stagger: 0.18 }, "lungs+=0.8")
-          .to(q(".hf-lung"), { fillOpacity: 0.95, duration: 0.6 }, "lungs+=0.7")
+          .to(q(".hf-lung"), { fillOpacity: 0.58, duration: 0.6 }, "lungs+=0.65")
+          .to(q(".hf-lung-exchange"), { strokeOpacity: 0.82, stroke: "#68a9a9", duration: 0.6 }, "lungs+=0.7")
+          .to(q(".hf-valve-pulmonary path"), { stroke: "#8eb0ed", duration: 0.35 }, "lungs+=0.35")
           .to(q(".hf-label-pa"), { opacity: 1, duration: 0.4 }, "lungs+=0.4")
           .to(q(".hf-particle-lungs"), { opacity: 0, duration: 0.25 }, "lungs+=1.55")
           .to(".s-bar", { scaleX: 0.5, duration: 1.8 }, "lungs");
@@ -92,9 +87,11 @@ export function HeartFlowScrolly() {
         // 03 — renewed blood returns: lungs → LA → LV; the thick wall gets its moment
         tl.to(q(".hf-particle-return"), { opacity: 1, duration: 0.2, stagger: 0.15 }, "return")
           .to(q(".hf-particle-return"), ride("lane-return"), "return")
-          .to(q(".hf-la"), { fillOpacity: 0.45, duration: 0.5 }, "return+=0.4")
-          .to(q(".hf-lv"), { fillOpacity: 0.45, duration: 0.5 }, "return+=0.8")
-          .to(q(".hf-lv-wall"), { strokeWidth: 3, duration: 0.6 }, "return+=0.8")
+          .to(q(".hf-la"), { fillOpacity: 1, duration: 0.5 }, "return+=0.4")
+          .to(q(".hf-lv"), { fillOpacity: 1, duration: 0.5 }, "return+=0.8")
+          .to(q(".hf-lv-wall"), { strokeWidth: 3.4, duration: 0.6 }, "return+=0.8")
+          .to(q(".hf-lung-exchange"), { stroke: "#df6674", strokeOpacity: 0.68, duration: 0.5 }, "return+=0.2")
+          .to(q(".hf-valve-mitral path"), { stroke: "#ff9ba7", duration: 0.35 }, "return+=0.65")
           .to(q(".hf-label-pv, .hf-label-la, .hf-label-lv"), { opacity: 1, duration: 0.4, stagger: 0.15 }, "return+=0.4")
           .to(q(".hf-particle-return"), { opacity: 0, duration: 0.25 }, "return+=1.55")
           .to(".s-bar", { scaleX: 0.75, duration: 1.8 }, "return");
@@ -103,11 +100,13 @@ export function HeartFlowScrolly() {
           .to(".s-step-3", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
           .addLabel("out");
 
-        // 04 — the beat: LV contracts, valves flash in sequence, blood exits the aorta
-        tl.to(q(".hf-lv"), { scale: 0.96, transformOrigin: "center center", duration: 0.35, ease: "power2.out" }, "out")
-          .to(q(".hf-lv"), { scale: 1, duration: 0.6 }, "out+=0.5")
-          .to(q(".hf-valve path"), { stroke: "#dc5f72", duration: 0.18, stagger: 0.09 }, "out+=0.1")
-          .to(q(".hf-valve path"), { stroke: "#10203d", duration: 0.4, stagger: 0.09 }, "out+=0.7")
+        // 04 — ventricular systole: the muscular heart contracts, the aortic valve opens,
+        // and oxygen-rich blood leaves the LV through the aorta.
+        tl.to(q(".hf-lv"), { fillOpacity: 1, duration: 0.3 }, "out")
+          .to(q(".hf-heart-body"), { scale: 0.982, transformOrigin: "52% 55%", duration: 0.28, ease: "power2.in" }, "out")
+          .to(q(".hf-heart-body"), { scale: 1.008, duration: 0.3, ease: "power2.out" }, "out+=0.3")
+          .to(q(".hf-heart-body"), { scale: 1, duration: 0.35 }, "out+=0.62")
+          .to(q(".hf-valve-aortic path"), { stroke: "#ff9ba7", duration: 0.25 }, "out+=0.1")
           .to(q(".hf-particle-out"), { opacity: 1, duration: 0.2, stagger: 0.15 }, "out+=0.2")
           .to(q(".hf-particle-out"), ride("lane-out"), "out+=0.2")
           .to(q(".hf-particle-out"), { opacity: 0, duration: 0.35, stagger: 0.12 }, "out+=1.4")
@@ -121,7 +120,6 @@ export function HeartFlowScrolly() {
 
         return () => {
           root.classList.remove("is-scrolly");
-          loop.kill();
         };
       });
     }, rootRef);
@@ -144,10 +142,11 @@ export function HeartFlowScrolly() {
           const q = gsap.utils.selector(fig);
           gsap.set(q(".hf-particle"), { opacity: 0 });
           gsap.set(q(".hf-label"), { opacity: 0 });
-          gsap.set(q(".hf-venous"), { fillOpacity: 0.2 });
-          gsap.set(q(".hf-arterial"), { fillOpacity: 0.17 });
-          gsap.set(q(".hf-lung"), { fillOpacity: 0.55 });
-          gsap.set(q(".hf-lv-wall"), { strokeWidth: 1.4 });
+          gsap.set(q(".hf-venous"), { fillOpacity: 0.82 });
+          gsap.set(q(".hf-arterial"), { fillOpacity: 0.8 });
+          gsap.set(q(".hf-lung"), { fillOpacity: 0.27 });
+          gsap.set(q(".hf-lung-exchange"), { strokeOpacity: 0.24 });
+          gsap.set(q(".hf-lv-wall"), { strokeWidth: 2.4 });
         });
 
         const rideIn = (q: ReturnType<typeof gsap.utils.selector>, laneName: string) => {
@@ -162,30 +161,35 @@ export function HeartFlowScrolly() {
             const ride = rideIn(q, "lane-in");
             tl.to(q(".hf-particle-in"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0)
               .to(q(".hf-particle-in"), { ...ride, repeat: -1 }, 0)
-              .to(q(".hf-ra"), { fillOpacity: 0.45, duration: 0.5 }, 0.3)
-              .to(q(".hf-rv"), { fillOpacity: 0.45, duration: 0.5 }, 0.7)
+              .to(q(".hf-ra"), { fillOpacity: 1, duration: 0.5 }, 0.3)
+              .to(q(".hf-rv"), { fillOpacity: 1, duration: 0.5 }, 0.7)
+              .to(q(".hf-valve-tricuspid path"), { stroke: "#8eb0ed", duration: 0.35 }, 0.55)
               .to(q(".hf-label-vc, .hf-label-ra, .hf-label-rv"), { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.3);
           } else if (beat === 2) {
             const ride = rideIn(q, "lane-lungs");
-            tl.to(q(".hf-lung"), { fillOpacity: 0.95, duration: 0.6 }, 0)
+            tl.to(q(".hf-lung"), { fillOpacity: 0.58, duration: 0.6 }, 0)
+              .to(q(".hf-lung-exchange"), { strokeOpacity: 0.82, duration: 0.6 }, 0.2)
               .to(q(".hf-particle-lungs"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0.1)
               .to(q(".hf-particle-lungs"), { ...ride, repeat: -1 }, 0.1)
-              .to(q(".hf-particle-lungs"), { fill: "#dc5f72", duration: 0.5, stagger: 0.16 }, 0.9)
+              .to(q(".hf-valve-pulmonary path"), { stroke: "#8eb0ed", duration: 0.35 }, 0.35)
               .to(q(".hf-label-pa"), { opacity: 1, duration: 0.4 }, 0.4);
           } else if (beat === 3) {
             const ride = rideIn(q, "lane-return");
-            tl.to(q(".hf-la"), { fillOpacity: 0.45, duration: 0.5 }, 0.3)
-              .to(q(".hf-lv"), { fillOpacity: 0.45, duration: 0.5 }, 0.7)
-              .to(q(".hf-lv-wall"), { strokeWidth: 3, duration: 0.6 }, 0.7)
+            tl.to(q(".hf-la"), { fillOpacity: 1, duration: 0.5 }, 0.3)
+              .to(q(".hf-lv"), { fillOpacity: 1, duration: 0.5 }, 0.7)
+              .to(q(".hf-lv-wall"), { strokeWidth: 3.4, duration: 0.6 }, 0.7)
+              .to(q(".hf-lung-exchange"), { stroke: "#df6674", strokeOpacity: 0.68, duration: 0.5 }, 0.15)
               .to(q(".hf-particle-return"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0)
               .to(q(".hf-particle-return"), { ...ride, repeat: -1 }, 0)
+              .to(q(".hf-valve-mitral path"), { stroke: "#ff9ba7", duration: 0.35 }, 0.55)
               .to(q(".hf-label-pv, .hf-label-la, .hf-label-lv"), { opacity: 1, duration: 0.4, stagger: 0.12 }, 0.3);
           } else {
             const ride = rideIn(q, "lane-out");
-            tl.to(q(".hf-lv"), { scale: 0.96, transformOrigin: "center center", duration: 0.35, ease: "power2.out" }, 0)
-              .to(q(".hf-lv"), { scale: 1, duration: 0.6 }, 0.5)
-              .to(q(".hf-valve path"), { stroke: "#dc5f72", duration: 0.18, stagger: 0.09 }, 0.1)
-              .to(q(".hf-valve path"), { stroke: "#10203d", duration: 0.4, stagger: 0.09 }, 0.7)
+            tl.to(q(".hf-lv"), { fillOpacity: 1, duration: 0.3 }, 0)
+              .to(q(".hf-heart-body"), { scale: 0.982, transformOrigin: "52% 55%", duration: 0.28, ease: "power2.in" }, 0)
+              .to(q(".hf-heart-body"), { scale: 1.008, duration: 0.3, ease: "power2.out" }, 0.3)
+              .to(q(".hf-heart-body"), { scale: 1, duration: 0.35 }, 0.62)
+              .to(q(".hf-valve-aortic path"), { stroke: "#ff9ba7", duration: 0.25 }, 0.1)
               .to(q(".hf-particle-out"), { opacity: 1, duration: 0.2, stagger: 0.14 }, 0.2)
               .to(q(".hf-particle-out"), { ...ride, repeat: -1 }, 0.2)
               .to(q(".hf-label-aorta"), { opacity: 1, duration: 0.4 }, 0.5);
@@ -234,7 +238,7 @@ export function HeartFlowScrolly() {
       <div className="hc-flow-stage scrolly-stage">
         <div className="scrolly-grid">
           <div className="scrolly-art hc-flow-art">
-            <HeartFigure />
+            <HeartFigure uid="flow" />
           </div>
           <div className="scrolly-copy">
             <div className="s-bar-track"><span className="s-bar" /></div>
@@ -245,7 +249,7 @@ export function HeartFlowScrolly() {
                   <h3>{step.title}</h3>
                   <p>{step.copy}</p>
                   <div className="hc-step-fig" data-beat={index + 1} aria-hidden="true">
-                    <HeartFigure ids={false} />
+                    <HeartFigure ids={false} uid={`step${index + 1}`} />
                   </div>
                 </div>
               ))}

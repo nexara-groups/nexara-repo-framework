@@ -18,7 +18,7 @@ export default function HomePage() {
 
       <section className="hm-guide section-pad">
         <div className="container hm-guide-grid">
-          <Reveal className="hm-guide-art"><HeartFigure ids={false} /></Reveal>
+          <Reveal className="hm-guide-art"><HeartFigure ids={false} uid="home" /></Reveal>
           <Reveal delay={120}>
             <span className="eyebrow">New — the Rise heart guide</span>
             <h2>Your heart,<br /><em>fully explained.</em></h2>

@@ -3,9 +3,11 @@ export type Service = {
   number: string;
   name: string;
   short: string;
+  // Two-line page headline for the service intro (brand device: lead + italic accent).
+  // Distinct per service so no two pages share an H2. `short` stays the card subtitle.
+  heading?: { lead: string; accent: string };
   detail: string;
-  image: string;
-  alt: string;
+  art: "eecp" | "diagnostics" | "pharmacy" | "opd";
 };
 
 export const services: Service[] = [
@@ -16,38 +18,37 @@ export const services: Service[] = [
     short: "A considered, non-invasive pathway for heart health.",
     detail:
       "Enhanced External Counterpulsation is delivered as an outpatient therapy with clinical monitoring and a calm, step-by-step experience.",
-    image: "/images/eecp-treatment.webp",
-    alt: "Patient receiving EECP therapy while a clinician monitors the session",
+    art: "eecp",
   },
   {
     slug: "diagnostics",
     number: "02",
     name: "Diagnostic Services",
     short: "Clear answers, handled with precision.",
+    heading: { lead: "Clear answers,", accent: "same day." },
     detail:
       "Modern diagnostic support designed to help your care team move from questions to a confident next step.",
-    image: "/images/diagnostics.webp",
-    alt: "Technician preparing a patient for a diagnostic scan",
+    art: "diagnostics",
   },
   {
     slug: "pharmacy",
     number: "03",
     name: "Pharmacy Services",
     short: "Reliable medication access, close to care.",
+    heading: { lead: "Medicines you", accent: "can trust." },
     detail:
       "An in-house pharmacy experience centred on authenticity, guidance, and everyday ease.",
-    image: "/images/pharmacy.webp",
-    alt: "Pharmacist speaking with a patient at a modern pharmacy counter",
+    art: "pharmacy",
   },
   {
     slug: "opd",
     number: "04",
     name: "OPD Services",
     short: "Thoughtful consultations across specialties.",
+    heading: { lead: "Consultations with", accent: "room to talk." },
     detail:
       "Outpatient consultations that make space for questions, context, and a clear plan forward.",
-    image: "/images/opd-consultation.webp",
-    alt: "Doctor listening to a patient in a calm consultation room",
+    art: "opd",
   },
 ];
 

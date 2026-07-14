@@ -10,8 +10,8 @@ export const chapters = [
 ] as const;
 
 export const flowSteps = [
-  { title: "Blood returns, oxygen spent", copy: "Used blood from your body streams into the right atrium — the heart's receiving room — carrying carbon dioxide and very little oxygen." },
-  { title: "The right side sends it to the lungs", copy: "The right ventricle pushes that blood a short distance — to the lungs — where it drops carbon dioxide and picks up fresh oxygen." },
+  { title: "Blood returns, low on oxygen", copy: "Oxygen-poor blood from your body enters the right atrium — the heart's receiving room — then passes into the right ventricle." },
+  { title: "The right side sends it to the lungs", copy: "The right ventricle pushes that blood through the pulmonary artery to the lungs, where it releases carbon dioxide and takes up oxygen." },
   { title: "The left side receives it, renewed", copy: "Bright, oxygen-rich blood flows back into the left atrium and down into the left ventricle — the heart's strongest chamber." },
   { title: "One beat sends it everywhere", copy: "The left ventricle contracts and drives oxygen-rich blood through the aorta to every organ — brain, kidneys, muscles, and the heart itself. Four valves keep it all moving one way." },
 ];

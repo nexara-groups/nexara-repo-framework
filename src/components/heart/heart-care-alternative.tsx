@@ -74,9 +74,9 @@ export function HeartCareAlternative() {
             <div className="hc-alt-orbit orbit-inner" aria-hidden="true" />
             <div className="hc-alt-stage-axis axis-x" aria-hidden="true" />
             <div className="hc-alt-stage-axis axis-y" aria-hidden="true" />
-            <HeartFigure ids={false} lungs={false} />
-            <span className="hc-alt-callout callout-in">deoxygenated in</span>
-            <span className="hc-alt-callout callout-out">oxygenated out</span>
+            <HeartFigure ids={false} lungs={false} uid="alt-a" />
+            <span className="hc-alt-callout callout-in">oxygen-poor in</span>
+            <span className="hc-alt-callout callout-out">oxygen-rich out</span>
             <div className="hc-alt-stage-foot"><span>patient education / not a diagnosis</span><span>scroll to examine</span></div>
           </div>
         </div>
@@ -99,16 +99,16 @@ export function HeartCareAlternative() {
         <div className="hc-alt-flow-art">
           <div className="hc-alt-flow-label"><span>Chapter 01</span><strong>The loop</strong></div>
           <div className="hc-alt-flow-ring" aria-hidden="true"><i /><i /><i /></div>
-          <HeartFigure ids={false} />
-          <span className="hc-alt-flow-tag flow-tag-blue">used blood</span>
-          <span className="hc-alt-flow-tag flow-tag-coral">fresh oxygen</span>
+          <HeartFigure ids={false} uid="alt-b" />
+          <span className="hc-alt-flow-tag flow-tag-blue">oxygen-poor</span>
+          <span className="hc-alt-flow-tag flow-tag-coral">oxygen-rich</span>
         </div>
         <div className="hc-alt-flow-copy">
           <p className="hc-alt-kicker"><span>01</span> trace the loop</p>
           <h2>One beat.<br /><em>Four hand-offs.</em></h2>
           <p className="hc-alt-copy-intro">The heart is not a mystery box. It is a two-sided pump with one job: keep the exchange moving.</p>
           <ol className="hc-alt-flow-list">
-            <li><span>01</span><div><strong>Return</strong><p>Used blood arrives through the vena cava.</p></div></li>
+            <li><span>01</span><div><strong>Return</strong><p>Oxygen-poor blood arrives through the vena cava.</p></div></li>
             <li><span>02</span><div><strong>Refresh</strong><p>The right side sends it to the lungs for oxygen.</p></div></li>
             <li><span>03</span><div><strong>Receive</strong><p>The left side takes the renewed blood in.</p></div></li>
             <li><span>04</span><div><strong>Deliver</strong><p>The left ventricle sends it everywhere.</p></div></li>

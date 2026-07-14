@@ -1,20 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
+import { SiteArt, type SiteArtKind } from "@/components/site-art";
 
 export function PageHero({
   eyebrow,
   title,
   description,
-  image,
-  imageAlt,
+  art,
   accent = "mint",
 }: {
   eyebrow: string;
   title: string;
   description: string;
-  image?: string;
-  imageAlt?: string;
+  art?: SiteArtKind;
   accent?: "mint" | "coral" | "navy";
 }) {
   return (
@@ -26,7 +24,7 @@ export function PageHero({
           <p>{description}</p>
           <div className="breadcrumbs"><Link href="/">Home</Link><span>/</span><span>{title}</span></div>
         </Reveal>
-        {image ? <Reveal className="page-hero-media" delay={120}><Image src={image} alt={imageAlt ?? ""} fill sizes="(max-width: 800px) 100vw, 48vw" priority /></Reveal> : <span className="page-hero-orbit" aria-hidden="true" />}
+        {art ? <Reveal className="page-hero-media" delay={120}><SiteArt kind={art} label={eyebrow} /></Reveal> : <span className="page-hero-orbit" aria-hidden="true" />}
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HeartFigure } from "@/components/heart/heart-figure";
 
 const stats = [
   { value: 4, pad: 2, label: "care pathways" },
@@ -27,6 +28,7 @@ export function HomeHero() {
         intro
           .from(".hm-hero .eyebrow", { autoAlpha: 0, y: 20, duration: 0.7 }, 0.1)
           .from(".hm-line-calm .hm-line-inner", { yPercent: 115, duration: 1.15, ease: "power4.out" }, 0.2)
+          .from(".hm-hero-art", { autoAlpha: 0, scale: 0.9, transformOrigin: "center center", duration: 1.3, ease: "power2.out" }, 0.45)
           .from(".hm-hero-foot > *", { autoAlpha: 0, y: 30, duration: 0.9, stagger: 0.12 }, 2.2)
           .from(".hm-stats", { autoAlpha: 0, y: 24, duration: 0.8 }, 2.5);
 
@@ -119,11 +121,17 @@ export function HomeHero() {
   return (
     <section className="hm-hero" ref={ref}>
       <div className="container hm-hero-head">
-        <span className="eyebrow eyebrow-light">Rise Medical Hub · Madhurawada, Visakhapatnam</span>
-        <h1>
-          <span className="hm-line hm-line-calm"><span className="hm-line-inner">Your health,</span></span>
-          <span className="hm-line hm-line-beat"><span className="hm-line-inner"><em>considered.</em></span></span>
-        </h1>
+        <div className="hm-hero-headline">
+          <span className="eyebrow eyebrow-light">Rise Medical Hub · Madhurawada, Visakhapatnam</span>
+          <h1>
+            <span className="hm-line hm-line-calm"><span className="hm-line-inner">Your health,</span></span>
+            <span className="hm-line hm-line-beat"><span className="hm-line-inner"><em>considered.</em></span></span>
+          </h1>
+        </div>
+        <div className="hm-hero-art" aria-hidden="true">
+          <span className="hm-hero-orbit" />
+          <HeartFigure ids={false} lungs={false} uid="home" />
+        </div>
       </div>
 
       <svg className="hm-ecg" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AboutPage } from "@/components/about-page";
@@ -11,23 +10,24 @@ import { EecpHero } from "@/components/eecp-hero";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ResourcesPage } from "@/components/resources-page";
+import { SiteArt, type SiteArtKind } from "@/components/site-art";
 import { contact, services, doctors, labCategories, healthPackages, communityPrograms, testimonials, pharmacyPoints, opdTimings } from "@/content/site-data";
 
 const slugs = ["about", "services", "eecp-therapy", "diagnostics", "pharmacy", "opd", "doctors", "health-packages", "health-camps", "testimonials", "resources", "gallery", "appointment", "contact"];
 
-const pageMeta: Record<string, { eyebrow: string; title: string; description: string; image?: string; alt?: string; accent?: "mint" | "coral" | "navy" }> = {
+const pageMeta: Record<string, { eyebrow: string; title: string; description: string; art?: SiteArtKind; accent?: "mint" | "coral" | "navy" }> = {
   about: { eyebrow: "The Rise approach", title: "Care built on trust, not noise.", description: "Rise Medical Hub brings medical expertise, modern infrastructure, and a patient-first rhythm to the care journey.", accent: "mint" },
   services: { eyebrow: "Care services at Rise", title: "Care that stays connected.", description: "Consultations, diagnostics, medicines, and restorative heart care brought together at Rise Medical Hub in Madhurawada, Visakhapatnam.", accent: "navy" },
-  "eecp-therapy": { eyebrow: "Signature care", title: "EECP Therapy — a third option for your heart", description: "When medicines aren't enough and surgery isn't the answer: EECP is a non-surgical, FDA-cleared class of therapy that helps blood reach your heart, one quiet hour a day.", image: "/images/eecp-treatment.webp", alt: "Patient receiving EECP therapy while a clinician monitors the session", accent: "navy" },
-  diagnostics: { eyebrow: "Diagnostic & laboratory services", title: "Clarity for the next decision.", description: "Cardiac diagnostics, pathology, and imaging — precise answers with a human pace, most reports the same day.", image: "/images/diagnostics.webp", alt: "Technician preparing a patient for a diagnostic scan", accent: "mint" },
-  pharmacy: { eyebrow: "Pharmacy services", title: "Medication access, made easier.", description: "A reliable in-house pharmacy experience shaped around authenticity, guidance, and patient safety.", image: "/images/pharmacy.webp", alt: "Pharmacist speaking with a patient", accent: "coral" },
-  opd: { eyebrow: "Out-patient department", title: "Start with a conversation.", description: "Consultations across specialties that make room for questions, context, and a clear plan forward.", image: "/images/opd-consultation.webp", alt: "Doctor listening to a patient in a calm consultation room", accent: "mint" },
-  doctors: { eyebrow: "The people behind the care", title: "Meet the team you can talk to.", description: "Physicians and specialists who explain before they act — with time protected for your questions.", image: "/images/opd-consultation.webp", alt: "Doctor in a consultation room", accent: "coral" },
-  "health-packages": { eyebrow: "Preventive care", title: "Small checks. Meaningful peace of mind.", description: "Considered health packages that tell you what to check, when to check it, and what your numbers mean.", image: "/images/diagnostics.webp", alt: "Modern diagnostic environment", accent: "mint" },
-  "health-camps": { eyebrow: "Community care", title: "Care that reaches further.", description: "Screening camps, workplace drives, and awareness programmes that bring preventive care closer to the community.", image: "/images/rise-medical-hero.webp", alt: "Doctor speaking with a patient and family member", accent: "coral" },
+  "eecp-therapy": { eyebrow: "Signature care", title: "EECP Therapy — a third option for your heart", description: "When medicines aren't enough and surgery isn't the answer: EECP is a non-surgical, FDA-cleared class of therapy that helps blood reach your heart, one quiet hour a day.", art: "eecp", accent: "navy" },
+  diagnostics: { eyebrow: "Diagnostic & laboratory services", title: "Clarity for the next decision.", description: "Cardiac diagnostics, pathology, and imaging — precise answers with a human pace, most reports the same day.", art: "diagnostics", accent: "mint" },
+  pharmacy: { eyebrow: "Pharmacy services", title: "Medication access, made easier.", description: "A reliable in-house pharmacy experience shaped around authenticity, guidance, and patient safety.", art: "pharmacy", accent: "coral" },
+  opd: { eyebrow: "Out-patient department", title: "Start with a conversation.", description: "Consultations across specialties that make room for questions, context, and a clear plan forward.", art: "opd", accent: "mint" },
+  doctors: { eyebrow: "The people behind the care", title: "Meet the team you can talk to.", description: "Physicians and specialists who explain before they act — with time protected for your questions.", art: "opd", accent: "coral" },
+  "health-packages": { eyebrow: "Preventive care", title: "Small checks. Meaningful peace of mind.", description: "Considered health packages that tell you what to check, when to check it, and what your numbers mean.", art: "diagnostics", accent: "mint" },
+  "health-camps": { eyebrow: "Community care", title: "Care that reaches further.", description: "Screening camps, workplace drives, and awareness programmes that bring preventive care closer to the community.", art: "community", accent: "coral" },
   testimonials: { eyebrow: "The experience we're building", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and a third option for the heart — told by the people who experienced it.", accent: "mint" },
   resources: { eyebrow: "The decision library", title: "Read past the headline.", description: "Plain-language health guides with direct links to guidelines, clinical trials, regulatory records, and evidence reviews.", accent: "navy" },
-  gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "A visual preview of the Rise environment — concept renders of the spaces we're building, ahead of opening photography.", image: "/images/pharmacy.webp", alt: "Pharmacist speaking with a patient", accent: "mint" },
+  gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "An illustrated view of connected consultation, diagnostics, therapy, and pharmacy spaces at Rise.", art: "environment", accent: "mint" },
   appointment: { eyebrow: "Book your visit", title: "Your next step starts here.", description: "Share a few details and our team will help confirm the right pathway and available time.", accent: "coral" },
   contact: { eyebrow: "We are here to help", title: "Find your way to Rise.", description: "Call, write, or visit us in Madhurawada. Our team is ready to help you take the next step.", accent: "mint" },
 };
@@ -57,7 +57,7 @@ function StandardPage({ slug }: { slug: string }) {
     : slug === "pharmacy" ? <PharmacyBody />
     : slug === "opd" ? <OpdBody />
     : <ServiceBody slug={slug} />;
-  return <main>{slug === "eecp-therapy" ? <EecpHero /> : slug === "doctors" || slug === "services" || slug === "resources" || slug === "about" ? null : <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} image={page.image} imageAlt={page.alt} accent={page.accent} />}{body}</main>;
+  return <main>{slug === "eecp-therapy" ? <EecpHero /> : slug === "doctors" || slug === "services" || slug === "resources" || slug === "about" ? null : <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} art={page.art} accent={page.accent} />}{body}</main>;
 }
 
 function CtaStrip({ eyebrow, title, href, label }: { eyebrow: string; title: string; href: string; label: string }) {
@@ -138,12 +138,15 @@ function TestimonialsBody() {
 function ServiceIntro({ slug }: { slug: string }) {
   const service = services.find((item) => item.slug === slug);
   if (!service) return null;
-  return <section className="section-pad"><div className="container split-detail"><Reveal className="detail-copy"><span className="eyebrow">{service.name}</span><h2>{service.short}<br /><em>with clarity.</em></h2><p>{service.detail}</p><a className="button button-navy" href="/appointment">Request a visit <b aria-hidden="true">↗</b></a></Reveal><Reveal className="detail-image" delay={120}><Image src={service.image} alt={service.alt} fill sizes="(max-width: 800px) 100vw, 50vw" /></Reveal></div></section>;
+  const h = service.heading;
+  return <section className="section-pad"><div className="container split-detail"><Reveal className="detail-copy"><span className="eyebrow">{service.name}</span><h2>{h ? <>{h.lead}<br /><em>{h.accent}</em></> : service.short}</h2><p>{service.detail}</p><a className="button button-navy" href="/appointment">Request a visit <b aria-hidden="true">↗</b></a></Reveal><Reveal className="detail-image" delay={120}><SiteArt kind={service.art} label={service.name} /></Reveal></div></section>;
 }
 
-// Shared "what to expect" 3-point block, reused by the generic ServiceBody and OpdBody.
-function WhatToExpect() {
-  return <section className="section-pad section-mint"><div className="container detail-points"><Reveal variant="mask"><span className="eyebrow">What to expect</span><h2>A steady, clear<br /><em>experience.</em></h2></Reveal><div className="point-list"><Reveal delay={80}><span>01</span><p>Understand what the visit involves before you arrive.</p></Reveal><Reveal delay={150}><span>02</span><p>Ask questions in a calm, respectful environment.</p></Reveal><Reveal delay={220}><span>03</span><p>Leave with a plan your care team has explained clearly.</p></Reveal></div></div></section>;
+// "What to expect" 3-point block. Copy is passed in so each pathway reads as its own
+// experience — a diagnostics visit and an OPD consultation are different, and shouldn't
+// share one block of text.
+function WhatToExpect({ lead, accent, points }: { lead: string; accent: string; points: string[] }) {
+  return <section className="section-pad section-mint"><div className="container detail-points"><Reveal variant="mask"><span className="eyebrow">What to expect</span><h2>{lead}<br /><em>{accent}</em></h2></Reveal><div className="point-list">{points.map((point, i) => <Reveal key={i} delay={80 + i * 70}><span>{String(i + 1).padStart(2, "0")}</span><p>{point}</p></Reveal>)}</div></div></section>;
 }
 
 function ServiceBody({ slug }: { slug: string }) {
@@ -153,7 +156,15 @@ function ServiceBody({ slug }: { slug: string }) {
   return <>
     <ServiceIntro slug={slug} />
     {slug === "diagnostics" ? <section className="section-pad section-ink"><div className="container section-heading"><Reveal variant="mask"><span className="eyebrow eyebrow-light">The laboratory</span><h2>What we test,<br /><em>under one roof.</em></h2></Reveal><Reveal className="heading-aside" delay={100}><p>Most pathology reports are ready the same day, and every cardiac study is reviewed by a physician before it reaches you.</p></Reveal></div><div className="container lab-grid">{labCategories.map((cat, index) => <Reveal key={cat.name} className="lab-card" delay={index * 70}><span className="lab-note">{cat.note}</span><h3>{cat.name}</h3><ul>{cat.tests.map((test) => <li key={test}>{test}</li>)}</ul></Reveal>)}</div></section> : null}
-    <WhatToExpect />
+    <WhatToExpect
+      lead="A test that explains"
+      accent="itself."
+      points={[
+        "Know what the scan or blood work involves before you arrive.",
+        "A technician walks you through each step, at your pace.",
+        "Most reports land the same day — every cardiac study physician-reviewed.",
+      ]}
+    />
   </>;
 }
 
@@ -172,20 +183,28 @@ function OpdBody() {
       <Reveal delay={140}><table><thead><tr><th scope="col">Department</th><th scope="col">Days</th><th scope="col">Timings</th><th scope="col" aria-label="Booking link" /></tr></thead><tbody>{opdTimings.map((row) => <tr key={row.dept}><th scope="row">{row.dept}</th><td>{row.days}</td><td>{row.hours}</td><td><Link href="/appointment">Book ↗</Link></td></tr>)}</tbody></table></Reveal>
       <p className="note-strip">Timings are representative while we finalise the roster — please confirm when booking.</p>
     </div></section>
-    <WhatToExpect />
+    <WhatToExpect
+      lead="A visit that makes"
+      accent="room for you."
+      points={[
+        "Tell the front desk your symptom or concern — we route you from there.",
+        "Meet the right specialist, with time built in for your questions.",
+        "Leave with medicines, tests, or a follow-up plan already arranged.",
+      ]}
+    />
     <CtaStrip eyebrow="Skip the queue" title="Request a slot before you arrive." href="/appointment" label="Book an OPD visit" />
   </>;
 }
 
 function GalleryBody() {
-  const images = [
-    { src: "/images/rise-medical-hero.webp", alt: "Doctor speaking with a patient and family member", caption: "Consultations with room for family" },
-    { src: "/images/eecp-treatment.webp", alt: "Patient receiving EECP therapy", caption: "The EECP suite" },
-    { src: "/images/diagnostics.webp", alt: "Technician preparing for diagnostic care", caption: "Same-day diagnostics" },
-    { src: "/images/opd-consultation.webp", alt: "Doctor listening to a patient", caption: "Unhurried OPD rooms" },
-    { src: "/images/pharmacy.webp", alt: "Pharmacist speaking with a patient", caption: "The in-house pharmacy" },
+  const art = [
+    { kind: "community" as const, caption: "Consultations with room for family" },
+    { kind: "eecp" as const, caption: "The EECP suite" },
+    { kind: "diagnostics" as const, caption: "Same-day diagnostics" },
+    { kind: "opd" as const, caption: "Unhurried OPD rooms" },
+    { kind: "pharmacy" as const, caption: "The in-house pharmacy" },
   ];
-  return <section className="section-pad"><div className="container gallery-grid">{images.map((image, index) => <Reveal key={image.src} className={`gallery-item gallery-item-${index + 1}`} delay={index * 70}><Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 100vw, 50vw" /><span className="gallery-cap">{image.caption}</span></Reveal>)}</div><div className="container"><p className="note-strip">These are design visualisations. Real photography replaces them as each space opens.</p></div></section>;
+  return <section className="section-pad"><div className="container gallery-grid">{art.map((item, index) => <Reveal key={item.kind} className={`gallery-item gallery-item-${index + 1}`} delay={index * 70}><SiteArt kind={item.kind} label={item.caption} /><span className="gallery-cap">{item.caption}</span></Reveal>)}</div><div className="container"><p className="note-strip">Illustrated views of the care experience. Real, consented Rise photography can replace them as each space opens.</p></div></section>;
 }
 
 function AppointmentBody() {
