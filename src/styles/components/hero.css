@@ -1,0 +1,103 @@
+.hero {
+  --case-left: 29%;
+  --case-width: 53%;
+  --case-rim: 62%;
+  --plate-h: 6.1%;
+  --plate-step: 4.8%;
+  --plate-shift: 1.1%;
+
+  position: relative;
+  min-height: calc(100dvh - var(--header-h));
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(1000px 700px at 56% 42%, #fff 0%, rgba(255, 255, 255, 0.8) 32%, rgba(255, 255, 255, 0) 64%),
+    linear-gradient(155deg, var(--stage-wall) 0%, #f7f9fc 50%, var(--stage-floor) 100%);
+}
+
+.hero__word {
+  position: absolute;
+  z-index: var(--z-stage);
+  inset-block-start: 12%;
+  inset-inline-start: 0.5%;
+  margin: 0;
+  font-size: clamp(12rem, 29vw, 26rem);
+  font-weight: 700;
+  letter-spacing: -0.09em;
+  line-height: 0.78;
+  color: #33578f;
+  opacity: 0.5;              /* supports the product; never overpowers it */
+  user-select: none;
+}
+
+.hero__stage { position: absolute; z-index: var(--z-scene); inset: 0; }
+.hero__scene {
+  width: 124%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 78%;
+  margin-inline-start: -8%;
+}
+
+.atlas-plates {
+  position: absolute;
+  z-index: var(--z-plates);
+  inset: 0;
+  pointer-events: none;
+}
+
+.atlas-plate {
+  position: absolute;
+  inset-inline-start: calc(var(--case-left) + (var(--plate-shift) * var(--plate-index)) + 3%);
+  inset-block-start: calc(var(--case-rim) - 20% + (var(--plate-step) * var(--plate-index)));
+  z-index: calc(5 + var(--plate-index));
+  width: calc(var(--case-width) * 0.74);
+  height: var(--plate-h);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding-inline: var(--space-m);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-s);
+  transform: skewY(5deg);
+  background: linear-gradient(102deg, rgba(255,255,255,0.98) 0%, rgba(240,246,253,0.93) 46%, rgba(214,227,244,0.88) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(148, 174, 208, 0.6),
+    var(--shadow-raised);
+}
+
+.atlas-plate__label {
+  font-size: var(--step-1);
+  font-style: italic;
+  letter-spacing: -0.012em;
+  color: #12407e;
+  white-space: nowrap;
+}
+
+.layer-icon { width: 21px; height: 21px; flex: none; stroke: #174b93; stroke-width: 1.35; fill: none; }
+
+.hero__layout {
+  position: relative;
+  z-index: var(--z-copy);
+  display: flex;
+  align-items: flex-end;
+  min-height: calc(100dvh - var(--header-h));
+  padding-block-end: var(--space-2xl);
+}
+.hero__copy { max-width: 27rem; }
+.hero__kicker { color: var(--brand-blue); margin-block-end: var(--space-m); }
+.hero h1 { font-size: var(--step-7); }
+.hero__rule { display: block; width: 66px; height: 3px; margin-block: var(--space-m); background: var(--accent); border-radius: 2px; }
+
+.hero__hud { position: absolute; z-index: var(--z-copy); inset-block-end: var(--space-m); color: var(--text-muted); }
+.hero__hud--left { inset-inline-start: var(--shell-gutter); }
+.hero__hud--right { inset-inline-end: var(--shell-gutter); }
+
+@media (max-width: 900px) {
+  .hero { --case-left: 20%; --case-width: 74%; }
+  .hero__scene { object-position: 50% 82%; }
+  .atlas-plate__label { font-size: var(--step-0); }
+  .hero h1 { font-size: var(--step-6); }
+}
