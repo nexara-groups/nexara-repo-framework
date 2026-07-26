@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PageFrame } from "../../components/site-shell";
+import { PageFrame } from "../../components/layout/page-frame";
 import { StudentTrail } from "../../components/student-trail";
 import { ContactEnquiry, FrequentlyAskedQuestions } from "../../components/route-utility";
 import { pages, programmes } from "../../content/site";

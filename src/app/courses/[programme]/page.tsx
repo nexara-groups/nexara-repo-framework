@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PageFrame } from "../../../components/site-shell";
+import { PageFrame } from "../../../components/layout/page-frame";
 import { programmes } from "../../../content/site";
 
 export function generateStaticParams() { return programmes.map((programme) => ({ programme: programme.slug })); }

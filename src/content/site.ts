@@ -46,10 +46,9 @@ export const pages: Record<string, PageDefinition> = {
 };
 
 export const nav = [
-  { label: "Programmes", href: "/courses" },
-  { label: "Learning system", href: "/#learning-system" },
-  { label: "Student trail", href: "/student-journey" },
+  { label: "Courses", href: "/courses" },
+  { label: "Learning System", href: "/#learning-system" },
+  { label: "Student Journey", href: "/student-journey" },
   { label: "About", href: "/about-us" },
-  { label: "Articles", href: "/insights" },
-  { label: "For organisations", href: "/services" },
+  { label: "Contact", href: "/contact" },
 ];

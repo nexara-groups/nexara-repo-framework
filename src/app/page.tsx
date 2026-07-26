@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AtlasExperience } from "../components/atlas-experience";
-import { PageFrame } from "../components/site-shell";
+import { PageFrame } from "../components/layout/page-frame";
 import { programmes } from "../content/site";
 
 export default function HomePage() {
