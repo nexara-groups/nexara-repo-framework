@@ -49,7 +49,7 @@ const ORGANIZATION_SCHEMA = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="preload"
@@ -64,6 +64,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="font/woff2"
           href="/media/fonts/ibm-plex-mono-500.woff2"
           crossOrigin="anonymous"
+        />
+        <script
+          // Marks scripting as available so CSS can safely hide plates before
+          // their entrance animation runs. Absent (no-JS) or blocked, this
+          // never fires and the plates stay visible in their final position.
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add('js-motion')`,
+          }}
         />
         <script
           type="application/ld+json"

@@ -101,3 +101,13 @@
   .atlas-plate__label { font-size: var(--step-0); }
   .hero h1 { font-size: var(--step-6); }
 }
+
+/*
+ * Plates start hidden only when scripting is available (.js-motion, set by an
+ * inline script in <head>) AND motion is allowed. If scripting is blocked, the
+ * bundle fails, or the visitor prefers reduced motion, this never applies and
+ * the five contract-critical plate labels stay visible in their final position.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .atlas-plate { opacity: 0; }
+}

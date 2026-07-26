@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { AtlasLayer } from "../../content/atlas-layers";
 import { AtlasPlate } from "./atlas-plate";
+import { HeroAssembly } from "./hero-assembly";
 
 export function AtlasHero({ layers }: { readonly layers: readonly AtlasLayer[] }) {
   return (
@@ -26,6 +27,7 @@ export function AtlasHero({ layers }: { readonly layers: readonly AtlasLayer[] }
           <AtlasPlate key={layer.id} layer={layer} index={index} />
         ))}
       </ol>
+      <HeroAssembly />
 
       <div className="shell hero__layout">
         <div className="hero__copy">
