@@ -1,6 +1,6 @@
 import "server-only";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { createServices, type Services } from "../core";
+import { createPublicServices, createServices, type PublicServices, type Services } from "../core";
 import type { CloudflareBindings } from "../core/platform/providers/cloudflare-platform-provider";
 
 /**
@@ -12,6 +12,11 @@ import type { CloudflareBindings } from "../core/platform/providers/cloudflare-p
 export function getServices(): Services {
   const { env } = getCloudflareContext();
   return createServices(env as unknown as CloudflareBindings);
+}
+
+/** Public read composition that does not need an authenticated Worker runtime. */
+export function getPublicServices(): PublicServices {
+  return createPublicServices();
 }
 
 /** Extract a bearer token from an incoming request's Authorization header. */

@@ -10,6 +10,10 @@
  *    layer — they go through repositories.
  * 3. Tenant safety: every SQL statement in an infrastructure repository must
  *    filter by `tenant_id` (escape hatch: a `no-tenant` comment in the SQL).
+ * 4. App Router files remain HTTP/rendering boundaries; they cannot reach into
+ *    a Yojo module's application or infrastructure internals directly.
+ * 5. Module layers have one-way dependencies: application never imports its
+ *    own infrastructure, and presentation never imports infrastructure.
  *
  * Run: `node scripts/check-architecture.mjs`  (also wired into `npm run verify`).
  */
@@ -75,6 +79,25 @@ for (const file of walk(SRC)) {
     if (/\.query\s*[<(]/.test(text)) {
       violations.push(`  x ${norm} executes SQL via .query() (move it to a repository)`);
     }
+  }
+
+  // Rule 4 — App Router boundaries do not implement use-cases or data access.
+  // They may import a module's presentation handler or public index, but never
+  // its application/infrastructure internals. Composition remains in core.
+  const isAppBoundary = norm.startsWith("src/app/") && norm !== "src/app/_services.ts";
+  if (isAppBoundary && /from\s+["'][^"']*modules\/[^"']*\/(application|infrastructure)\//.test(text)) {
+    violations.push(`  x ${norm} reaches into a module application/infrastructure layer (use a presentation handler or module public surface)`);
+  }
+
+  // Rule 5 — module dependency direction. This makes a future repository swap
+  // local to infrastructure/container rather than leaking through the feature.
+  const isModuleApplication = /^src\/modules\/[^/]+\/application\//.test(norm);
+  const isModulePresentation = /^src\/modules\/[^/]+\/presentation\//.test(norm);
+  if (isModuleApplication && /from\s+["'][^"']*\/infrastructure\//.test(text)) {
+    violations.push(`  x ${norm} imports module infrastructure (depend on a domain port instead)`);
+  }
+  if (isModulePresentation && /from\s+["'][^"']*\/infrastructure\//.test(text)) {
+    violations.push(`  x ${norm} imports module infrastructure (call an application service instead)`);
   }
 
   // Rule 3 — tenant safety: SQL in infrastructure must filter by tenant_id.

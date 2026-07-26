@@ -5,6 +5,8 @@ import type { PlatformProvider } from "./platform";
 import { PermissionService } from "./rbac";
 import type { ProfileRepository, UserRepository } from "./repositories";
 import type { EventBus } from "./events";
+import type { PublishedProgrammeRepository } from "../modules/learning-catalog/domain/published-programme-repository";
+import { PublishedProgrammeService } from "../modules/learning-catalog/application/published-programme.service";
 
 // Concrete providers + infrastructure are imported ONLY here, in the
 // composition root.
@@ -12,6 +14,7 @@ import { CloudflarePlatformProvider, type CloudflareBindings } from "./platform/
 import { SupabaseDatabaseProvider } from "./database/providers/supabase-database-provider";
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
 import { SupabaseProfileRepository, SupabaseUserRepository, InMemoryEventBus } from "../infrastructure";
+import { StaticPublishedProgrammeRepository } from "../modules/learning-catalog/infrastructure/static-published-programme-repository";
 
 /**
  * Dependency Injection — the composition root.
@@ -25,6 +28,7 @@ import { SupabaseProfileRepository, SupabaseUserRepository, InMemoryEventBus } f
 export interface Repositories {
   readonly profiles: ProfileRepository;
   readonly users: UserRepository;
+  readonly publishedProgrammes: PublishedProgrammeRepository;
 }
 
 export interface Services {
@@ -34,6 +38,15 @@ export interface Services {
   readonly permissions: PermissionService;
   readonly repositories: Repositories;
   readonly events: EventBus;
+}
+
+/**
+ * Public read-model composition. It intentionally avoids auth/database runtime
+ * initialization because this first catalogue adapter is static public content.
+ * When a CMS or database adapter replaces it, the wiring remains here.
+ */
+export interface PublicServices {
+  readonly learningCatalogue: PublishedProgrammeService;
 }
 
 /**
@@ -60,6 +73,7 @@ export function createServices(env: CloudflareBindings): Services {
   const repositories: Repositories = {
     profiles: new SupabaseProfileRepository(database),
     users: new SupabaseUserRepository(database),
+    publishedProgrammes: new StaticPublishedProgrammeRepository(),
   };
 
   // 6. Event bus — in-process pub/sub. Register module event handlers here at
@@ -67,6 +81,12 @@ export function createServices(env: CloudflareBindings): Services {
   const events: EventBus = new InMemoryEventBus();
 
   return { platform, database, auth, permissions, repositories, events };
+}
+
+export function createPublicServices(): PublicServices {
+  return {
+    learningCatalogue: new PublishedProgrammeService(new StaticPublishedProgrammeRepository()),
+  };
 }
 
 function createPlatformProvider(env: CloudflareBindings): PlatformProvider {

@@ -12,13 +12,14 @@
     "typecheck": "tsc --noEmit",
     "check:arch": "node scripts/check-architecture.mjs",
     "verify": "node scripts/check-architecture.mjs && tsc --noEmit",
+    "verify:release": "npm run verify && npm run build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
-    "next": "15.3.0",
+    "next": "15.5.21",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

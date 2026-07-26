@@ -12,3 +12,7 @@ cloudflare-env.d.ts
 .DS_Store
 .vscode/
 coverage/
+*.tsbuildinfo
+
+# superpowers scratch
+.superpowers/

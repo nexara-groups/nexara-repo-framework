@@ -1,14 +1,11 @@
-import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import "./globals.css";
 
-export const metadata = {
-  title: "Nexara Foundation",
-  description: "Provider-agnostic platform foundation.",
+export const metadata: Metadata = {
+  title: { default: "Yojo Solutions | A learning path you can prove", template: "%s | Yojo Solutions" },
+  description: "Student-first technology and cybersecurity learning with guidance, practical work, feedback and career support.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en"><body>{children}</body></html>;
 }

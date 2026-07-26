@@ -6,4 +6,5 @@ export * from "./rbac";
 export * from "./repositories";
 export * from "./context";
 export * from "./events";
-export { createServices, type Services, type Repositories } from "./container";
+export { createPublicServices, createServices } from "./container";
+export type { PublicServices, Repositories, Services } from "./container";
