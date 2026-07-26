@@ -7,11 +7,23 @@ import { nav } from "../../content/site";
 export function NavDisclosure() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
+    // Focus Close button when panel opens
+    if (open) {
+      closeRef.current?.focus();
+      wasOpenRef.current = true;
+    } else if (wasOpenRef.current) {
+      // Restore focus to toggle when panel closes (but only if it was actually open)
+      toggleRef.current?.focus();
+      wasOpenRef.current = false;
+    }
+
+    // Handle Escape key
     if (!open) return;
-    closeRef.current?.focus();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
@@ -22,6 +34,7 @@ export function NavDisclosure() {
   return (
     <div className="nav-disclosure">
       <button
+        ref={toggleRef}
         type="button"
         className="mono nav-disclosure__toggle"
         aria-expanded={open}
