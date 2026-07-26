@@ -1,0 +1,33 @@
+.shell {
+  width: min(var(--shell-max), 100% - (var(--shell-gutter) * 2));
+  margin-inline: auto;
+}
+
+.stack { display: flex; flex-direction: column; }
+.stack > * + * { margin-block-start: var(--stack-gap, var(--space-s)); }
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster-gap, var(--space-s));
+}
+
+.section { padding-block: var(--space-3xl); }
+
+/* In-view reveal. Degrades to final state where unsupported — never hides
+   content behind an animation that may not run. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 34%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
