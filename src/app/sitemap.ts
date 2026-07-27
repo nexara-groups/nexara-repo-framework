@@ -14,7 +14,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { learningCatalogue } = getPublicServices();
     const result = await learningCatalogue.list();
-    if (!result.ok) return staticEntries;
+    if (!result.ok) {
+      console.error(
+        "Sitemap: failed to load programme catalogue, falling back to static routes. Programmes will be missing from sitemap.",
+        result.error
+      );
+      return staticEntries;
+    }
 
     const programmeEntries = result.value.map((programme) => ({
       url: `${baseUrl}/courses/${programme.slug}`,
@@ -22,7 +28,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     return [...staticEntries, ...programmeEntries];
-  } catch {
+  } catch (error) {
+    console.error(
+      "Sitemap: exception while loading programme catalogue, falling back to static routes. Programmes will be missing from sitemap.",
+      error
+    );
     return staticEntries;
   }
 }
