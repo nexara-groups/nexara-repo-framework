@@ -1,0 +1,61 @@
+.atlas { background: linear-gradient(160deg, #f8fafc, var(--surface-sunken)); }
+.atlas__intro { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: var(--space-2xl); align-items: end; margin-block-end: var(--space-2xl); }
+.atlas__intro h2 { grid-column: 1; font-size: var(--step-7); }
+.atlas__intro > p:last-child { max-width: 24rem; color: var(--text-muted); }
+
+.atlas__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-3xl); align-items: start; }
+
+.atlas__chapter {
+  min-height: 62dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-xl);
+  border-block-start: 1px solid var(--line);
+  opacity: 1;
+  transition: opacity var(--dur-slow) ease;
+}
+.atlas__chapter h3 { max-width: 33rem; font-size: var(--step-5); }
+.atlas__chapter > p { max-width: 27rem; margin-block-start: var(--space-s); color: var(--text-muted); }
+.atlas__position { color: var(--brand-blue); margin-block-end: var(--space-s); }
+.atlas__name { color: var(--brand-blue); font-size: var(--step--1); margin-block-start: var(--space-s); }
+
+.atlas__pin { display: grid; place-items: center; height: calc(100dvh - 152px); }
+.atlas__chamber {
+  position: relative;
+  width: min(100%, 46rem);
+  aspect-ratio: 1.08;
+  overflow: hidden;
+  border-radius: var(--radius-l);
+  background: radial-gradient(circle at 50% 48%, #1c5db8 0%, var(--brand-deep) 48%, #031936 100%);
+  box-shadow: var(--shadow-float);
+}
+.atlas__word {
+  position: absolute; inset-block-start: 5%; inset-inline-start: 4%;
+  font-size: clamp(5rem, 10vw, 11rem); font-weight: 700; line-height: 0.75;
+  letter-spacing: -0.12em; color: rgba(210, 229, 255, 0.16);
+}
+.atlas__counter { position: absolute; inset-block-end: 7%; inset-inline-start: 6%; color: #b6d4ff; }
+
+/*
+ * Chapters dim to focus attention on the active one only when scripted
+ * motion is both available (.js-motion, set by the inline script in
+ * src/app/layout.tsx, before hydration) AND welcome
+ * (prefers-reduced-motion: no-preference). If scripting is blocked or fails
+ * to load, or the visitor prefers reduced motion, `atlas-scrub.client.tsx`
+ * either never runs or returns before it sets `data-active` on anything --
+ * this selector then never matches, and every chapter stays at its default
+ * opacity: 1, fully readable. Content is never gated behind an animation
+ * that may not run.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .atlas__chapter[data-active="false"] { opacity: 0.34; }
+}
+
+/* No pinning below the two-column breakpoint -- a sticky pane with nothing
+   beside it is worse than a plain stack. */
+@media (max-width: 900px) {
+  .atlas__intro, .atlas__grid { grid-template-columns: 1fr; gap: var(--space-l); }
+  .atlas__chapter { min-height: auto; }
+  .atlas__pin { height: auto; aspect-ratio: 1.08; }
+}
