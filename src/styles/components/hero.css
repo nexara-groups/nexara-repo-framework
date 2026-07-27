@@ -17,7 +17,9 @@
 
 .hero__word {
   position: absolute;
-  z-index: var(--z-stage);
+  /* The stage image is a full raster, so a literal layer behind it disappears.
+     This keeps the live word field visibly behind the optical plates instead. */
+  z-index: 3;
   inset-block-start: 12%;
   inset-inline-start: 0.5%;
   margin: 0;
@@ -26,7 +28,7 @@
   letter-spacing: -0.09em;
   line-height: 0.78;
   color: #33578f;
-  opacity: 0.5;              /* supports the product; never overpowers it */
+  opacity: 0.18;             /* supports the product; never overpowers it */
   user-select: none;
 }
 
@@ -120,6 +122,7 @@
     --plate-step: 4.4%;
   }
   .hero__copy { max-width: 16rem; }
+  .hero__word { display: none; }
   .hero__kicker { margin-block-end: var(--space-xs); }
   .hero h1 { font-size: var(--step-5); }
   .hero__layout { padding-block-end: calc(var(--space-xl) + var(--space-s)); }

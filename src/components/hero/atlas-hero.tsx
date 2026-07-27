@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { AtlasLayer } from "../../content/atlas-layers";
 import { AtlasPlate } from "./atlas-plate";
@@ -9,18 +8,18 @@ export function AtlasHero({ layers }: { readonly layers: readonly AtlasLayer[] }
     <section className="hero" aria-labelledby="hero-title">
       <p className="hero__word" aria-hidden="true">Yojo</p>
 
-      <div className="hero__stage">
-        <Image
+      <picture className="hero__stage">
+        <source media="(max-width: 620px)" srcSet="/media/atlas/atlas-case-empty-480.webp" />
+        <source media="(max-width: 900px)" srcSet="/media/atlas/atlas-case-empty-960.webp" />
+        <img
           className="hero__scene"
           src="/media/atlas/atlas-case-empty-1600.webp"
           alt=""
           width={1600}
           height={900}
-          sizes="100vw"
-          priority
           fetchPriority="high"
         />
-      </div>
+      </picture>
 
       <ol className="atlas-plates" aria-label="The five Learning Atlas layers">
         {layers.map((layer, index) => (
