@@ -1,0 +1,50 @@
+.catalogue__heading { max-width: 56rem; }
+.catalogue h1 { font-size: var(--step-8); }
+.catalogue__heading > p:last-child { max-width: 27rem; margin-block-start: var(--space-m); color: var(--text-muted); }
+
+.catalogue__controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--space-s);
+  align-items: end;
+  margin-block: var(--space-2xl) var(--space-m);
+}
+.catalogue__controls label { display: grid; gap: var(--space-2xs); color: var(--text-muted); font-size: var(--step--1); }
+.catalogue__controls input,
+.catalogue__controls select {
+  width: 100%;
+  height: 52px;
+  padding-inline: var(--space-s);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  background: var(--surface-raised);
+}
+.catalogue__controls p { color: var(--brand-blue); }
+
+.programme-ledger { border-block-start: 1px solid var(--line); }
+.programme-row {
+  display: grid;
+  grid-template-columns: 3rem 8rem minmax(11rem, 1fr) 1.2fr 8rem 1.75rem;
+  gap: var(--space-m);
+  align-items: center;
+  padding-block: var(--space-s);
+  border-block-end: 1px solid var(--line);
+  transition: padding var(--dur-base) var(--ease-out-expo), background var(--dur-base) ease;
+}
+.programme-row:hover { padding-inline: var(--space-s); background: var(--surface-raised); }
+.programme-row img { width: 8rem; height: 4.9rem; object-fit: cover; border-radius: var(--radius-m); }
+.programme-row strong { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.04em; }
+.programme-row p { color: var(--text-muted); font-size: var(--step--1); }
+.programme-row em { color: var(--text-muted); font-style: normal; }
+
+.detail-hero__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-2xl); align-items: center; }
+.detail-hero__grid h1 { font-size: var(--step-7); }
+.detail-hero__grid img { width: 100%; height: auto; border-radius: var(--radius-l); box-shadow: var(--shadow-float); }
+
+@media (max-width: 900px) {
+  .catalogue__controls { grid-template-columns: 1fr 1fr; }
+  .catalogue__controls p { grid-column: 1 / -1; }
+  .programme-row { grid-template-columns: 2rem 6rem 1fr 1.5rem; }
+  .programme-row p, .programme-row em { display: none; }
+  .detail-hero__grid { grid-template-columns: 1fr; }
+}

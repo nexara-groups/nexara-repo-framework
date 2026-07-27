@@ -1,23 +1,3 @@
-export type Programme = {
-  slug: string;
-  legacySlug: string;
-  title: string;
-  category: string;
-  summary: string;
-  image: string;
-};
-
-export const programmes: Programme[] = [
-  { slug: "cybersecurity", legacySlug: "cyber-security-trainings", title: "Cybersecurity", category: "Security", summary: "Security foundations, defensive practice and role-aware preparation.", image: "/media/generated/courses/cybersecurity.webp" },
-  { slug: "ai-machine-learning", legacySlug: "ai-ml-programs", title: "AI and Machine Learning", category: "Software and data", summary: "Applied data and machine learning foundations.", image: "/media/generated/courses/ai-ml.webp" },
-  { slug: "networking", legacySlug: "networking-trainings", title: "Networking", category: "Infrastructure", summary: "Network concepts, systems and operations.", image: "/media/generated/courses/networking.webp" },
-  { slug: "cloud", legacySlug: "cloud-trainings", title: "Cloud", category: "Infrastructure", summary: "Cloud and infrastructure learning paths.", image: "/media/generated/courses/cloud.webp" },
-  { slug: "software-development", legacySlug: "software-trainings", title: "Software Development", category: "Software and data", summary: "Software development foundations and practice.", image: "/media/generated/courses/software.webp" },
-  { slug: "sap", legacySlug: "sap-training", title: "SAP", category: "Enterprise", summary: "Enterprise systems learning paths.", image: "/media/generated/courses/sap.webp" },
-  { slug: "databases", legacySlug: "database-trainings", title: "Databases", category: "Software and data", summary: "Database concepts and practical skills.", image: "/media/generated/courses/database.webp" },
-  { slug: "storage", legacySlug: "storage-trainings", title: "Storage", category: "Infrastructure", summary: "Storage systems and infrastructure learning.", image: "/media/generated/courses/storage.webp" },
-];
-
 export type PageDefinition = {
   title: string;
   eyebrow: string;

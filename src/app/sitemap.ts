@@ -1,12 +1,28 @@
 import type { MetadataRoute } from "next";
-import { pages, programmes } from "../content/site";
+import { pages } from "../content/site";
+import { getPublicServices } from "./_services";
 
 const baseUrl = "https://www.yojosolutions.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = ["", "courses", "student-journey", ...Object.keys(pages)];
-  return [
-    ...staticRoutes.map((path) => ({ url: `${baseUrl}/${path}`, lastModified: new Date() })),
-    ...programmes.map((programme) => ({ url: `${baseUrl}/courses/${programme.slug}`, lastModified: new Date() })),
-  ];
+  const staticEntries = staticRoutes.map((path) => ({
+    url: `${baseUrl}/${path}`,
+    lastModified: new Date(),
+  }));
+
+  try {
+    const { learningCatalogue } = getPublicServices();
+    const result = await learningCatalogue.list();
+    if (!result.ok) return staticEntries;
+
+    const programmeEntries = result.value.map((programme) => ({
+      url: `${baseUrl}/courses/${programme.slug}`,
+      lastModified: new Date(),
+    }));
+
+    return [...staticEntries, ...programmeEntries];
+  } catch {
+    return staticEntries;
+  }
 }

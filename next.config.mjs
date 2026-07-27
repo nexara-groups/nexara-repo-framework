@@ -36,6 +36,20 @@ const nextConfig = {
       { source: "/it-consulting-services.html", destination: "/it-consulting-services", permanent: true },
       { source: "/physical-security-services.html", destination: "/physical-security-services", permanent: true },
       { source: "/staff-augmentation.html", destination: "/staff-augmentation", permanent: true },
+      // Bare (extensionless) forms of the legacy programme slugs. These used to
+      // be served by a branch in src/app/[slug]/page.tsx that mapped legacySlug
+      // -> programme detail; that branch is gone, so the redirect must carry
+      // the route now. Mirrors the .html destinations above exactly.
+      { source: "/cyber-security-trainings", destination: "/courses/cybersecurity", permanent: true },
+      { source: "/ai-ml-programs", destination: "/courses/ai-machine-learning", permanent: true },
+      { source: "/networking-trainings", destination: "/courses/networking", permanent: true },
+      { source: "/cloud-trainings", destination: "/courses/cloud", permanent: true },
+      { source: "/software-trainings", destination: "/courses/software-development", permanent: true },
+      { source: "/sap-training", destination: "/courses/sap", permanent: true },
+      { source: "/sap-trainings", destination: "/courses/sap", permanent: true },
+      { source: "/sap-traininsg", destination: "/courses/sap", permanent: true },
+      { source: "/database-trainings", destination: "/courses/databases", permanent: true },
+      { source: "/storage-trainings", destination: "/courses/storage", permanent: true },
     ];
   },
   // Business logic stays provider-agnostic; provider SDKs are only pulled in
