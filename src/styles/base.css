@@ -71,3 +71,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
     transition-duration: 0.01ms !important;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+
+  ::view-transition-old(root) { animation: vt-out var(--dur-base) var(--ease-out-expo) both; }
+  ::view-transition-new(root) { animation: vt-in var(--dur-base) var(--ease-out-expo) both; }
+}
+
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
