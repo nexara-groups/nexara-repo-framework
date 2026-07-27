@@ -1,0 +1,51 @@
+.journey__head { max-width: 58rem; }
+.journey__head h1 { font-size: var(--step-8); }
+.journey__head > p:last-child { max-width: 27rem; margin-block-start: var(--space-m); color: var(--text-muted); }
+
+.journey__layout { display: grid; grid-template-columns: 15rem 1fr; gap: var(--space-3xl); margin-block-start: var(--space-2xl); }
+.journey__meter {
+  position: sticky;
+  inset-block-start: calc(var(--header-h) + var(--space-l));
+  align-self: start;
+  display: grid;
+  place-items: center;
+  height: 22rem;
+  border-radius: var(--radius-l);
+  background: radial-gradient(circle at 50% 48%, #1c5db8, var(--brand-deep) 65%);
+  color: #a8ceff;
+}
+.journey__meter b { color: #fff; }
+
+.journey__steps { border-block-start: 1px solid var(--line); }
+.journey__steps li {
+  position: relative;
+  min-height: 48dvh;
+  padding: var(--space-xl) 0 var(--space-xl) 5.25rem;
+  border-block-end: 1px solid var(--line);
+  opacity: 1;
+  transition: opacity var(--dur-base) ease;
+}
+.journey__steps li > span { position: absolute; inset-inline-start: 0; color: var(--brand-blue); }
+.journey__steps h2 { max-width: 40rem; font-size: var(--step-6); }
+.journey__steps p { max-width: 31rem; margin-block-start: var(--space-m); color: var(--text-muted); }
+
+/*
+ * Steps dim to focus attention on the active one only when scripted motion
+ * is both available (.js-motion, set by the inline script in
+ * src/app/layout.tsx, before hydration) AND welcome
+ * (prefers-reduced-motion: no-preference). If scripting is blocked or fails
+ * to load, or the visitor prefers reduced motion, `journey-meter.client.tsx`
+ * either never runs or returns before it sets `data-active` on anything --
+ * this selector then never matches, and every step stays at its default
+ * opacity: 1, fully readable. Content is never gated behind an animation
+ * that may not run. Mirrors src/styles/components/atlas.css.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .journey__steps li[data-active="false"] { opacity: 0.42; }
+}
+
+@media (max-width: 900px) {
+  .journey__layout { grid-template-columns: 1fr; gap: var(--space-l); }
+  .journey__meter { position: relative; inset-block-start: auto; height: 12rem; }
+  .journey__steps li { min-height: auto; padding-inline-start: 3rem; opacity: 1; }
+}
