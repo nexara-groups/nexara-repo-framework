@@ -9,6 +9,16 @@ import { prefersReducedMotion } from "../../lib/motion/reduced-motion";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
+ * Pinning only makes sense once the layout is two columns -- below this
+ * width `.atlas__grid` collapses to a single stacked column (see the
+ * matching `@media (max-width: 900px)` rule in
+ * `src/styles/components/atlas.css`) and a pinned chamber would float over
+ * the stacked chapter text instead of sitting beside it. This is the JS half
+ * of that breakpoint; keep the two numbers in sync.
+ */
+const ATLAS_PIN_QUERY = "(min-width: 900px)";
+
+/**
  * Drives the Atlas chapter scrub: pins the visual chamber for the duration of
  * the chapter list and toggles `data-active` on whichever chapter currently
  * owns the centre of the viewport.
@@ -46,14 +56,31 @@ export function AtlasScrub() {
       const grid = section.querySelector<HTMLElement>(".atlas__grid");
       if (chapters.length === 0 || !counter || !pin || !grid) return;
 
-      ScrollTrigger.create({
-        trigger: grid,
-        start: "top top+=120",
-        end: "bottom bottom",
-        pin,
-        pinSpacing: false,
+      // gsap.matchMedia() creates the pinning ScrollTrigger only while
+      // ATLAS_PIN_QUERY matches, and reverts it (un-pinning `.atlas__pin`,
+      // clearing the inline styles ScrollTrigger applied) the instant it
+      // stops matching -- including on live resize across the boundary, not
+      // just on initial render. Because this runs inside useGSAP's own
+      // context (we're already executing inside it here), the matchMedia
+      // instance itself is torn down for free when the component unmounts.
+      const mm = gsap.matchMedia();
+      mm.add(ATLAS_PIN_QUERY, () => {
+        ScrollTrigger.create({
+          trigger: grid,
+          start: "top top+=120",
+          end: "bottom bottom",
+          pin,
+          pinSpacing: false,
+        });
       });
 
+      // The per-chapter active-state triggers are deliberately *not* gated
+      // to the same breakpoint: they only ever move `.atlas__chapter`
+      // opacity between 1 and 0.34 (see atlas.css), never lower, so chapter
+      // text stays fully readable at every width whether or not the chamber
+      // is pinned. Keeping them running below 900px also means the
+      // decorative counter keeps tracking scroll position there instead of
+      // freezing at "01 / 05" once the pin drops away.
       chapters.forEach((chapter, index) => {
         ScrollTrigger.create({
           trigger: chapter,

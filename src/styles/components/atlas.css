@@ -53,7 +53,10 @@
 }
 
 /* No pinning below the two-column breakpoint -- a sticky pane with nothing
-   beside it is worse than a plain stack. */
+   beside it is worse than a plain stack. The JS half of this lives in
+   `src/components/atlas/atlas-scrub.client.tsx` as `ATLAS_PIN_QUERY`
+   ("(min-width: 900px)"), gating the pinning ScrollTrigger via
+   `gsap.matchMedia()`. Keep both 900px values in sync. */
 @media (max-width: 900px) {
   .atlas__intro, .atlas__grid { grid-template-columns: 1fr; gap: var(--space-l); }
   .atlas__chapter { min-height: auto; }

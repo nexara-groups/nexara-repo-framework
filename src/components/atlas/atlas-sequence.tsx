@@ -39,7 +39,7 @@ export function AtlasSequence({ layers }: { readonly layers: readonly AtlasLayer
         <div className="atlas__pin">
           <div className="atlas__chamber">
             <span className="atlas__word" aria-hidden="true">Atlas</span>
-            <p className="mono atlas__counter" data-atlas-counter aria-live="polite">
+            <p className="mono atlas__counter" data-atlas-counter aria-hidden="true">
               01 / 05
             </p>
           </div>
