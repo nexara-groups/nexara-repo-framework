@@ -110,6 +110,21 @@
   .hero h1 { font-size: var(--step-6); }
 }
 
+@media (max-width: 620px) {
+  /* Keep the assembled plates in the upper case on phones, leaving the
+     lower-left reading zone clear. The five labels remain visible in the
+     initial viewport without colliding with the primary message. */
+  .hero {
+    --case-rim: 46%;
+    --plate-h: 6.6%;
+    --plate-step: 4.4%;
+  }
+  .hero__copy { max-width: 16rem; }
+  .hero__kicker { margin-block-end: var(--space-xs); }
+  .hero h1 { font-size: var(--step-5); }
+  .hero__layout { padding-block-end: calc(var(--space-xl) + var(--space-s)); }
+}
+
 /*
  * Plates start hidden only when scripting is available (.js-motion, set by an
  * inline script in <head>) AND motion is allowed. If scripting is blocked, the
