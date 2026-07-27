@@ -49,6 +49,13 @@ const ORGANIZATION_SCHEMA = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
+    // suppressHydrationWarning is scoped to this <html> element only. It exists
+    // because the inline `js-motion` script below mutates `document.documentElement.className`
+    // before React hydrates, so the server-rendered class list never matches the
+    // client's first paint. This intentionally silences a mismatch on THIS element's
+    // attributes only (React does not recurse the suppression into children) -- it
+    // does not cover, and must not be widened to cover, mismatches anywhere else in
+    // the tree, including unrelated future attributes added to <html> by other means.
     <html lang="en" suppressHydrationWarning>
       <head>
         <link
