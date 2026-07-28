@@ -21,11 +21,8 @@ id = "209d50b154d5407590fc2fbc82a29e09"
 binding = "NEXARA_QUEUE"
 queue = "nexara-jobs"
 
-# Queue consumer (worker that drains the queue).
-[[queues.consumers]]
-queue = "nexara-jobs"
-max_batch_size = 10
-max_retries = 3
+# A consumer trigger belongs only to a Worker that implements a queue handler.
+# Yojo currently publishes to this queue only; no consumer is registered here.
 
 # Cron triggers for PlatformProvider scheduled jobs.
 [triggers]
