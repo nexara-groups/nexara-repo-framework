@@ -14,7 +14,7 @@ binding = "ASSETS"
 # KV namespace for the platform cache + KV access.
 [[kv_namespaces]]
 binding = "NEXARA_KV"
-id = "replace-with-your-kv-namespace-id"
+id = "209d50b154d5407590fc2fbc82a29e09"
 
 # Queue producer for PlatformProvider.enqueue().
 [[queues.producers]]
