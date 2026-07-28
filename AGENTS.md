@@ -29,18 +29,21 @@ bus for a cross-module reaction.
 
 ## Visual contract
 
-`public/design-reference/atlas-rise-v1.png` is the approved homepage hero
-composition. It is a reference contract, not a rasterized page background:
-logo, navigation, heading, buttons, and labels remain live, semantic UI.
+The Yojo Signal system is the active visual contract. It is a professional,
+security-first dark editorial language with one cyan signal accent, live
+semantic copy, original cyber imagery, and scroll motion tied to the learner
+journey.
 
-The first rendered homepage must preserve its essential composition:
-
-- the Atlas briefcase is the dominant central object;
-- all five labelled plates are readable in the first viewport;
-- `YOJO` supports the product rather than overpowering it;
-- the compact lower-left headline has one primary call to action;
-- the first Guidance chapter continues from the same physical product world;
-- the mascot is a later student-trail element, not a hero distraction.
+- The homepage opens with one clear cybersecurity proposition and two honest
+  conversion routes: WhatsApp and enquiry.
+- The five-stage learner journey is the primary scroll narrative.
+- Original media supports the content; interface text is never baked into it.
+- Organisation services have an equally credible path without competing with
+  the learner story.
+- Motion must preserve the reading order and degrade cleanly for reduced-motion
+  preferences and touch devices.
+- Do not restore retired product-object, mascot, bright-metal, plate, rail, or
+  briefcase concepts.
 
 ## Compatibility baseline
 

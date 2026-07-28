@@ -56,17 +56,37 @@ export function CourseLedger({ programmes }: { readonly programmes: readonly Pub
       <ul className="programme-ledger">
         {matches.map((programme, index) => (
           <li key={programme.slug}>
-            <Link href={`/courses/${programme.slug}`} className="programme-row reveal">
-              <span className="mono">{String(index + 1).padStart(2, "0")}</span>
-              <Image src={programmeImage(programme.slug)} alt="" width={280} height={180} />
-              <strong>{programme.title}</strong>
-              <p>{programme.summary}</p>
-              <em className="mono">{CATEGORY_LABELS[programme.category]}</em>
-              <span aria-hidden="true">&rarr;</span>
+            <Link
+              href={`/courses/${programme.slug}`}
+              className="programme-row reveal"
+              data-featured={index < 2 || undefined}
+            >
+              <Image
+                src={programmeImage(programme.slug)}
+                alt=""
+                width={1200}
+                height={800}
+                sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              />
+              <div>
+                <em>{CATEGORY_LABELS[programme.category]}</em>
+                <strong>{programme.title}</strong>
+                <p>{programme.summary}</p>
+                <span>
+                  View programme <b aria-hidden="true">&rarr;</b>
+                </span>
+              </div>
             </Link>
           </li>
         ))}
       </ul>
+
+      {matches.length === 0 && (
+        <div className="catalogue__empty" role="status">
+          <h2>No programmes match those filters.</h2>
+          <p>Try a broader search term or choose a different focus.</p>
+        </div>
+      )}
     </>
   );
 }

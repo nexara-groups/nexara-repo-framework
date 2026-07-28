@@ -1,12 +1,12 @@
 import { PageFrame } from "../../components/layout/page-frame";
-import { StudentTrail } from "../../components/journey/student-trail";
+import { JourneySequence } from "../../components/journey/journey-sequence";
 
 export const metadata = { title: "Student journey" };
 
 export default function StudentJourneyPage() {
   return (
     <PageFrame>
-      <StudentTrail />
+      <JourneySequence standalone />
     </PageFrame>
   );
 }

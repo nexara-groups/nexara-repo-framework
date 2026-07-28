@@ -7,7 +7,8 @@
 - Architecture gate: `npm run verify` runs the Nexara architecture check and
   strict TypeScript check.
 - Release gate: `npm run build` produces the Next production build.
-- Approved hero reference: `public/design-reference/atlas-rise-v1.png`.
+- Active visual contract: the Yojo Signal system documented in the workspace
+  `DESIGN.md`.
 
 ## Source of content, not architecture
 
@@ -28,7 +29,7 @@ deployment decisions.
 
 ## Route port order
 
-1. Home and the Learning Atlas visual contract
+1. Home and the five-stage learner journey
 2. Courses and programme detail pages
 3. Student Journey
 4. About, Faculty, Articles and FAQs
@@ -42,4 +43,4 @@ A route is not complete merely because it renders. It must have an explicit
 place in the Next App Router, a clear data boundary, accurate state language,
 and passing `npm run verify`. Any real write requires authorization,
 tenant-scoped repository access where applicable, and an acceptance test for
-the approved visual composition.
+the active visual composition.

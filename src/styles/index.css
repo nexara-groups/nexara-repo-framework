@@ -3,8 +3,9 @@
 @import "./compositions.css";
 @import "./components/site-shell.css";
 @import "./components/hero.css";
-@import "./components/atlas.css";
 @import "./components/catalogue.css";
 @import "./components/journey.css";
 @import "./components/templates.css";
 @import "./components/home.css";
+@import "./components/pages.css";
+@import "./theme.css";

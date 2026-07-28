@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { nav } from "../../content/site";
+import { whatsappHref } from "../../content/contact";
+import { authLink } from "../../content/site";
 import { NavDisclosure } from "./nav-disclosure";
+import { PrimaryNav } from "./primary-nav.client";
+import { ThemeToggle } from "./theme-toggle.client";
 
 export function SiteHeader() {
   return (
@@ -17,19 +20,22 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="site-header__nav" aria-label="Primary">
-          <ul className="cluster">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <PrimaryNav />
 
-        <Link className="button button--primary site-header__cta" href="/contact">
-          Find your programme <span aria-hidden="true">&rarr;</span>
-        </Link>
+        <div className="site-header__actions">
+          <ThemeToggle />
+          <Link className="site-header__login" href={authLink.href}>
+            {authLink.label}
+          </Link>
+          <a
+            className="button button--primary site-header__cta"
+            href={whatsappHref("Hello Yojo Solutions, I would like to discuss a programme or service.")}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Chat on WhatsApp
+          </a>
+        </div>
 
         <NavDisclosure />
       </div>

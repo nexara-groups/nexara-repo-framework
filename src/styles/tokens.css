@@ -1,97 +1,90 @@
 :root {
-  /* ---- surfaces ------------------------------------------------------ */
-  --surface-paper: #eef1f6;
-  --surface-raised: #fbfcfe;
-  --surface-sunken: #e2e8f1;
-  --surface-field: #050f1d;        /* dark organisation canvas */
-  --surface-field-raised: #071527;
+  --surface-paper: #070a0d;
+  --surface-raised: #0d1217;
+  --surface-sunken: #040608;
+  --surface-soft: #11171d;
+  --surface-glass: rgba(12, 17, 22, 0.82);
 
-  /* ---- text ---------------------------------------------------------- */
-  --text-primary: #071a36;
-  --text-muted: #465a74;           /* darkened from #43546c for AA on paper */
-  --text-inverse: #e8eefa;
-  --text-inverse-muted: #a4bad8;
+  --text-primary: #edf4f4;
+  --text-muted: #9ba9ae;
+  --text-soft: #718086;
+  --text-inverse: #061014;
 
-  /* ---- lines --------------------------------------------------------- */
-  --line: rgba(7, 26, 54, 0.14);
-  --line-strong: rgba(7, 26, 54, 0.28);
-  --line-inverse: rgba(150, 190, 255, 0.20);
+  --line: rgba(180, 211, 218, 0.14);
+  --line-strong: rgba(117, 215, 236, 0.34);
+  --accent: #75d7ec;
+  --accent-strong: #9be8f6;
+  --accent-quiet: rgba(117, 215, 236, 0.12);
 
-  /* ---- brand --------------------------------------------------------- */
-  --brand-blue: #0b3f91;
-  --brand-deep: #06285e;
-  --accent: #2d8fff;
-  --accent-quiet: rgba(45, 143, 255, 0.18);
+  --step--2: clamp(0.72rem, 0.69rem + 0.12vw, 0.79rem);
+  --step--1: clamp(0.84rem, 0.80rem + 0.18vw, 0.94rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.18rem, 1.10rem + 0.37vw, 1.4rem);
+  --step-2: clamp(1.42rem, 1.29rem + 0.62vw, 1.76rem);
+  --step-3: clamp(1.7rem, 1.5rem + 0.98vw, 2.22rem);
+  --step-4: clamp(2.04rem, 1.73rem + 1.55vw, 2.86rem);
+  --step-5: clamp(2.45rem, 1.98rem + 2.32vw, 3.68rem);
+  --step-6: clamp(2.94rem, 2.26rem + 3.4vw, 4.75rem);
+  --step-7: clamp(3.52rem, 2.54rem + 4.9vw, 6.1rem);
 
-  /* ---- hero stage: matched to the atlas-case-empty render ------------- */
-  --stage-wall: #f2f4f8;
-  --stage-floor: #e6ebf2;
-  --stage-aperture: #17458c;
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: clamp(0.72rem, 0.67rem + 0.2vw, 0.9rem);
+  --space-s: clamp(1rem, 0.92rem + 0.35vw, 1.25rem);
+  --space-m: clamp(1.45rem, 1.29rem + 0.75vw, 1.9rem);
+  --space-l: clamp(2rem, 1.72rem + 1.35vw, 2.8rem);
+  --space-xl: clamp(3rem, 2.44rem + 2.7vw, 4.5rem);
+  --space-2xl: clamp(4.5rem, 3.56rem + 4.6vw, 7rem);
+  --space-3xl: clamp(6.5rem, 4.78rem + 8.4vw, 11rem);
 
-  /* ---- fluid type scale ---------------------------------------------- */
-  --step--2: clamp(0.69rem, 0.67rem + 0.10vw, 0.75rem);
-  --step--1: clamp(0.83rem, 0.79rem + 0.19vw, 0.94rem);
-  --step-0:  clamp(1.00rem, 0.95rem + 0.24vw, 1.13rem);
-  --step-1:  clamp(1.20rem, 1.13rem + 0.35vw, 1.41rem);
-  --step-2:  clamp(1.44rem, 1.33rem + 0.55vw, 1.76rem);
-  --step-3:  clamp(1.73rem, 1.56rem + 0.83vw, 2.20rem);
-  --step-4:  clamp(2.07rem, 1.83rem + 1.22vw, 2.75rem);
-  --step-5:  clamp(2.49rem, 2.13rem + 1.78vw, 3.43rem);
-  --step-6:  clamp(2.99rem, 2.48rem + 2.54vw, 4.29rem);
-  --step-7:  clamp(3.58rem, 2.87rem + 3.57vw, 5.36rem);
-  --step-8:  clamp(4.30rem, 3.30rem + 4.99vw, 6.71rem);
+  --radius-s: 10px;
+  --radius-m: 16px;
+  --radius-l: 24px;
 
-  /* ---- spacing (8pt derived, fluid) ---------------------------------- */
-  --space-3xs: clamp(0.25rem, 0.24rem + 0.06vw, 0.31rem);
-  --space-2xs: clamp(0.50rem, 0.48rem + 0.12vw, 0.63rem);
-  --space-xs:  clamp(0.75rem, 0.71rem + 0.18vw, 0.94rem);
-  --space-s:   clamp(1.00rem, 0.95rem + 0.24vw, 1.25rem);
-  --space-m:   clamp(1.50rem, 1.43rem + 0.37vw, 1.88rem);
-  --space-l:   clamp(2.00rem, 1.90rem + 0.49vw, 2.50rem);
-  --space-xl:  clamp(3.00rem, 2.85rem + 0.73vw, 3.75rem);
-  --space-2xl: clamp(4.00rem, 3.80rem + 0.98vw, 5.00rem);
-  --space-3xl: clamp(6.00rem, 5.32rem + 3.41vw, 9.00rem);
+  --shadow-raised: 0 24px 70px rgba(0, 5, 8, 0.38);
+  --shadow-float: 0 36px 100px rgba(0, 5, 8, 0.5);
 
-  /* ---- shape and depth ----------------------------------------------- */
-  --radius-s: 6px;
-  --radius-m: 10px;
-  --radius-l: 22px;
-  --radius-pill: 999px;
-  --shadow-raised: 0 14px 26px rgba(6, 40, 94, 0.15);
-  --shadow-float: 0 40px 90px rgba(6, 40, 94, 0.22);
-
-  /* ---- motion (shared by CSS, anime.js and GSAP) --------------------- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --dur-fast: 180ms;
-  --dur-base: 340ms;
-  --dur-slow: 620ms;
+  --dur-fast: 160ms;
+  --dur-base: 360ms;
+  --dur-slow: 680ms;
 
-  /* ---- layout -------------------------------------------------------- */
-  --shell-max: 1480px;
-  --shell-gutter: clamp(1.25rem, 0.9rem + 1.7vw, 3.25rem);
-  --header-h: 78px;
+  --shell-max: 1440px;
+  --shell-gutter: clamp(1rem, 0.45rem + 2.5vw, 3.5rem);
+  --header-h: 72px;
 
-  /* ---- z layers ------------------------------------------------------ */
-  --z-stage: 1;
-  --z-scene: 2;
-  --z-plates: 5;
-  --z-copy: 12;
+  --z-media: 1;
+  --z-copy: 5;
   --z-header: 40;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --surface-paper: #f4f8f9;
+  --surface-raised: #ffffff;
+  --surface-sunken: #e8f0f2;
+  --surface-soft: #edf3f5;
+  --surface-glass: rgba(248, 251, 252, 0.88);
+
+  --text-primary: #0c1b21;
+  --text-muted: #40565e;
+  --text-soft: #5d727a;
+  --text-inverse: #f4fbfc;
+
+  --line: rgba(24, 73, 86, 0.16);
+  --line-strong: rgba(10, 105, 128, 0.42);
+  --accent: #0c7690;
+  --accent-strong: #08647b;
+  --accent-quiet: rgba(12, 118, 144, 0.1);
+
+  --shadow-raised: 0 24px 70px rgba(30, 62, 70, 0.12);
+  --shadow-float: 0 36px 100px rgba(30, 62, 70, 0.16);
 
   color-scheme: light;
 }
 
-/* The dark organisation canvas re-points semantic tokens rather than forcing
-   every component to carry a `.organisation` variant. */
 .surface-field {
-  --surface-paper: var(--surface-field);
-  --surface-raised: var(--surface-field-raised);
-  --surface-sunken: #030b16;
-  --text-primary: var(--text-inverse);
-  --text-muted: var(--text-inverse-muted);
-  --line: var(--line-inverse);
-  --line-strong: rgba(150, 190, 255, 0.34);
-  --brand-blue: #7ba7ec;
-  color-scheme: dark;
+  background: var(--surface-sunken);
+  color: var(--text-primary);
 }

@@ -6,31 +6,39 @@ const SITE_URL = "https://www.yojosolutions.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Yojo Solutions | A learning path you can prove",
+    default: "Yojo Solutions | Cybersecurity Training and IT Consulting",
     template: "%s | Yojo Solutions",
   },
   description:
-    "Student-first technology and cybersecurity learning with guidance, practical work, feedback and career support.",
-  alternates: { canonical: "/" },
+    "Practical cybersecurity and technology training, career preparation, and IT consulting from Visakhapatnam.",
   openGraph: {
     type: "website",
     siteName: "Yojo Solutions",
-    title: "Yojo Solutions | A learning path you can prove",
+    title: "Yojo Solutions | Cybersecurity Training and IT Consulting",
     description:
-      "Guidance, curriculum, practice, feedback and placement support, connected as one learning system.",
+      "Practical cybersecurity and technology training, career preparation, and IT consulting.",
     url: SITE_URL,
+    images: [
+      {
+        url: "/media/cyber/hero-signal.jpg",
+        width: 1915,
+        height: 821,
+        alt: "Yojo cybersecurity learning and consulting",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yojo Solutions | A learning path you can prove",
+    title: "Yojo Solutions | Cybersecurity Training and IT Consulting",
     description:
-      "Guidance, curriculum, practice, feedback and placement support, connected as one learning system.",
+      "Practical cybersecurity and technology training, career preparation, and IT consulting.",
+    images: ["/media/cyber/hero-signal.jpg"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#06285e",
-  colorScheme: "light",
+  themeColor: "#070a0d",
+  colorScheme: "dark light",
 };
 
 const ORGANIZATION_SCHEMA = {
@@ -73,11 +81,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           crossOrigin="anonymous"
         />
         <script
-          // Marks scripting as available so CSS can safely hide plates before
-          // their entrance animation runs. Absent (no-JS) or blocked, this
-          // never fires and the plates stay visible in their final position.
+          // Applies the saved theme before paint and marks enhanced motion as available.
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js-motion')`,
+            __html: `(function(){var r=document.documentElement,t='dark';try{var s=localStorage.getItem('yojo-theme');if(s==='light'||s==='dark')t=s}catch(e){}r.dataset.theme=t;r.style.colorScheme=t;r.classList.add('js-motion');var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'#f4f8f9':'#070a0d')})()`,
           }}
         />
         <script
