@@ -18,14 +18,14 @@ const slugs = ["about", "services", "eecp-therapy", "diagnostics", "pharmacy", "
 const pageMeta: Record<string, { eyebrow: string; title: string; description: string; art?: SiteArtKind; accent?: "mint" | "coral" | "navy" }> = {
   about: { eyebrow: "The Rise approach", title: "Care built on trust, not noise.", description: "Rise Medical Hub brings medical expertise, modern infrastructure, and a patient-first rhythm to the care journey.", accent: "mint" },
   services: { eyebrow: "Care services at Rise", title: "Care that stays connected.", description: "Consultations, diagnostics, medicines, and restorative heart care brought together at Rise Medical Hub in Madhurawada, Visakhapatnam.", accent: "navy" },
-  "eecp-therapy": { eyebrow: "Signature care", title: "EECP Therapy — a third option for your heart", description: "When medicines aren't enough and surgery isn't the answer: EECP is a non-surgical, FDA-cleared class of therapy that helps blood reach your heart, one quiet hour a day.", art: "eecp", accent: "navy" },
+  "eecp-therapy": { eyebrow: "Signature care", title: "EECP Therapy for selected persistent angina", description: "A cardiologist-selected, non-invasive option for chronic refractory angina when medical therapy has not been enough and revascularisation is unsuitable or options are exhausted.", art: "eecp", accent: "navy" },
   diagnostics: { eyebrow: "Diagnostic & laboratory services", title: "Clarity for the next decision.", description: "Cardiac diagnostics, pathology, and imaging — precise answers with a human pace, most reports the same day.", art: "diagnostics", accent: "mint" },
   pharmacy: { eyebrow: "Pharmacy services", title: "Medication access, made easier.", description: "A reliable in-house pharmacy experience shaped around authenticity, guidance, and patient safety.", art: "pharmacy", accent: "coral" },
   opd: { eyebrow: "Out-patient department", title: "Start with a conversation.", description: "Consultations across specialties that make room for questions, context, and a clear plan forward.", art: "opd", accent: "mint" },
   doctors: { eyebrow: "The people behind the care", title: "Meet the team you can talk to.", description: "Physicians and specialists who explain before they act — with time protected for your questions.", art: "opd", accent: "coral" },
   "health-packages": { eyebrow: "Preventive care", title: "Small checks. Meaningful peace of mind.", description: "Considered health packages that tell you what to check, when to check it, and what your numbers mean.", art: "diagnostics", accent: "mint" },
   "health-camps": { eyebrow: "Community care", title: "Care that reaches further.", description: "Screening camps, workplace drives, and awareness programmes that bring preventive care closer to the community.", art: "community", accent: "coral" },
-  testimonials: { eyebrow: "The experience we're building", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and a third option for the heart — told by the people who experienced it.", accent: "mint" },
+  testimonials: { eyebrow: "The experience we're building", title: "The care, as patients tell it.", description: "Unhurried consultations, clear explanations, and carefully selected heart-care pathways — told by the people who experienced them.", accent: "mint" },
   resources: { eyebrow: "The decision library", title: "Read past the headline.", description: "Plain-language health guides with direct links to guidelines, clinical trials, regulatory records, and evidence reviews.", accent: "navy" },
   gallery: { eyebrow: "Inside Rise", title: "A calmer environment for care.", description: "An illustrated view of connected consultation, diagnostics, therapy, and pharmacy spaces at Rise.", art: "environment", accent: "mint" },
   appointment: { eyebrow: "Book your visit", title: "Your next step starts here.", description: "Share a few details and our team will help confirm the right pathway and available time.", accent: "coral" },
@@ -37,7 +37,20 @@ export function generateStaticParams() { return slugs.map((slug) => ({ slug }));
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const page = pageMeta[slug];
-  return page ? { title: page.title, description: page.description } : {};
+  if (!page) return {};
+  if (slug === "eecp-therapy") {
+    return {
+      title: page.title,
+      description: page.description,
+      alternates: { canonical: "/eecp-therapy" },
+      openGraph: {
+        title: page.title,
+        description: page.description,
+        url: "/eecp-therapy",
+      },
+    };
+  }
+  return { title: page.title, description: page.description };
 }
 
 function StandardPage({ slug }: { slug: string }) {

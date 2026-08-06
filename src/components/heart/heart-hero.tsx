@@ -58,7 +58,7 @@ export function HeartHero() {
           </p>
           <div className="eecp-hero-chips">
             <span>8 chapters</span>
-            <span>Doctor-reviewed</span>
+            <span>Plain-language patient education</span>
             <span>Telugu · English · Hindi support</span>
           </div>
           <div className="hero-actions">

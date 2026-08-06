@@ -1,0 +1,114 @@
+{"kind":"deck","id":"pr/r1e233","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"RISE MEDICAL HUB","textShapes":7}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"cover-accent","bbox":[52,52,10,586]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"name":"cover-eyebrow","text":"RISE MEDICAL HUB","textPreview":"RISE MEDICAL HUB","textChars":16,"textLines":1,"bbox":[92,62,420,30]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"cover-title","text":"Rise needs more than a prettier website. It needs a growth engine.","textPreview":"Rise needs more than a prettier website. It needs a growth engine.","textChars":66,"textLines":1,"bbox":[92,150,560,255]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"cover-subtitle","text":"The current site hides Rise’s strongest services from search and patients. The redesign turns them into discoverable, credible pathways.","textPreview":"The current site hides Rise’s strongest services from search and patients. The redesign turns them into discoverable, credible pathways.","textChars":136,"textLines":1,"bbox":[92,445,545,120]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"name":"cover-date","text":"DECISION DECK · 18 JULY 2026","textPreview":"DECISION DECK · 18 JULY 2026","textChars":28,"textLines":1,"bbox":[92,601,420,28]}
+{"kind":"shape","id":"sh/ozmd8r65","slide":1,"name":"footer-rule-1","bbox":[52,662,1176,0.01]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"footer-left-1","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[52,674,420,20]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"footer-no-1","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1178,674,50,20]}
+{"kind":"textbox","id":"sh/wn6dc7eh","slide":1,"name":"source-1","text":"Live-site + redesigned build audit","textPreview":"Live-site + redesigned build audit","textChars":34,"textLines":1,"bbox":[520,674,620,20]}
+{"kind":"image","id":"im/0jmxony1","slide":1,"name":"","geometry":"roundRect","bbox":[700,185,528,330]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":""}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"WHAT THE OLD SITE ACTUALLY HAS","textShapes":15}
+{"kind":"textbox","id":"sh/t8byxkn2","slide":2,"name":"s3-eyebrow","text":"WHAT THE OLD SITE ACTUALLY HAS","textPreview":"WHAT THE OLD SITE ACTUALLY HAS","textChars":30,"textLines":1,"bbox":[52,38,420,28]}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"name":"s3-title","text":"The old website does not own Rise’s strongest care.","textPreview":"The old website does not own Rise’s strongest care.","textChars":51,"textLines":1,"bbox":[52,76,1176,62]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"name":"s3-intro","text":"It has pages, but not the depth or structure needed to win high-intent searches or establish clinical trust.","textPreview":"It has pages, but not the depth or structure needed to win high-intent searches or establish clinical trust.","textChars":108,"textLines":1,"bbox":[52,145,1030,62]}
+{"kind":"shape","id":"sh/b29kza94","slide":2,"name":"s3-panel-0","bbox":[52,250,350,348]}
+{"kind":"textbox","id":"sh/a10jqpsj","slide":2,"name":"s3-stat-0","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[80,282,290,116]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"name":"s3-label-0","text":"URLs in its sitemap","textPreview":"URLs in its sitemap","textChars":19,"textLines":1,"bbox":[80,411,290,42]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"s3-copy-0","text":"The architecture stops at generic service pages and booking.","textPreview":"The architecture stops at generic service pages and booking.","textChars":60,"textLines":1,"bbox":[80,475,290,90]}
+{"kind":"shape","id":"sh/r65knqtk","slide":2,"name":"s3-panel-1","bbox":[446,250,350,348]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"s3-stat-1","text":"0","textPreview":"0","textChars":1,"textLines":1,"bbox":[474,282,290,116]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"s3-label-1","text":"Heart or Doctors pages","textPreview":"Heart or Doctors pages","textChars":22,"textLines":1,"bbox":[474,411,290,42]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"s3-copy-1","text":"No page explains heart care or introduces the specialist roster.","textPreview":"No page explains heart care or introduces the specialist roster.","textChars":64,"textLines":1,"bbox":[474,475,290,90]}
+{"kind":"shape","id":"sh/mtwrmxg7","slide":2,"name":"s3-panel-2","bbox":[840,250,350,348]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"s3-stat-2","text":"270","textPreview":"270","textChars":3,"textLines":1,"bbox":[868,282,290,116]}
+{"kind":"textbox","id":"sh/wjy9sry9","slide":2,"name":"s3-label-2","text":"words on the EECP page","textPreview":"words on the EECP page","textChars":22,"textLines":1,"bbox":[868,411,290,42]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"s3-copy-2","text":"Thin copy at a misspelled URL: /eecp-theraphy.html.","textPreview":"Thin copy at a misspelled URL: /eecp-theraphy.html.","textChars":51,"textLines":1,"bbox":[868,475,290,90]}
+{"kind":"shape","id":"sh/1wzix87i","slide":2,"name":"footer-rule-3","bbox":[52,662,1176,0.01]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"name":"footer-left-3","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[52,674,420,20]}
+{"kind":"textbox","id":"sh/cnupgny5","slide":2,"name":"footer-no-3","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1178,674,50,20]}
+{"kind":"textbox","id":"sh/do3q9szq","slide":2,"name":"source-3","text":"Source: live sitemap + page audit · 18 Jul 2026","textPreview":"Source: live sitemap + page audit · 18 Jul 2026","textChars":47,"textLines":1,"bbox":[520,674,620,20]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":""}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"SEARCH VISIBILITY","textShapes":12}
+{"kind":"textbox","id":"sh/w7ulsvqp","slide":3,"name":"s7-eyebrow","text":"SEARCH VISIBILITY","textPreview":"SEARCH VISIBILITY","textChars":17,"textLines":1,"bbox":[52,38,260,28]}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"name":"s7-title","text":"The SEO problem is structural—not cosmetic.","textPreview":"The SEO problem is structural—not cosmetic.","textChars":43,"textLines":1,"bbox":[52,76,1176,62]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"name":"s7-intro","text":"The old site gives search engines generic, duplicated signals. The new architecture creates specific subjects, evidence, and local relevance.","textPreview":"The old site gives search engines generic, duplicated signals. The new architecture creates specific subjects, evidence, and local releva...","textChars":141,"textLines":1,"bbox":[52,145,1120,60]}
+{"kind":"shape","id":"sh/298ryl4v","slide":3,"name":"s7-old-panel","bbox":[52,245,552,245]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"name":"s7-old-label","text":"CURRENT","textPreview":"CURRENT","textChars":7,"textLines":1,"bbox":[82,272,140,24]}
+{"kind":"textbox","id":"sh/obq90bml","slide":3,"name":"s7-old-copy","text":"Same description on 10/10 pages\nNo canonical tags or schema\n/ and /index.html duplicate\nDiagnostic title says EECP Therapy\n98 dead-end # links","textPreview":"Same description on 10/10 pages | No canonical tags or schema | / and /index.html duplicate | Diagnostic title says EECP Therapy | 98 dea...","textChars":142,"textLines":5,"bbox":[82,315,470,155]}
+{"kind":"shape","id":"sh/pcjqtg36","slide":3,"name":"s7-new-panel","bbox":[636,245,592,245]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"name":"s7-new-label","text":"REDESIGNED","textPreview":"REDESIGNED","textChars":10,"textLines":1,"bbox":[666,272,180,24]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"name":"s7-new-copy","text":"23 clean sitemap URLs\nUnique titles for major pathways\nMedicalClinic + medical/FAQ schema\nHeart, EECP and Doctors depth\nLocal NAP + evidence resources","textPreview":"23 clean sitemap URLs | Unique titles for major pathways | MedicalClinic + medical/FAQ schema | Heart, EECP and Doctors depth | Local NAP...","textChars":150,"textLines":5,"bbox":[666,315,510,155]}
+{"kind":"shape","id":"sh/n2l4fq98","slide":3,"name":"s7-risk-band","bbox":[52,525,1176,92]}
+{"kind":"textbox","id":"sh/m1c3mlsn","slide":3,"name":"s7-risk-label","text":"LAUNCH REQUIREMENT","textPreview":"LAUNCH REQUIREMENT","textChars":18,"textLines":1,"bbox":[80,548,220,22]}
+{"kind":"textbox","id":"sh/943mhgre","slide":3,"name":"s7-risk-copy","text":"Finish canonicals, 301 every legacy .html URL, and submit the new sitemap to Search Console.","textPreview":"Finish canonicals, 301 every legacy .html URL, and submit the new sitemap to Search Console.","textChars":92,"textLines":1,"bbox":[310,542,860,50]}
+{"kind":"shape","id":"sh/21szqxcb","slide":3,"name":"footer-rule-7","bbox":[52,662,1176,0.01]}
+{"kind":"textbox","id":"sh/v6l4jq94","slide":3,"name":"footer-left-7","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[52,674,420,20]}
+{"kind":"textbox","id":"sh/a5c3ql8z","slide":3,"name":"footer-no-7","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1178,674,50,20]}
+{"kind":"textbox","id":"sh/x8nml0ra","slide":3,"name":"source-7","text":"Source: live metadata, sitemap and DOM audit · 18 Jul 2026","textPreview":"Source: live metadata, sitemap and DOM audit · 18 Jul 2026","textChars":58,"textLines":1,"bbox":[520,674,620,20]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":""}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"WHAT THE REDESIGN CREATES","textShapes":18}
+{"kind":"textbox","id":"sh/1wbapc7q","slide":4,"name":"s6-eyebrow","text":"WHAT THE REDESIGN CREATES","textPreview":"WHAT THE REDESIGN CREATES","textChars":25,"textLines":1,"bbox":[52,38,320,28]}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"name":"s6-title","text":"The new site turns expertise into searchable assets.","textPreview":"The new site turns expertise into searchable assets.","textChars":52,"textLines":1,"bbox":[52,76,1176,62]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"name":"s6-intro","text":"Four pages now do the explanation and trust-building that the old site leaves to the front desk.","textPreview":"Four pages now do the explanation and trust-building that the old site leaves to the front desk.","textChars":96,"textLines":1,"bbox":[52,145,1050,44]}
+{"kind":"shape","id":"sh/sjut8vmd","slide":4,"name":"s6-top-0","bbox":[52,210,540,0.01]}
+{"kind":"textbox","id":"sh/ql8jytsj","slide":4,"name":"s6-num-0","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[52,230,70,32]}
+{"kind":"textbox","id":"sh/doj29oba","slide":4,"name":"s6-title-0","text":"Heart Care","textPreview":"Heart Care","textChars":10,"textLines":1,"bbox":[138,226,420,38]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"name":"s6-copy-0","text":"1,924 words on warning signs, tests and treatments, with MedicalWebPage + FAQ schema.","textPreview":"1,924 words on warning signs, tests and treatments, with MedicalWebPage + FAQ schema.","textChars":85,"textLines":1,"bbox":[138,282,430,88]}
+{"kind":"shape","id":"sh/tkjq5c3e","slide":4,"name":"s6-top-1","bbox":[650,210,540,0.01]}
+{"kind":"textbox","id":"sh/ih8ju9sn","slide":4,"name":"s6-num-1","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[650,230,70,32]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"s6-title-1","text":"EECP","textPreview":"EECP","textChars":4,"textLines":1,"bbox":[736,226,420,38]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"name":"s6-copy-1","text":"1,607 words on suitability, benefits, limits and alternatives, backed by 10 evidence sources.","textPreview":"1,607 words on suitability, benefits, limits and alternatives, backed by 10 evidence sources.","textChars":93,"textLines":1,"bbox":[736,282,430,88]}
+{"kind":"shape","id":"sh/hoja9w3q","slide":4,"name":"s6-top-2","bbox":[52,420,540,0.01]}
+{"kind":"textbox","id":"sh/jadsz2xk","slide":4,"name":"s6-num-2","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[52,440,70,32]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"s6-title-2","text":"Doctors","textPreview":"Doctors","textChars":7,"textLines":1,"bbox":[138,436,420,38]}
+{"kind":"textbox","id":"sh/x8vaxsfe","slide":4,"name":"s6-copy-2","text":"16 specialists across 11 departments, with qualifications, focus and a direct booking path.","textPreview":"16 specialists across 11 departments, with qualifications, focus and a direct booking path.","textChars":91,"textLines":1,"bbox":[138,492,430,88]}
+{"kind":"shape","id":"sh/xsfqxs36","slide":4,"name":"s6-top-3","bbox":[650,420,540,0.01]}
+{"kind":"textbox","id":"sh/v6tsv2xo","slide":4,"name":"s6-num-3","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[650,440,70,32]}
+{"kind":"textbox","id":"sh/g36tgryd","slide":4,"name":"s6-title-3","text":"Local discovery","textPreview":"Local discovery","textChars":15,"textLines":1,"bbox":[736,436,420,38]}
+{"kind":"textbox","id":"sh/h4fa9wfy","slide":4,"name":"s6-copy-3","text":"Madhurawada NAP, directions, clean URLs, sitemap and MedicalClinic schema.","textPreview":"Madhurawada NAP, directions, clean URLs, sitemap and MedicalClinic schema.","textChars":74,"textLines":1,"bbox":[736,492,430,88]}
+{"kind":"shape","id":"sh/qlg769wj","slide":4,"name":"footer-rule-6","bbox":[52,662,1176,0.01]}
+{"kind":"textbox","id":"sh/oz29krqh","slide":4,"name":"footer-left-6","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[52,674,420,20]}
+{"kind":"textbox","id":"sh/3ytsrmpw","slide":4,"name":"footer-no-6","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1178,674,50,20]}
+{"kind":"textbox","id":"sh/2xkrih8b","slide":4,"name":"source-6","text":"Source: redesigned local build audit · 18 Jul 2026","textPreview":"Source: redesigned local build audit · 18 Jul 2026","textChars":50,"textLines":1,"bbox":[520,674,620,20]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":""}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"THE REDESIGNED JOURNEY","textShapes":17}
+{"kind":"textbox","id":"sh/pkr6tgjy","slide":5,"name":"s4-eyebrow","text":"THE REDESIGNED JOURNEY","textPreview":"THE REDESIGNED JOURNEY","textChars":22,"textLines":1,"bbox":[52,38,420,28]}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"name":"s4-title","text":"The new website sells trust before the appointment.","textPreview":"The new website sells trust before the appointment.","textChars":51,"textLines":1,"bbox":[52,76,1176,62]}
+{"kind":"shape","id":"sh/cf2tcr61","slide":5,"name":"s4-old-band","bbox":[52,160,1176,70]}
+{"kind":"textbox","id":"sh/z2tcnm5s","slide":5,"name":"s4-old-label","text":"OLD SEQUENCE","textPreview":"OLD SEQUENCE","textChars":12,"textLines":1,"bbox":[76,181,150,24]}
+{"kind":"textbox","id":"sh/yhkbe1o7","slide":5,"name":"s4-old-flow","text":"Generic promise  →  service list  →  appointment form","textPreview":"Generic promise  →  service list  →  appointment form","textChars":53,"textLines":1,"bbox":[230,176,900,34]}
+{"kind":"shape","id":"sh/qp4jm98v","slide":5,"name":"s4-line","bbox":[52,350,1176,0.01]}
+{"kind":"shape","id":"sh/032tgr6d","slide":5,"name":"s4-dot-0","bbox":[52,342,18,18]}
+{"kind":"textbox","id":"sh/n6dcr65o","slide":5,"name":"s4-num-0","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[52,286,80,32]}
+{"kind":"textbox","id":"sh/m5kbi1oj","slide":5,"name":"s4-title-0","text":"Find","textPreview":"Find","textChars":4,"textLines":1,"bbox":[52,392,330,44]}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"name":"s4-copy-0","text":"Dedicated Heart, EECP, Doctors and service pages match what patients actually search.","textPreview":"Dedicated Heart, EECP, Doctors and service pages match what patients actually search.","textChars":85,"textLines":1,"bbox":[52,452,320,116]}
+{"kind":"shape","id":"sh/x4vedgvm","slide":5,"name":"s4-dot-1","bbox":[444,342,18,18]}
+{"kind":"textbox","id":"sh/ahkvi1cb","slide":5,"name":"s4-num-1","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[444,286,80,32]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"s4-title-1","text":"Trust","textPreview":"Trust","textChars":5,"textLines":1,"bbox":[444,392,330,44]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"s4-copy-1","text":"Qualifications, evidence, suitability and limits answer: “Why should I choose Rise?”","textPreview":"Qualifications, evidence, suitability and limits answer: “Why should I choose Rise?”","textChars":84,"textLines":1,"bbox":[444,452,320,116]}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"s4-dot-2","bbox":[836,342,18,18]}
+{"kind":"textbox","id":"sh/i54fmlc7","slide":5,"name":"s4-num-2","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[836,286,80,32]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"s4-title-2","text":"Act","textPreview":"Act","textChars":3,"textLines":1,"bbox":[836,392,330,44]}
+{"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"name":"s4-copy-2","text":"Phone, WhatsApp, directions and booking turn confidence into a measurable enquiry.","textPreview":"Phone, WhatsApp, directions and booking turn confidence into a measurable enquiry.","textChars":82,"textLines":1,"bbox":[836,452,320,116]}
+{"kind":"textbox","id":"sh/tcfel0vu","slide":5,"name":"s4-close","text":"The website does the explanation and trust-building before the front desk receives the enquiry.","textPreview":"The website does the explanation and trust-building before the front desk receives the enquiry.","textChars":95,"textLines":1,"bbox":[52,600,1100,34]}
+{"kind":"shape","id":"sh/65cnahc7","slide":5,"name":"footer-rule-4","bbox":[52,662,1176,0.01]}
+{"kind":"textbox","id":"sh/gfi5grih","slide":5,"name":"footer-left-4","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[52,674,420,20]}
+{"kind":"textbox","id":"sh/fe94nm1w","slide":5,"name":"footer-no-4","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1178,674,50,20]}
+{"kind":"textbox","id":"sh/ud0ne10b","slide":5,"name":"source-4","text":"Source: redesigned page architecture","textPreview":"Source: redesigned page architecture","textChars":36,"textLines":1,"bbox":[520,674,620,20]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":""}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"THE DECISION","textShapes":6}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"s9-coral-bar","bbox":[52,52,10,586]}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"name":"s9-eyebrow","text":"THE DECISION","textPreview":"THE DECISION","textChars":12,"textLines":1,"bbox":[92,64,260,30]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"name":"s9-title","text":"Approve the redesigned website—and the SEO launch that makes it pay.","textPreview":"Approve the redesigned website—and the SEO launch that makes it pay.","textChars":68,"textLines":1,"bbox":[92,168,1000,250]}
+{"kind":"textbox","id":"sh/87ipkzal","slide":6,"name":"s9-subtitle","text":"Publish the content, protect every legacy URL, complete doctor and local schema, and measure calls, WhatsApp, directions, and bookings.","textPreview":"Publish the content, protect every legacy URL, complete doctor and local schema, and measure calls, WhatsApp, directions, and bookings.","textChars":135,"textLines":1,"bbox":[92,465,850,96]}
+{"kind":"textbox","id":"sh/98rqt4r6","slide":6,"name":"s9-actions","text":"1  Publish\n2  Protect\n3  Grow","textPreview":"1  Publish | 2  Protect | 3  Grow","textChars":29,"textLines":3,"bbox":[988,462,210,120]}
+{"kind":"shape","id":"sh/cbe5g3ih","slide":6,"name":"s9-footer-rule","bbox":[92,630,1106,0.01]}
+{"kind":"textbox","id":"sh/7m98ru9g","slide":6,"name":"s9-footer","text":"RISE MEDICAL HUB · WEBSITE DECISION","textPreview":"RISE MEDICAL HUB · WEBSITE DECISION","textChars":35,"textLines":1,"bbox":[92,646,440,22]}
+{"kind":"textbox","id":"sh/oryp8fah","slide":6,"name":"s9-no","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1150,646,48,22]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":""}

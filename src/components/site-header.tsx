@@ -13,7 +13,8 @@ export function SiteHeader() {
         <div className="container utility-inner">
           <span><i className="status-dot" /> Patient-first care in Madhurawada</span>
           <div className="utility-links">
-            <a href={contact.whatsappHref}>WhatsApp us</a>
+            <a className="utility-emergency" href="tel:108"><i className="utility-emergency-dot" aria-hidden="true" />Emergency · 108</a>
+            <a className="utility-wa" href={contact.whatsappHref}>WhatsApp us</a>
             <a href={contact.phoneHref}>24hr support · {contact.phone}</a>
           </div>
         </div>

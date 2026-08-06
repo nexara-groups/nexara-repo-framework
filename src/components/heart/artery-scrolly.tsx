@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { arterySteps } from "@/content/heart-guide";
+import { ChapterSources } from "@/components/heart/chapter-sources";
 
 // Chapter 03 — an artery in long-section narrowing over three beats:
 // build-up → angina → blockage. Same scrolly conventions as chapter 01
@@ -17,7 +18,7 @@ function ArteryFigure({ ids = true }: { ids?: boolean }) {
   return (
     <svg
       className="artery-fig"
-      viewBox="0 0 900 300"
+      viewBox="0 0 900 340"
       role="img"
       aria-label="Diagram of a coronary artery in cross-section: plaque builds on the walls, narrows the channel, and a clot finally blocks it"
     >
@@ -70,10 +71,21 @@ function ArteryFigure({ ids = true }: { ids?: boolean }) {
         d="M40 46 h60 l8 -12 8 12 h30 l8 -26 12 44 8 -18 h60 l8 -12 8 12 h30 l8 -26 12 44 8 -18 h60"
       />
 
+      <text className="ar-demand-label" x="850" y="45" textAnchor="end">HEART-MUSCLE DEMAND</text>
+
       {/* Captions per beat */}
-      <text className="ar-caption ar-caption-1" x="450" y="262" textAnchor="middle">Plaque narrows the channel</text>
-      <text className="ar-caption ar-caption-2" x="450" y="262" textAnchor="middle">Demand rises — supply can&rsquo;t follow</text>
-      <text className="ar-caption ar-caption-3" x="450" y="262" textAnchor="middle">A clot completes the block — minutes matter now</text>
+      <text className="ar-caption ar-caption-1" x="450" y="272" textAnchor="middle">Plaque narrows the channel</text>
+      <text className="ar-caption ar-caption-2" x="450" y="272" textAnchor="middle">Demand rises — supply can&rsquo;t follow</text>
+      <text className="ar-caption ar-caption-3" x="450" y="272" textAnchor="middle">A clot completes the block — minutes matter now</text>
+
+      {/* Orientation key stays visible through every beat. */}
+      <g className="ar-orientation">
+        <circle cx="72" cy="316" r="4" /><text x="86" y="320">UPSTREAM FLOW</text>
+        <path d="M215 316 H338" />
+        <circle cx="370" cy="316" r="4" /><text x="384" y="320">NARROWING ZONE</text>
+        <path d="M548 316 H670" />
+        <circle cx="702" cy="316" r="4" /><text x="716" y="320">DOWNSTREAM MUSCLE</text>
+      </g>
     </svg>
   );
 }
@@ -94,8 +106,8 @@ export function ArteryScrolly() {
         const q = gsap.utils.selector(art);
         const lanePath = q(".ar-lane")[0] as unknown as SVGPathElement;
 
-        gsap.set(q(".ar-plaque-top"), { scaleY: 0, transformOrigin: "center top" });
-        gsap.set(q(".ar-plaque-bot"), { scaleY: 0, transformOrigin: "center bottom" });
+        gsap.set(q(".ar-plaque-top"), { scaleY: 0.14, transformOrigin: "center top" });
+        gsap.set(q(".ar-plaque-bot"), { scaleY: 0.14, transformOrigin: "center bottom" });
         gsap.set(q(".ar-clot"), { opacity: 0 });
         gsap.set(q(".ar-downstream"), { opacity: 0 });
         gsap.set(q(".ar-caption"), { opacity: 0 });
@@ -128,7 +140,7 @@ export function ArteryScrolly() {
           scrollTrigger: {
             trigger: ".hc-artery-stage",
             start: "top top",
-            end: "+=300%",
+            end: "+=225%",
             pin: true,
             scrub: 0.7,
             anticipatePin: 1,
@@ -192,7 +204,7 @@ export function ArteryScrolly() {
 
         figs.forEach((fig) => {
           const q = gsap.utils.selector(fig);
-          gsap.set(q(".ar-plaque"), { scaleY: 0 });
+          gsap.set(q(".ar-plaque"), { scaleY: 0.14 });
           gsap.set(q(".ar-clot"), { opacity: 0 });
           gsap.set(q(".ar-downstream"), { opacity: 0 });
           gsap.set(q(".ar-caption"), { opacity: 0 });
@@ -294,6 +306,7 @@ export function ArteryScrolly() {
           </div>
         </div>
       </div>
+      <div className="container chapter-sources-wrap"><ChapterSources chapter="arteries" /></div>
     </section>
   );
 }

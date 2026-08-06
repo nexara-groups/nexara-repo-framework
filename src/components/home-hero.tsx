@@ -5,12 +5,16 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HeartFigure } from "@/components/heart/heart-figure";
+import { doctors } from "@/content/site-data";
 
+// Credibility-forward trust bar: lead with the site's strongest asset (the roster),
+// derived from the data so the numbers can never drift out of sync.
+const departmentCount = new Set(doctors.map((doc) => doc.department)).size;
 const stats = [
-  { value: 4, pad: 2, label: "care pathways" },
-  { value: 24, suffix: "h", label: "support line" },
+  { value: doctors.length, label: "specialists" },
+  { value: departmentCount, label: "departments" },
   { value: 35, label: "EECP sessions" },
-  { value: 1, pad: 2, label: "clear next step" },
+  { value: 24, suffix: "h", label: "support line" },
 ];
 
 export function HomeHero() {
@@ -155,8 +159,8 @@ export function HomeHero() {
         <div className="hm-stats">
           {stats.map((s) => (
             <div key={s.label}>
-              <strong className="hm-stat-num" data-value={s.value} data-pad={s.pad ?? 0} data-suffix={s.suffix ?? ""}>
-                {`${s.pad ? String(s.value).padStart(s.pad, "0") : s.value}${s.suffix ?? ""}`}
+              <strong className="hm-stat-num" data-value={s.value} data-suffix={s.suffix ?? ""}>
+                {`${s.value}${s.suffix ?? ""}`}
               </strong>
               <span>{s.label}</span>
             </div>

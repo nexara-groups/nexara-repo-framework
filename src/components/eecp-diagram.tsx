@@ -2,25 +2,27 @@ import type { CSSProperties } from "react";
 
 export function EecpNaturalBypass() {
   return (
-    <figure className="eecp-bypass" aria-label="Animated diagram: over a course of EECP, small collateral blood vessels open around a narrowed artery, forming natural detours for blood flow.">
-      <svg viewBox="0 0 440 260" role="img" focusable="false" aria-label="A narrowed artery with small collateral vessels opening around it as natural detours">
+    <figure className="eecp-bypass">
+      <svg viewBox="0 0 440 280" role="img" focusable="false" aria-label="A narrowed artery with possible collateral routes shown around it as a research-supported but non-guaranteed adaptation">
+        <rect className="bypass-frame" x="1" y="1" width="438" height="278" rx="20" />
+        <text className="mech-kicker" x="20" y="28">POSSIBLE VASCULAR ADAPTATION</text>
         {/* Main artery with a narrowed middle */}
-        <path className="bypass-artery" d="M14 130 C 90 130 128 118 168 118 C 200 118 205 142 220 142 C 235 142 240 118 272 118 C 312 118 350 130 426 130" />
-        <path className="bypass-artery bypass-artery-inner" d="M14 130 C 90 130 128 118 168 118 C 200 118 205 142 220 142 C 235 142 240 118 272 118 C 312 118 350 130 426 130" />
+        <path className="bypass-artery" d="M14 143 C 90 143 128 131 168 131 C 200 131 205 155 220 155 C 235 155 240 131 272 131 C 312 131 350 143 426 143" />
+        <path className="bypass-artery bypass-artery-inner" d="M14 143 C 90 143 128 131 168 131 C 200 131 205 155 220 155 C 235 155 240 131 272 131 C 312 131 350 143 426 143" />
         {/* Collateral routes drawing themselves in */}
-        <path className="bypass-collateral bypass-c1" d="M150 118 C 170 62 270 62 290 118" />
-        <path className="bypass-collateral bypass-c2" d="M162 126 C 190 196 250 196 278 126" />
+        <path className="bypass-collateral bypass-c1" d="M150 131 C 170 75 270 75 290 131" />
+        <path className="bypass-collateral bypass-c2" d="M162 139 C 190 209 250 209 278 139" />
         {/* Flow dots along the main artery */}
         <circle className="bypass-dot bypass-d1" cx="0" cy="0" r="4.5" />
         <circle className="bypass-dot bypass-d2" cx="0" cy="0" r="4.5" />
         {/* Below the lower collateral (its arc bottoms out around y=178) so
             the vessel never strikes through the text */}
-        <text className="mech-label" x="182" y="208">Narrowed</text>
-        <text className="mech-label" x="152" y="40">New collateral routes</text>
+        <text className="mech-label" x="184" y="236">Narrowing remains</text>
+        <text className="mech-label" x="145" y="62">Possible collateral support</text>
       </svg>
       <figcaption>
         <span className="pulse-icon" aria-hidden="true" />
-        <span>Repeated sessions encourage collateral vessels — your body&rsquo;s own detours.</span>
+        <span>Research suggests collateral function may improve in some patients. EECP does not create a surgical bypass or remove plaque.</span>
       </figcaption>
     </figure>
   );
@@ -28,7 +30,7 @@ export function EecpNaturalBypass() {
 
 export function EecpSessionScene() {
   return (
-    <div className="eecp-scene" role="img" aria-label="Illustration of a monitored EECP session: a patient reclines while cuffs on the calves, thighs and hips inflate in a wave, linked by hoses to a console that tracks the heartbeat on an ECG.">
+    <div className="eecp-scene" role="img" aria-label="Illustration of a monitored EECP session: a patient reclines while fixed cuffs on the calves, thighs, and upper thighs pressurise in sequence, linked by hoses to a console that tracks the heartbeat on an ECG.">
       <svg viewBox="0 0 420 470" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
         <defs>
           <linearGradient id="es-panel" x1="0" y1="0" x2="0" y2="1">
@@ -83,7 +85,7 @@ export function EecpSessionScene() {
         <path className="es-hair" d="M100 250 a24 24 0 0 1 26 -22 q-18 3 -26 22 z" />
         <circle className="es-head" cx="122" cy="252" r="24" />
 
-        {/* cuffs on calf, thigh, hip — inflate in a wave toward the heart */}
+        {/* fixed cuffs at calf, thigh, and upper thigh — pressure activates in sequence */}
         <rect className="es-cuff es-cuff-0" x="274" y="256" width="26" height="54" rx="12" />
         <rect className="es-cuff es-cuff-1" x="236" y="256" width="26" height="54" rx="12" />
         <rect className="es-cuff es-cuff-2" x="198" y="258" width="26" height="54" rx="12" />
@@ -97,24 +99,23 @@ export function EecpSessionScene() {
 }
 
 // The course is a journey from danger to safety, told in colour across the seven
-// weeks. It starts coral (symptoms at their heaviest), turns gold around week 4
-// (when collateral vessels begin forming — the biological turning point), and
-// settles into calm teal by week 7 (a steadier, safer state). Routing through
+// weeks. The colour simply groups the schedule from start → midpoint → finish;
+// it does not represent a biological milestone or promise an outcome. Routing through
 // gold keeps the ramp clean; a direct coral→teal RGB blend would muddy to grey.
-const DANGER: [number, number, number] = [220, 95, 114]; // coral — week 1
-const TURN: [number, number, number] = [217, 164, 65]; //   gold  — week 4
-const SAFE: [number, number, number] = [90, 165, 150]; //   teal  — week 7
+const START: [number, number, number] = [220, 95, 114];
+const MIDPOINT: [number, number, number] = [217, 164, 65];
+const FINISH: [number, number, number] = [90, 165, 150];
 const lerp = (a: number, b: number, t: number) => Math.round(a + (b - a) * t);
 const mix = (a: [number, number, number], b: [number, number, number], u: number) =>
   `rgb(${lerp(a[0], b[0], u)}, ${lerp(a[1], b[1], u)}, ${lerp(a[2], b[2], u)})`;
 const weekColor = (week: number) => {
   const t = (week - 1) / 6; // 0 at week 1 → 1 at week 7, with the turn at t = 0.5
-  return t <= 0.5 ? mix(DANGER, TURN, t / 0.5) : mix(TURN, SAFE, (t - 0.5) / 0.5);
+  return t <= 0.5 ? mix(START, MIDPOINT, t / 0.5) : mix(MIDPOINT, FINISH, (t - 0.5) / 0.5);
 };
 
 export function EecpCourseGrid() {
   return (
-    <div className="course-block" role="img" aria-label="Thirty-five sessions shown as seven weekly columns of five dots — one dot per daily one-hour session across seven weeks. Colour travels from coral to teal as the weeks pass: the warm coral start marks where symptoms are heaviest, the gold midpoint around week four is when collateral vessels begin forming, and the calm teal finish marks a steadier, safer state by session thirty-five.">
+    <div className="course-block" role="img" aria-label="A usual thirty-five-session EECP course shown as seven weekly columns of five dots. The colour groups the schedule from start to finish and does not represent a promised medical outcome.">
       <div className="course-weeks" aria-hidden="true">
         {Array.from({ length: 7 }, (_, w) => (
           <small key={w}>{w + 1}</small>
@@ -134,13 +135,13 @@ export function EecpCourseGrid() {
       </div>
       <ol className="course-beats" aria-hidden="true">
         <li className="course-beat">
-          <span className="course-beat-tick" /><b>Day 1</b><small>Where the course begins</small>
+          <span className="course-beat-tick" /><b>Session 1</b><small>Baseline symptoms and comfort</small>
         </li>
         <li className="course-beat course-beat-mid">
-          <span className="course-beat-tick" /><b>By week 4</b><small>Collateral vessels begin forming</small>
+          <span className="course-beat-tick" /><b>Around week 4</b><small>Progress and tolerance review</small>
         </li>
         <li className="course-beat course-beat-end">
-          <span className="course-beat-tick" /><b>Session 35</b><small>Steadier, calmer days</small>
+          <span className="course-beat-tick" /><b>Session 35</b><small>Full-course response review</small>
         </li>
       </ol>
     </div>

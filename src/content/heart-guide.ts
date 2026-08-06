@@ -6,7 +6,7 @@ export const chapters = [
   { id: "warning-signs", num: "05", title: "Warning signs" },
   { id: "protect", num: "06", title: "How to protect it" },
   { id: "tests", num: "07", title: "Tests, decoded" },
-  { id: "treatment", num: "08", title: "Treatment & the third option" },
+  { id: "treatment", num: "08", title: "Treatment pathways" },
 ] as const;
 
 export const flowSteps = [
@@ -18,7 +18,7 @@ export const flowSteps = [
 
 export type Vital = { label: string; reading: string; unit: string; bands: { label: string; range: string; tone: "good" | "watch" | "act" }[]; note: string };
 export const vitals: Vital[] = [
-  { label: "Blood pressure", reading: "120/80", unit: "mmHg", bands: [ { label: "Healthy", range: "below 120/80", tone: "good" }, { label: "Elevated", range: "120–139 / 80–89", tone: "watch" }, { label: "High — consult", range: "140/90 and above", tone: "act" } ], note: "One high reading is not a diagnosis — patterns over a week are what your doctor reads." },
+  { label: "Blood pressure", reading: "<120/80", unit: "mmHg", bands: [ { label: "Normal", range: "below 120 and 80", tone: "good" }, { label: "Elevated", range: "120–129 and below 80", tone: "watch" }, { label: "Stage 1 — discuss", range: "130–139 or 80–89", tone: "watch" }, { label: "Stage 2 — consult", range: "140 or 90 and above", tone: "act" } ], note: "Categories use average readings — one high result is not a diagnosis. Your overall risk still changes the plan." },
   { label: "Resting heart rate", reading: "60–100", unit: "beats/min", bands: [ { label: "Typical", range: "60–100", tone: "good" }, { label: "Discuss", range: "consistently outside that, or irregular", tone: "watch" }, { label: "Act", range: "racing or fluttering at rest with dizziness", tone: "act" } ], note: "Fit people often sit below 60 — context matters more than the number." },
   { label: "LDL cholesterol", reading: "<100", unit: "mg/dL", bands: [ { label: "Optimal", range: "below 100", tone: "good" }, { label: "Borderline", range: "100–159", tone: "watch" }, { label: "High — consult", range: "160 and above", tone: "act" } ], note: "Your personal target depends on your overall risk — set it with your doctor." },
   { label: "HbA1c", reading: "<5.7", unit: "%", bands: [ { label: "Typical", range: "below 5.7", tone: "good" }, { label: "Prediabetes", range: "5.7–6.4", tone: "watch" }, { label: "Diabetes range", range: "6.5 and above", tone: "act" } ], note: "Sugar and heart health are one story — high sugar quietly injures arteries." },
@@ -53,7 +53,7 @@ export const plannedSigns = [
 
 export type HeartTest = { name: string; sees: string; when: string; feels: string; time: string };
 export const heartTests: HeartTest[] = [
-  { name: "ECG", sees: "The heart's electrical rhythm — a 10-second snapshot.", when: "Every cardiac evaluation starts here; also during chest pain or palpitations.", feels: "Stickers on the chest, nothing more.", time: "5 min" },
+  { name: "ECG", sees: "The heart's electrical rhythm — a 10-second snapshot.", when: "Often one of the first tests during chest pain, palpitations, or a cardiac review.", feels: "Chest stickers; removing them can cause brief skin discomfort.", time: "5 min" },
   { name: "Echocardiogram", sees: "Live ultrasound of chambers, valves, and pumping strength.", when: "Breathlessness, murmurs, after a heart attack, heart-failure checks.", feels: "A probe glides over gel on your chest.", time: "20–30 min" },
   { name: "Treadmill test (TMT)", sees: "How the heart behaves under real exertion.", when: "Exertional chest discomfort with a normal resting ECG.", feels: "A brisk, monitored walk that gets steeper.", time: "30–40 min" },
   { name: "Holter monitor", sees: "Every single beat across 24 hours — a rhythm film, not a snapshot.", when: "Palpitations or dizziness that never seem to happen in the clinic.", feels: "A pocket-sized recorder worn for a day.", time: "24 h" },

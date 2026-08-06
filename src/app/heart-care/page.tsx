@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
 };
 
-// MedicalWebPage schema with only verifiable facts. `reviewedBy` is omitted
+// MedicalWebPage schema with only verifiable facts. `reviewedBy` stays omitted
 // until a named clinician signs off on the content.
 const jsonLd = {
   "@context": "https://schema.org",
@@ -26,7 +26,7 @@ const jsonLd = {
   url: "https://risemedicalhub.com/heart-care",
   description: DESCRIPTION,
   about: { "@type": "MedicalCondition", name: "Cardiovascular health" },
-  lastReviewed: "2026-07-11",
+  dateModified: "2026-07-14",
   inLanguage: "en-IN",
 };
 
@@ -42,7 +42,7 @@ const faqJsonLd = {
 
 export default function HeartCarePage() {
   return (
-    <main>
+    <main className="heart-care-main">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}

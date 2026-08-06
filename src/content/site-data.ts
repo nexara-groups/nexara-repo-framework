@@ -15,9 +15,9 @@ export const services: Service[] = [
     slug: "eecp-therapy",
     number: "01",
     name: "EECP Therapy",
-    short: "A considered, non-invasive pathway for heart health.",
+    short: "A selected, non-invasive option for persistent angina.",
     detail:
-      "Enhanced External Counterpulsation is delivered as an outpatient therapy with clinical monitoring and a calm, step-by-step experience.",
+      "Enhanced External Counterpulsation is considered for selected chronic refractory angina when symptoms persist despite medical therapy and revascularisation is unsuitable or options are exhausted.",
     art: "eecp",
   },
   {

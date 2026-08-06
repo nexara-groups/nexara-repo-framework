@@ -6,7 +6,10 @@ import { HomeMarquee } from "@/components/home-marquee";
 import { HomeManifesto } from "@/components/home-manifesto";
 import { HomePathways } from "@/components/home-pathways";
 import { HeartFigure } from "@/components/heart/heart-figure";
-import { contact } from "@/content/site-data";
+import { contact, doctors } from "@/content/site-data";
+
+const departmentCount = new Set(doctors.map((doc) => doc.department)).size;
+const featuredDoctors = doctors.slice(0, 3);
 
 export default function HomePage() {
   return (
@@ -15,6 +18,28 @@ export default function HomePage() {
       <HomeMarquee />
       <HomeManifesto />
       <HomePathways />
+
+      <section className="section-pad hm-team">
+        <div className="container section-heading">
+          <Reveal variant="mask"><span className="eyebrow">The people behind the care</span><h2>Meet a few of<br /><em>the team.</em></h2></Reveal>
+          <Reveal className="heading-aside" delay={100}><p>{doctors.length} specialists across {departmentCount} departments — each with one habit in common: they explain before they act.</p></Reveal>
+        </div>
+        <div className="container hm-team-grid">
+          {featuredDoctors.map((doc, index) => (
+            <Reveal key={doc.slug} className="hm-team-card" delay={index * 90}>
+              <Link href="/doctors">
+                <span className="hm-team-avatar" aria-hidden="true">{doc.initials}</span>
+                <strong>{doc.name}</strong>
+                <span className="hm-team-role">{doc.role}</span>
+                <span className="hm-team-dept">{doc.department}</span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+        <div className="container hm-team-foot">
+          <Reveal><Link className="text-link" href="/doctors">Meet all {doctors.length} specialists <b aria-hidden="true">↗</b></Link></Reveal>
+        </div>
+      </section>
 
       <section className="hm-guide section-pad">
         <div className="container hm-guide-grid">
@@ -33,9 +58,9 @@ export default function HomePage() {
           <Reveal className="eecp-feature-art"><EecpPulseArt /></Reveal>
           <Reveal className="eecp-feature-copy" delay={120}>
             <span className="eyebrow eyebrow-light">Our signature pathway</span>
-            <h2>A third option<br /><em>for your heart.</em></h2>
-            <p>When medicines aren&rsquo;t enough and surgery isn&rsquo;t the answer, EECP offers a non-surgical, FDA-cleared way to help blood reach the heart — one quiet hour a day, no recovery bed.</p>
-            <div className="eecp-hero-chips"><span>Non-surgical</span><span>35 sessions · 7 weeks</span><span>Walk in, walk out</span></div>
+            <h2>A selected option<br /><em>for persistent angina.</em></h2>
+            <p>For selected patients whose chronic angina persists despite medical therapy—especially when revascularisation is unsuitable or options are exhausted—EECP may offer non-invasive symptom relief.</p>
+            <div className="eecp-hero-chips"><span>Cardiologist-selected</span><span>Usually 35 sessions</span><span>Walk in, walk out</span></div>
             <div className="signal-line" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /><i /></div>
             <Link className="button button-coral" href="/eecp-therapy">Explore EECP Therapy <b aria-hidden="true">↗</b></Link>
           </Reveal>

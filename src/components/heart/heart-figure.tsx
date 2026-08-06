@@ -26,18 +26,33 @@ const labels = [
   { id: "pv", text: "Pulmonary veins", x: 390, y: 218, anchor: "start" as const, lead: "M382 214 L342 190" },
 ];
 
+// The scrollytelling figure needs more room than the decorative hero figure.
+// These labels sit in deliberate outer gutters, away from the vessels they name.
+const teachingLabels = [
+  { id: "ra", text: "Right atrium", x: -90, y: 168, anchor: "start" as const, lead: "M24 164 L119 164" },
+  { id: "rv", text: "Right ventricle", x: -90, y: 310, anchor: "start" as const, lead: "M24 306 L151 284" },
+  { id: "la", text: "Left atrium", x: 420, y: 144, anchor: "start" as const, lead: "M408 140 L337 164" },
+  { id: "lv", text: "Left ventricle", x: 420, y: 328, anchor: "start" as const, lead: "M408 324 L323 300" },
+  { id: "aorta", text: "Aorta · to body", x: 330, y: -42, anchor: "middle" as const, lead: "M300 -33 L281 18" },
+  { id: "pa", text: "Pulmonary arteries", x: -76, y: 72, anchor: "start" as const, lead: "M36 68 L174 82" },
+  { id: "vc", text: "Vena cava · from body", x: 86, y: -42, anchor: "middle" as const, lead: "M126 -33 L150 8" },
+  { id: "pv", text: "Pulmonary veins", x: 420, y: 232, anchor: "start" as const, lead: "M408 228 L342 190" },
+];
+
 export function HeartFigure({
   ids = true,
   lungs = true,
+  teaching = false,
   uid = "hf",
-}: { ids?: boolean; lungs?: boolean; uid?: string } = {}) {
+}: { ids?: boolean; lungs?: boolean; teaching?: boolean; uid?: string } = {}) {
   const id = (name: string) => (ids ? name : undefined);
   const g = (name: string) => `${uid}-${name}`;
+  const figureLabels = teaching ? teachingLabels : labels;
 
   return (
     <svg
-      className="heart-fig"
-      viewBox="-80 -70 600 570"
+      className={`heart-fig${teaching ? " heart-fig-teaching" : ""}`}
+      viewBox={teaching ? "-120 -78 710 586" : "-80 -70 600 570"}
       role="img"
       aria-label="Anterior teaching view of the heart and lungs, showing oxygen-poor blood entering the right heart, travelling to the lungs, returning to the left heart, and leaving through the aorta"
     >
@@ -213,7 +228,7 @@ export function HeartFigure({
         />
       ))}
 
-      {labels.map((label) => (
+      {figureLabels.map((label) => (
         <g key={label.id} className={`hf-label hf-label-${label.id}`}>
           <path className="hf-label-line" d={label.lead} />
           <text x={label.x} y={label.y} textAnchor={label.anchor}>{label.text}</text>

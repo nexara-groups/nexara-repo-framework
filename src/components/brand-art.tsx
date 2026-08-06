@@ -10,7 +10,7 @@ export function HeroEcg() {
 }
 
 const cuffs = [
-  // Fires first: calf — then thigh — then hip. Distal to proximal, the EECP sequence.
+  // Pressure activates first at the calf, then thigh, then upper thigh. The cuff shells stay fixed.
   { x: 414, y: 362, w: 26, h: 46, num: "1", nx: 427, ny: 330 },
   { x: 350, y: 354, w: 30, h: 54, num: "2", nx: 365, ny: 322 },
   { x: 290, y: 356, w: 34, h: 54, num: "3", nx: 307, ny: 324 },
@@ -18,7 +18,7 @@ const cuffs = [
 
 export function EecpPulseArt() {
   return (
-    <svg viewBox="0 0 560 560" role="img" focusable="false" aria-label="Animated artwork: a patient reclines on a treatment bed while three leg cuffs inflate in sequence — calf, thigh, hip — pushing blood up to a beating heart, all timed to an ECG trace. The principle of EECP therapy.">
+    <svg viewBox="0 0 560 560" role="img" focusable="false" aria-label="Animated artwork: a patient reclines on a treatment bed while three fixed leg cuffs pressurise in sequence at the calf, thigh, and upper thigh, supporting blood flow toward the heart in time with an ECG trace.">
       <defs>
         <radialGradient id="paHeartGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#dc5f72" stopOpacity=".38" />
@@ -63,7 +63,7 @@ export function EecpPulseArt() {
           <circle key={i} className={`pa-blood pa-blood-${i}`} r="5" />
         ))}
 
-        {/* ——— Three cuffs, firing in sequence ——— */}
+        {/* ——— Three fixed cuff shells, with pressure indicated by colour ——— */}
         {cuffs.map((cuff, i) => (
           <g key={cuff.num}>
             <rect className={`pa-cuff pa-cuff-${i}`} x={cuff.x} y={cuff.y} width={cuff.w} height={cuff.h} rx="12" />

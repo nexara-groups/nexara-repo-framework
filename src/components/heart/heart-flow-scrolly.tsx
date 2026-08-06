@@ -6,6 +6,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { flowSteps } from "@/content/heart-guide";
 import { HeartFigure } from "@/components/heart/heart-figure";
+import { ChapterSources } from "@/components/heart/chapter-sources";
 
 // Chapter 01 — ride a drop of blood through the heart. Pattern-clone of
 // eecp-scrolly (pin + scrub + stepped copy, shared .s-* classes). Below 900px
@@ -47,7 +48,7 @@ export function HeartFlowScrolly() {
           scrollTrigger: {
             trigger: ".hc-flow-stage",
             start: "top top",
-            end: "+=380%",
+            end: "+=300%",
             pin: true,
             scrub: 0.7,
             anticipatePin: 1,
@@ -65,7 +66,8 @@ export function HeartFlowScrolly() {
           .to(q(".hf-particle-in"), { opacity: 0, duration: 0.25 }, "in+=1.55")
           .to(".s-bar", { scaleX: 0.25, duration: 1.8 }, "in");
 
-        tl.to(".s-step-0", { autoAlpha: 0, y: -34, duration: 0.4 }, "+=0.3")
+        tl.to(q(".hf-label-vc, .hf-label-ra, .hf-label-rv"), { opacity: 0, duration: 0.25 }, "+=0.2")
+          .to(".s-step-0", { autoAlpha: 0, y: -34, duration: 0.4 }, "<")
           .to(".s-step-1", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
           .addLabel("lungs");
 
@@ -80,7 +82,8 @@ export function HeartFlowScrolly() {
           .to(q(".hf-particle-lungs"), { opacity: 0, duration: 0.25 }, "lungs+=1.55")
           .to(".s-bar", { scaleX: 0.5, duration: 1.8 }, "lungs");
 
-        tl.to(".s-step-1", { autoAlpha: 0, y: -34, duration: 0.4 }, "+=0.3")
+        tl.to(q(".hf-label-pa"), { opacity: 0, duration: 0.25 }, "+=0.2")
+          .to(".s-step-1", { autoAlpha: 0, y: -34, duration: 0.4 }, "<")
           .to(".s-step-2", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
           .addLabel("return");
 
@@ -96,7 +99,8 @@ export function HeartFlowScrolly() {
           .to(q(".hf-particle-return"), { opacity: 0, duration: 0.25 }, "return+=1.55")
           .to(".s-bar", { scaleX: 0.75, duration: 1.8 }, "return");
 
-        tl.to(".s-step-2", { autoAlpha: 0, y: -34, duration: 0.4 }, "+=0.3")
+        tl.to(q(".hf-label-pv, .hf-label-la, .hf-label-lv"), { opacity: 0, duration: 0.25 }, "+=0.2")
+          .to(".s-step-2", { autoAlpha: 0, y: -34, duration: 0.4 }, "<")
           .to(".s-step-3", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
           .addLabel("out");
 
@@ -234,11 +238,16 @@ export function HeartFlowScrolly() {
         <span className="eyebrow">Chapter 01</span>
         <h2>How your heart works,<br /><em>one beat at a time.</em></h2>
         <p>Two pumps, four valves, one loop. Scroll slowly — you&rsquo;re riding a drop of blood through it.</p>
+        <div className="hc-flow-guide" aria-label="How to use this section">
+          <span><b>04</b> clear moments</span>
+          <span><b>01</b> blood cell to follow</span>
+          <span><i aria-hidden="true" /> Scroll to move it</span>
+        </div>
       </div>
       <div className="hc-flow-stage scrolly-stage">
         <div className="scrolly-grid">
           <div className="scrolly-art hc-flow-art">
-            <HeartFigure uid="flow" />
+            <HeartFigure uid="flow" teaching />
           </div>
           <div className="scrolly-copy">
             <div className="s-bar-track"><span className="s-bar" /></div>
@@ -249,7 +258,7 @@ export function HeartFlowScrolly() {
                   <h3>{step.title}</h3>
                   <p>{step.copy}</p>
                   <div className="hc-step-fig" data-beat={index + 1} aria-hidden="true">
-                    <HeartFigure ids={false} uid={`step${index + 1}`} />
+                    <HeartFigure ids={false} teaching uid={`step${index + 1}`} />
                   </div>
                 </div>
               ))}
@@ -258,6 +267,7 @@ export function HeartFlowScrolly() {
           </div>
         </div>
       </div>
+      <div className="container chapter-sources-wrap"><ChapterSources chapter="flow" /></div>
     </section>
   );
 }

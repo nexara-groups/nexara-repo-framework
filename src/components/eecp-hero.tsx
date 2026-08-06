@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HeroEcg, EecpPulseArt } from "@/components/brand-art";
+import { HashlessSectionLink } from "@/components/hashless-section-link";
 
 export function EecpHero() {
   const ref = useRef<HTMLElement>(null);
@@ -17,34 +18,34 @@ export function EecpHero() {
         // Entrance — plays once
         const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
         intro
-          .from(".h-line-inner", { yPercent: 115, duration: 1.1, stagger: 0.14, ease: "power4.out" }, 0.1)
-          .from(".hi", { autoAlpha: 0, y: 36, duration: 0.9, stagger: 0.09 }, 0.35)
-          .from(".eecp-hero-chips span", { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.07 }, "-=0.55")
-          .from(".eecp-hero-art svg", { autoAlpha: 0, scale: 0.9, x: 60, transformOrigin: "center center", duration: 1.2, ease: "power2.out" }, 0.3)
-          .from(".eecp-hero-card", { autoAlpha: 0, y: 18, duration: 0.6 }, "-=0.45")
-          .from(".eecp-hero-ecg", { autoAlpha: 0, duration: 0.8 }, 0.5);
+          .from(".h-line-inner", { yPercent: 115, duration: 0.72, stagger: 0.08, ease: "power4.out" }, 0.05)
+          .from(".hi", { y: 24, duration: 0.5, stagger: 0.04 }, 0.18)
+          .from(".eecp-hero-chips span", { y: 10, duration: 0.3, stagger: 0.04 }, 0.34)
+          .from(".eecp-hero-art svg", { scale: 0.94, x: 36, transformOrigin: "center center", duration: 0.72, ease: "power2.out" }, 0.16)
+          .from(".eecp-hero-card", { y: 12, duration: 0.35 }, 0.48)
+          .from(".eecp-hero-ecg", { y: 10, duration: 0.42 }, 0.24);
 
         // Failsafe: if the ticker stalls (background tab, throttled device),
         // snap the timeline to completion so content is never stuck invisible.
-        const failsafe = window.setTimeout(() => intro.progress(1), 4000);
+        const failsafe = window.setTimeout(() => intro.progress(1), 2000);
 
-        // The artwork never sits still — slow breathing float
-        gsap.to(".art-float", { y: 13, duration: 3.2, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 1.6 });
-
-        // Live BPM readout on the card
-        const bpm = ref.current?.querySelector(".bpm-num");
-        const bpmTick = bpm
-          ? window.setInterval(() => {
-              bpm.textContent = String(67 + Math.round(Math.random() * 9));
-              gsap.fromTo(bpm, { scale: 1.3 }, { scale: 1, duration: 0.4, transformOrigin: "center center", display: "inline-block" });
-            }, 1600)
-          : undefined;
+        // The artwork breathes only while the hero is onscreen.
+        const floatTween = gsap.to(".art-float", { y: 13, duration: 3.2, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 1.6 });
+        ScrollTrigger.create({
+          trigger: ref.current,
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: () => floatTween.play(),
+          onEnterBack: () => floatTween.play(),
+          onLeave: () => floatTween.pause(),
+          onLeaveBack: () => floatTween.pause(),
+        });
 
         const ring = ref.current?.querySelector<SVGGeometryElement>(".eecp-hero-art .hero-ring");
         if (ring) {
           const len = ring.getTotalLength();
           gsap.set(ring, { strokeDasharray: len, strokeDashoffset: len });
-          intro.to(ring, { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut" }, 0.45);
+          intro.to(ring, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 0.28);
         }
 
         if (process.env.NODE_ENV !== "production") {
@@ -72,14 +73,12 @@ export function EecpHero() {
           ref.current?.addEventListener("pointerleave", leave);
           return () => {
             window.clearTimeout(failsafe);
-            if (bpmTick) window.clearInterval(bpmTick);
             ref.current?.removeEventListener("pointermove", move);
             ref.current?.removeEventListener("pointerleave", leave);
           };
         }
         return () => {
           window.clearTimeout(failsafe);
-          if (bpmTick) window.clearInterval(bpmTick);
         };
       });
     }, ref);
@@ -93,14 +92,14 @@ export function EecpHero() {
         <div className="eecp-hero-copy">
           <span className="eyebrow hi">Signature care — EECP therapy</span>
           <h1>
-            <span className="h-line"><span className="h-line-inner">When medicines aren&rsquo;t enough,</span></span>
-            <span className="h-line"><span className="h-line-inner"><em>and surgery isn&rsquo;t the answer.</em></span></span>
+            <span className="h-line"><span className="h-line-inner">EECP for</span></span>
+            <span className="h-line"><span className="h-line-inner"><em>selected persistent angina.</em></span></span>
           </h1>
-          <p className="hi">There is a third option. Enhanced External Counterpulsation helps blood reach your heart using nothing but carefully timed pressure — one quiet hour a day. No theatre, no stitches, no recovery bed.</p>
-          <div className="eecp-hero-chips"><span>FDA-cleared class</span><span>Non-surgical · no anaesthesia</span><span>35 sessions · 7 weeks</span></div>
+          <p className="hi">EECP is a non-invasive symptom-relief option for selected people whose angina continues despite medicines. It is considered when angioplasty or bypass is unsuitable or no further revascularisation option remains.</p>
+          <div className="eecp-hero-chips"><span>Selected by a heart specialist</span><span>Non-invasive · no anaesthesia</span><span>Monitored outpatient care</span></div>
           <div className="hero-actions hi">
-            <Link className="button button-coral" href="/appointment">Book an EECP consultation <b aria-hidden="true">↗</b></Link>
-            <a className="button button-ghost-light" href="#how-it-works">See how it works <b aria-hidden="true">↓</b></a>
+            <Link className="button button-coral" href="/appointment">Request a suitability review <b aria-hidden="true">↗</b></Link>
+            <HashlessSectionLink className="button button-ghost-light" targetId="suitability">Check suitability <b aria-hidden="true">↓</b></HashlessSectionLink>
           </div>
           <div className="breadcrumbs hi"><Link href="/">Home</Link><span>/</span><span>EECP Therapy</span></div>
         </div>
@@ -108,8 +107,8 @@ export function EecpHero() {
           <EecpPulseArt />
           <div className="eecp-hero-card">
             <span className="pulse-icon" aria-hidden="true" />
-            <span><strong>Timed to every beat</strong><small>ECG-guided, all 60 minutes</small></span>
-            <span className="bpm-chip"><b className="bpm-num">72</b> bpm</span>
+            <span><strong>Timed to each heartbeat</strong><small>ECG guides the cuff sequence</small></span>
+            <span className="bpm-chip"><b>ECG</b> timing</span>
           </div>
         </div>
       </div>
