@@ -6,6 +6,7 @@ import { PermissionService } from "./rbac";
 import type { ProfileRepository, UserRepository } from "./repositories";
 import type { EventBus } from "./events";
 import type { StorageProvider } from "./storage";
+import type { EmailProvider } from "./email";
 
 // Concrete providers + infrastructure are imported ONLY here, in the
 // composition root.
@@ -15,6 +16,12 @@ import { D1DatabaseProvider, type D1DatabaseBinding } from "./database/providers
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
 import { JwtAuthProvider } from "./auth/providers/jwt-auth-provider";
 import { R2StorageProvider, type R2BucketBinding } from "./storage/providers/r2-storage-provider";
+import { BrevoEmailProvider } from "./email/providers/brevo-email-provider";
+import { ConsoleEmailProvider } from "./email/providers/console-email-provider";
+import { parseRecipientAllowlist, RecipientAllowlistEmailProvider } from "./email/providers/recipient-allowlist-email-provider";
+import { ResendEmailProvider } from "./email/providers/resend-email-provider";
+import { SesEmailProvider } from "./email/providers/ses-email-provider";
+import { UnavailableEmailProvider } from "./email/providers/unavailable-email-provider";
 import { SupabaseProfileRepository, SupabaseUserRepository, SqlCredentialsRepository, InMemoryEventBus } from "../infrastructure";
 
 /**
@@ -39,6 +46,7 @@ export interface Services {
   readonly repositories: Repositories;
   readonly events: EventBus;
   readonly storage?: StorageProvider;
+  readonly email?: EmailProvider;
 }
 
 /**
@@ -73,8 +81,9 @@ export function createServices(env: CloudflareBindings): Services {
 
   // 7. Optional media storage. Applications opt in with STORAGE_PROVIDER=r2.
   const storage = createStorageProvider(platform, env);
+  const email = createEmailProvider(platform);
 
-  return { platform, database, auth, permissions, repositories, events, storage };
+  return { platform, database, auth, permissions, repositories, events, storage, email };
 }
 
 function createPlatformProvider(env: CloudflareBindings): PlatformProvider {
@@ -169,4 +178,48 @@ function createStorageProvider(
     default:
       throw AppError.provider(`Unsupported STORAGE_PROVIDER: ${which}`);
   }
+}
+
+function createEmailProvider(platform: PlatformProvider): EmailProvider | undefined {
+  const which = platform.getEnv("EMAIL_PROVIDER")?.toLowerCase();
+  if (!which) return undefined;
+  const from = platform.getEnv("EMAIL_FROM") ?? "Nexara <no-reply@localhost>";
+  let provider: EmailProvider;
+
+  switch (which) {
+    case "console":
+      provider = new ConsoleEmailProvider();
+      break;
+    case "unavailable":
+      provider = new UnavailableEmailProvider();
+      break;
+    case "resend":
+      provider = new ResendEmailProvider({ apiKey: platform.requireEnv("RESEND_API_KEY"), from });
+      break;
+    case "brevo":
+      provider = new BrevoEmailProvider({
+        apiKey: platform.requireEnv("BREVO_API_KEY"),
+        fromEmail: platform.requireEnv("EMAIL_FROM_ADDRESS"),
+        fromName: platform.requireEnv("EMAIL_FROM_NAME"),
+      });
+      break;
+    case "ses":
+      provider = new SesEmailProvider({
+        region: platform.requireEnv("AWS_SES_REGION"),
+        accessKeyId: platform.requireEnv("AWS_SES_ACCESS_KEY_ID"),
+        secretAccessKey: platform.requireEnv("AWS_SES_SECRET_ACCESS_KEY"),
+        from,
+      });
+      break;
+    default:
+      throw AppError.provider(`Unsupported EMAIL_PROVIDER: ${which}`);
+  }
+
+  if (platform.getEnv("APP_ENV") === "staging" && provider.name !== "console" && provider.name !== "unavailable") {
+    return new RecipientAllowlistEmailProvider(
+      provider,
+      parseRecipientAllowlist(platform.requireEnv("STAGING_EMAIL_RECIPIENT_ALLOWLIST")),
+    );
+  }
+  return provider;
 }
