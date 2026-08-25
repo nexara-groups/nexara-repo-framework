@@ -5,6 +5,7 @@ import type { PlatformProvider } from "./platform";
 import { PermissionService } from "./rbac";
 import type { ProfileRepository, UserRepository } from "./repositories";
 import type { EventBus } from "./events";
+import type { StorageProvider } from "./storage";
 
 // Concrete providers + infrastructure are imported ONLY here, in the
 // composition root.
@@ -13,6 +14,7 @@ import { SupabaseDatabaseProvider } from "./database/providers/supabase-database
 import { D1DatabaseProvider, type D1DatabaseBinding } from "./database/providers/d1-database-provider";
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
 import { JwtAuthProvider } from "./auth/providers/jwt-auth-provider";
+import { R2StorageProvider, type R2BucketBinding } from "./storage/providers/r2-storage-provider";
 import { SupabaseProfileRepository, SupabaseUserRepository, SqlCredentialsRepository, InMemoryEventBus } from "../infrastructure";
 
 /**
@@ -36,6 +38,7 @@ export interface Services {
   readonly permissions: PermissionService;
   readonly repositories: Repositories;
   readonly events: EventBus;
+  readonly storage?: StorageProvider;
 }
 
 /**
@@ -68,7 +71,10 @@ export function createServices(env: CloudflareBindings): Services {
   //    composition time (e.g. events.subscribe("UserCreated", handler)).
   const events: EventBus = new InMemoryEventBus();
 
-  return { platform, database, auth, permissions, repositories, events };
+  // 7. Optional media storage. Applications opt in with STORAGE_PROVIDER=r2.
+  const storage = createStorageProvider(platform, env);
+
+  return { platform, database, auth, permissions, repositories, events, storage };
 }
 
 function createPlatformProvider(env: CloudflareBindings): PlatformProvider {
@@ -144,4 +150,23 @@ function isAtomicBatchDatabaseProvider(
   database: DatabaseProvider,
 ): database is AtomicBatchDatabaseProvider {
   return "batch" in database && typeof database.batch === "function";
+}
+
+function createStorageProvider(
+  platform: PlatformProvider,
+  env: CloudflareBindings,
+): StorageProvider | undefined {
+  const which = platform.getEnv("STORAGE_PROVIDER")?.toLowerCase();
+  if (!which) return undefined;
+  switch (which) {
+    case "r2": {
+      if (!env.NEXARA_MEDIA) throw AppError.platform("Missing required R2 binding: NEXARA_MEDIA");
+      return new R2StorageProvider({
+        bucket: env.NEXARA_MEDIA as R2BucketBinding,
+        publicOrigin: platform.requireEnv("MEDIA_PUBLIC_ORIGIN"),
+      });
+    }
+    default:
+      throw AppError.provider(`Unsupported STORAGE_PROVIDER: ${which}`);
+  }
 }

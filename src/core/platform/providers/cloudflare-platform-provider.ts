@@ -29,6 +29,7 @@ interface CfQueue {
 export interface CloudflareBindings {
   [key: string]: unknown;
   DB?: unknown;
+  NEXARA_MEDIA?: unknown;
   NEXARA_KV?: CfKVNamespace;
   NEXARA_QUEUE?: CfQueue;
 }
