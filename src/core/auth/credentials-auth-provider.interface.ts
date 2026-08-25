@@ -1,12 +1,10 @@
 import type { UserId } from "../../shared/types";
-import type { Role } from "../rbac";
 import type { AuthProvider } from "./auth-provider.interface";
 
 export interface RegistrationCredentials {
   readonly userId: UserId;
   readonly email: string;
   readonly password: string;
-  readonly role?: Role;
 }
 
 export interface AccountRegistration {

@@ -2,7 +2,7 @@
 
 A **production-ready platform foundation** — not a product. It is the provider-agnostic base that every future Nexara business module (WorkHub, CRM, Projects, Marketing, Finance, Contracts) is built on. It ships with no business modules by design; what you get is the architecture, the abstractions, the wiring, and one sample feature that proves it all works end to end.
 
-**Stack:** Next.js 15 · React 19 · TypeScript (strict) · Cloudflare Workers via OpenNext · Supabase (initial database + auth).
+**Stack:** Next.js 15 · React 19 · TypeScript (strict) · Cloudflare Workers via OpenNext · Supabase (initial database + auth) or Cloudflare D1 with JWT credentials.
 
 **Design goal:** business logic never depends on a vendor. Swapping Supabase → Neon, or Cloudflare → AWS, or Supabase Auth → Clerk, changes one wiring file — not your features.
 
@@ -63,10 +63,12 @@ nexara-foundation/
 ├─ tsconfig.json                Strict TS, path aliases (@core, @shared, @features)
 ├─ next.config.mjs              Next config + OpenNext dev bindings
 ├─ open-next.config.ts          OpenNext → Cloudflare adapter
-├─ wrangler.toml                Worker name, KV, Queue, cron, vars
+├─ wrangler.toml                Worker name, KV, Queue, cron, vars (and D1 migration example)
 ├─ .env.example                 Env template (Supabase keys, provider selectors)
 ├─ db/
-│  └─ migrations/0001_profiles.sql   profiles table + nexara_exec_sql SQL bridge
+│  └─ migrations/
+│     ├─ 0001_profiles.sql           Supabase/Postgres profiles + SQL bridge
+│     └─ d1/                         SQLite-compatible D1 migration stream
 ├─ docs/
 │  └─ architecture.md           Layer diagram + all guides
 ├─ scripts/
@@ -146,10 +148,10 @@ Zero-dependency primitives every layer can use. `Result<T,E>` (`ok`/`err`) makes
 `PlatformProvider` abstracts environment variables, KV, queues, scheduled jobs, and cache. `CloudflarePlatformProvider` is the only file that touches Cloudflare binding shapes; a future `AWSPlatformProvider` slots in behind the same interface.
 
 ### core/database — Database Layer
-`DatabaseProvider` abstracts parameterized SQL (`$1, $2 …`), transactions, and connection lifecycle. `SupabaseDatabaseProvider` is the only place `@supabase/supabase-js` is imported for data access; future `NeonDatabaseProvider` / `D1DatabaseProvider` implement the same contract. This is the **low-level execution** layer — repositories sit on top of it.
+`DatabaseProvider` abstracts parameterized SQL (`$1, $2 …`), transactions, and connection lifecycle. `SupabaseDatabaseProvider` is the only place `@supabase/supabase-js` is imported for data access; `D1DatabaseProvider` translates the same parameter convention for Cloudflare D1 and exposes atomic batches. This is the **low-level execution** layer — repositories sit on top of it.
 
 ### core/auth — Authentication Layer
-`AuthProvider` abstracts login, logout, get current user, get session, and verify permission. `SupabaseAuthProvider` maps the Supabase user onto the provider-agnostic `AuthUser` (tenant + role from `app_metadata`) and delegates every permission decision to the RBAC service — so authorization is identical no matter the auth vendor. Future: BetterAuth, Clerk, Auth0.
+`AuthProvider` abstracts login, logout, get current user, get session, and verify permission. `SupabaseAuthProvider` maps the Supabase user onto the provider-agnostic `AuthUser` (tenant + role from `app_metadata`); the optional `JwtAuthProvider` supplies self-hosted email/password auth for D1. Both delegate permission decisions to the RBAC service. Public JWT registration always starts as `member`; elevate roles through an authenticated provisioning flow.
 
 ### core/rbac — Authorization
 Provider-independent and pure. Roles `owner`/`admin`/`manager`/`member` (with a numeric rank for "at least" checks), a `resource:action` permission catalog, an explicit `ROLE_PERMISSIONS` map (the single source of truth), and `PermissionService` with `can()`, **`canInTenant()`**, and a throwing `assertInTenant()`. Policy helpers (`canCreateTask`, `canAssignTask`, `canManageUsers`) make call sites read like intent.
@@ -205,8 +207,8 @@ Each provider is selected from an environment variable, so swapping is configura
 | Concern | Interface | Today | Future (add impl + one `case`) | Selector env |
 | --- | --- | --- | --- | --- |
 | Runtime/env/KV/queue/cache | `PlatformProvider` | Cloudflare | AWS | `PLATFORM_PROVIDER` |
-| Data store | `DatabaseProvider` | Supabase | Neon, Cloudflare D1 | `DATABASE_PROVIDER` |
-| Identity | `AuthProvider` | Supabase Auth | BetterAuth, Clerk, Auth0 | `AUTH_PROVIDER` |
+| Data store | `DatabaseProvider` | Supabase, Cloudflare D1 | Neon | `DATABASE_PROVIDER` |
+| Identity | `AuthProvider` | Supabase Auth, JWT credentials | BetterAuth, Clerk, Auth0 | `AUTH_PROVIDER` |
 | Authorization | `PermissionService` | RBAC | edit role→permission map | — |
 | Data access | repositories | Supabase/Postgres SQL | any SQL backend | — |
 
@@ -253,8 +255,12 @@ Then wire the repository into `src/core/container.ts` and register any event han
 npm install
 cp .env.example .env.local        # fill in Supabase URL + keys
 
-# Apply the schema + SQL bridge to your Supabase project:
+# For Supabase, apply the schema + SQL bridge:
 #   db/migrations/0001_profiles.sql
+
+# For D1, configure the DB binding with migrations_dir = "db/migrations/d1"
+# and apply its separate SQLite-compatible stream:
+#   wrangler d1 migrations apply DB
 
 npm run dev                        # local dev (Cloudflare bindings via OpenNext)
 npm run verify                     # enforce architecture + types
@@ -278,8 +284,26 @@ wrangler secret put SUPABASE_ANON_KEY
 | `SUPABASE_ANON_KEY` | client/auth key | — |
 | `SUPABASE_SERVICE_ROLE_KEY` | server-only DB key | — |
 | `PLATFORM_PROVIDER` | `cloudflare` (· `aws`) | `cloudflare` |
-| `DATABASE_PROVIDER` | `supabase` (· `neon`, `d1`) | `supabase` |
-| `AUTH_PROVIDER` | `supabase` (· `betterauth`, `clerk`, `auth0`) | `supabase` |
+| `DATABASE_PROVIDER` | `supabase` or `d1` | `supabase` |
+| `AUTH_PROVIDER` | `supabase` or `jwt` | `supabase` |
+| `AUTH_SECRET` | 32+ byte JWT signing secret (`AUTH_PROVIDER=jwt`) | — |
+| `AUTH_TENANT_ID` | tenant for JWT credentials (`AUTH_PROVIDER=jwt`) | `tenant_1` |
+| `AUTH_ISSUER` / `AUTH_AUDIENCE` | JWT token validation (`AUTH_PROVIDER=jwt`) | `https://app.example.test` |
+| `STORAGE_PROVIDER` | `r2` to enable media storage | `r2` |
+| `MEDIA_PUBLIC_ORIGIN` | public origin for R2 media | `https://media.example.test` |
+| `EMAIL_PROVIDER` | `console`, `unavailable`, `resend`, `brevo`, or `ses` | `console` |
+| `EMAIL_FROM` | verified sender for Resend or SES | `Nexara <no-reply@example.test>` |
+| `STAGING_EMAIL_RECIPIENT_ALLOWLIST` | comma-separated allowed recipients in staging | `qa@example.test` |
+
+When `DATABASE_PROVIDER=d1`, configure the Cloudflare binding and D1 migration directory in `wrangler.toml` before applying migrations:
+
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "your-d1-database-name"
+database_id = "your-d1-database-id"
+migrations_dir = "db/migrations/d1"
+```
 
 ## 12. Scripts
 
@@ -302,4 +326,5 @@ To stay lightweight and understandable for a small team, the foundation delibera
 
 - [`docs/architecture.md`](docs/architecture.md) — layer diagram, dependency rules, and the module / provider / repository / event-bus guides.
 - [`src/modules/_template/README.md`](src/modules/_template/README.md) — how to create a module, with per-layer code skeletons.
-- [`db/migrations/0001_profiles.sql`](db/migrations/0001_profiles.sql) — schema and the `nexara_exec_sql` bridge.
+- [`db/migrations/0001_profiles.sql`](db/migrations/0001_profiles.sql) — Supabase/Postgres schema and the `nexara_exec_sql` bridge.
+- [`db/migrations/d1/`](db/migrations/d1/) — Cloudflare D1/SQLite profile and credentials schema.

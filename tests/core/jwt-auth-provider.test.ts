@@ -7,6 +7,7 @@ import type {
   NewEmailVerificationInput,
   NewPasswordResetInput,
 } from "../../src/core/auth/credentials-repository.interface";
+import type { RegistrationCredentials } from "../../src/core/auth/credentials-auth-provider.interface";
 import type { TenantContext } from "../../src/core/context";
 import { PermissionService } from "../../src/core/rbac";
 
@@ -93,6 +94,35 @@ function createAuth(): JwtAuthProvider {
 }
 
 describe("JwtAuthProvider", () => {
+  it("rejects an HMAC secret shorter than 32 bytes", () => {
+    expect(() => new JwtAuthProvider(
+      {
+        secret: "too-short",
+        tenantId: "tenant_1",
+        issuer: "nexara-test",
+        audience: "nexara-test-app",
+      },
+      new MemoryCredentialsRepository(),
+      new PermissionService(),
+    )).toThrow(/at least 32 bytes/);
+  });
+
+  it("never lets a public registration self-assign an elevated role", async () => {
+    const auth = createAuth();
+
+    await auth.register({
+      userId: "member_self_assign",
+      email: "self-assign@example.test",
+      password: "correct-password",
+      role: "admin",
+    } as unknown as RegistrationCredentials);
+    const verification = await auth.requestEmailVerification("self-assign@example.test");
+    await auth.verifyEmail(verification!.token);
+
+    await expect(auth.login({ email: "self-assign@example.test", password: "correct-password" }))
+      .resolves.toMatchObject({ user: { role: "member" } });
+  });
+
   it("requires email verification before issuing a tenant-scoped session", async () => {
     const auth = createAuth();
 
@@ -100,7 +130,6 @@ describe("JwtAuthProvider", () => {
       userId: "member_1",
       email: "Member@Example.test",
       password: "correct-password",
-      role: "member",
     })).resolves.toEqual({ userId: "member_1", email: "member@example.test", created: true });
 
     await expect(auth.login({ email: "member@example.test", password: "correct-password" }))
@@ -120,7 +149,7 @@ describe("JwtAuthProvider", () => {
 
   it("redeems a password-reset token once and invalidates previous sessions", async () => {
     const auth = createAuth();
-    await auth.register({ userId: "member_2", email: "member2@example.test", password: "old-password", role: "member" });
+    await auth.register({ userId: "member_2", email: "member2@example.test", password: "old-password" });
     const verification = await auth.requestEmailVerification("member2@example.test");
     await auth.verifyEmail(verification!.token);
     const oldSession = await auth.login({ email: "member2@example.test", password: "old-password" });

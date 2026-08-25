@@ -94,11 +94,11 @@ Commit: `Add D1 database provider`
 ### Task 3: Optional D1 JWT credentials provider
 
 **Files:**
-- Create: `src/core/auth/credentials-auth-provider.interface.ts`, `src/core/auth/credentials-repository.interface.ts`, `src/core/auth/providers/jwt-auth-provider.ts`, `src/infrastructure/repositories/sql-credentials-repository.ts`, `db/migrations/0002_credentials.sql`, `tests/core/jwt-auth-provider.test.ts`
+- Create: `src/core/auth/credentials-auth-provider.interface.ts`, `src/core/auth/credentials-repository.interface.ts`, `src/core/auth/providers/jwt-auth-provider.ts`, `src/infrastructure/repositories/sql-credentials-repository.ts`, `db/migrations/d1/0001_profiles.sql`, `db/migrations/d1/0002_credentials.sql`, `tests/core/jwt-auth-provider.test.ts`, `tests/core/d1-migrations.test.mjs`
 - Modify: `src/core/auth/index.ts`, `src/core/container.ts`, `src/infrastructure/index.ts`, `package.json`, `package-lock.json`
 
 **Interfaces:**
-- Produces: `CredentialsAuthProvider` and `JwtAuthProvider` configured by tenant ID, issuer, audience, secret, bcrypt cost, and session lifetimes.
+- Produces: `CredentialsAuthProvider` and `JwtAuthProvider` configured by tenant ID, issuer, audience, secret, bcrypt cost, and session lifetimes. Public registration always creates a `member`; elevated roles require an authenticated provisioning flow.
 - Consumes: `AtomicBatchDatabaseProvider`, `PermissionService`, `TenantContext`, `AppError`.
 
 - [ ] **Step 1: Write failing auth tests**
@@ -135,7 +135,7 @@ Commit: `Add D1 JWT credentials provider`
 - Modify: `src/core/index.ts`, `src/core/container.ts`
 
 **Interfaces:**
-- Produces: optional `services.storage` when `STORAGE_PROVIDER=r2` and an `R2_BUCKET` binding exists.
+- Produces: optional `services.storage` when `STORAGE_PROVIDER=r2` and a `NEXARA_MEDIA` binding exists.
 - Consumes: `AppError` and structural R2 binding types.
 
 - [ ] **Step 1: Write failing storage tests**
@@ -168,7 +168,7 @@ Commit: `Add R2 image storage provider`
 - Modify: `src/core/index.ts`, `src/core/container.ts`, `package.json`, `package-lock.json`
 
 **Interfaces:**
-- Produces: optional `services.email` selected by `EMAIL_PROVIDER`; `EMAIL_STAGING_RECIPIENT_ALLOWLIST` constrains configured staging sends.
+- Produces: optional `services.email` selected by `EMAIL_PROVIDER`; `STAGING_EMAIL_RECIPIENT_ALLOWLIST` constrains configured staging sends.
 - Consumes: `PlatformProvider`, `AppError`, and `aws4fetch` only inside the SES provider.
 
 - [ ] **Step 1: Write failing email tests**

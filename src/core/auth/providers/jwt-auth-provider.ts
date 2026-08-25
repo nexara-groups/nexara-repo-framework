@@ -55,6 +55,9 @@ export class JwtAuthProvider implements AuthProvider, CredentialsAuthProvider {
     private readonly permissions: PermissionService,
   ) {
     this.secretKey = new TextEncoder().encode(config.secret);
+    if (this.secretKey.byteLength < 32) {
+      throw AppError.validation("JWT secret must contain at least 32 bytes");
+    }
   }
 
   async login(credentials: Credentials): Promise<Session> {
@@ -79,7 +82,7 @@ export class JwtAuthProvider implements AuthProvider, CredentialsAuthProvider {
       userId: input.userId,
       email,
       passwordHash,
-      role: input.role ?? "member",
+      role: "member",
       verifiedAt: null,
     });
     return { userId: record.userId, email: record.email, created: true };

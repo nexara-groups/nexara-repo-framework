@@ -5,7 +5,7 @@ export class ConsoleEmailProvider implements EmailProvider {
   readonly name = "console";
 
   async send(message: EmailMessage): Promise<void> {
-    console.log(`[email:console] to=${maskAddress(message.to)} subject=${JSON.stringify(message.subject)} body=[omitted]`);
+    console.log(`[email:console] to=${maskAddress(message.to)} content=[omitted]`);
   }
 }
 

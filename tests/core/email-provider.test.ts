@@ -15,13 +15,14 @@ describe("email providers", () => {
     const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
     await new ConsoleEmailProvider().send({
       to: "member@example.test",
-      subject: "Your ticket",
+      subject: "Reset token: private-subject-capability",
       text: "https://app.example.test/ticket?token=private-capability",
     });
 
     const output = log.mock.calls.flat().join(" ");
     expect(output).toContain("m***@example.test");
     expect(output).not.toContain("member@example.test");
+    expect(output).not.toContain("private-subject-capability");
     expect(output).not.toContain("private-capability");
     log.mockRestore();
   });

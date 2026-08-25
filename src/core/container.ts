@@ -183,7 +183,6 @@ function createStorageProvider(
 function createEmailProvider(platform: PlatformProvider): EmailProvider | undefined {
   const which = platform.getEnv("EMAIL_PROVIDER")?.toLowerCase();
   if (!which) return undefined;
-  const from = platform.getEnv("EMAIL_FROM") ?? "Nexara <no-reply@localhost>";
   let provider: EmailProvider;
 
   switch (which) {
@@ -194,7 +193,10 @@ function createEmailProvider(platform: PlatformProvider): EmailProvider | undefi
       provider = new UnavailableEmailProvider();
       break;
     case "resend":
-      provider = new ResendEmailProvider({ apiKey: platform.requireEnv("RESEND_API_KEY"), from });
+      provider = new ResendEmailProvider({
+        apiKey: platform.requireEnv("RESEND_API_KEY"),
+        from: platform.requireEnv("EMAIL_FROM"),
+      });
       break;
     case "brevo":
       provider = new BrevoEmailProvider({
@@ -208,7 +210,7 @@ function createEmailProvider(platform: PlatformProvider): EmailProvider | undefi
         region: platform.requireEnv("AWS_SES_REGION"),
         accessKeyId: platform.requireEnv("AWS_SES_ACCESS_KEY_ID"),
         secretAccessKey: platform.requireEnv("AWS_SES_SECRET_ACCESS_KEY"),
-        from,
+        from: platform.requireEnv("EMAIL_FROM"),
       });
       break;
     default:
