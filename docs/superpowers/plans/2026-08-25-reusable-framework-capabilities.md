@@ -1,8 +1,8 @@
-# Happy Farms Reuse Implementation Plan
+# Reusable Framework Capabilities Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add independently selectable, tested framework capabilities distilled from Happy Farms without importing product behavior.
+**Goal:** Add independently selectable, tested framework capabilities without importing product behavior.
 
 **Architecture:** Shared utilities remain zero-dependency. D1 adds an atomic-batch database extension instead of weakening the existing portable provider contract. Credentials auth, R2 storage, and email are optional provider families selected only when configured by the composition root.
 

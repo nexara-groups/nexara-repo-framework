@@ -1,8 +1,8 @@
-# Happy Farms Reusable Capabilities Design
+# Reusable Framework Capabilities Design
 
 ## Goal
 
-Promote proven, vendor-isolated Happy Farms primitives into Nexara Foundation without copying Happy Farms business modules, tenant data, UI, migrations, deployment configuration, or secrets.
+Promote proven, vendor-isolated primitives into Nexara Foundation without copying product-specific business modules, tenant data, UI, migrations, deployment configuration, or secrets.
 
 ## Scope
 
@@ -41,9 +41,9 @@ Storage and email are independent core provider families. They are wired only wh
 
 ## Deliberate Exclusions
 
-- Happy Farms product modules, route handlers, React components, payment providers, PDF generation, event schemas, email templates, launch checks, and fixed tenant constants.
-- The Yojo LMS committed authentication flow. It has two session paths and LMS-specific UI; it is not a framework source.
-- A generic currency helper. Happy Farms' paise formatter is India-specific and will remain product-local until a framework-wide money contract is needed.
+- Product modules, route handlers, React components, payment providers, PDF generation, event schemas, email templates, launch checks, and fixed tenant constants.
+- Product-specific authentication flows with application-owned session paths or UI; they are not framework sources.
+- A generic currency helper. Country-specific money formatting remains product-local until a framework-wide money contract is needed.
 
 ## Verification
 
