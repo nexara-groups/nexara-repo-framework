@@ -1,6 +1,6 @@
 import { AppError } from "../shared/errors";
 import type { AuthProvider } from "./auth";
-import type { DatabaseProvider } from "./database";
+import type { AtomicBatchDatabaseProvider, DatabaseProvider } from "./database";
 import type { PlatformProvider } from "./platform";
 import { PermissionService } from "./rbac";
 import type { ProfileRepository, UserRepository } from "./repositories";
@@ -12,7 +12,8 @@ import { CloudflarePlatformProvider, type CloudflareBindings } from "./platform/
 import { SupabaseDatabaseProvider } from "./database/providers/supabase-database-provider";
 import { D1DatabaseProvider, type D1DatabaseBinding } from "./database/providers/d1-database-provider";
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
-import { SupabaseProfileRepository, SupabaseUserRepository, InMemoryEventBus } from "../infrastructure";
+import { JwtAuthProvider } from "./auth/providers/jwt-auth-provider";
+import { SupabaseProfileRepository, SupabaseUserRepository, SqlCredentialsRepository, InMemoryEventBus } from "../infrastructure";
 
 /**
  * Dependency Injection — the composition root.
@@ -54,7 +55,7 @@ export function createServices(env: CloudflareBindings): Services {
   const database = createDatabaseProvider(platform, env);
 
   // 4. Auth — depends on RBAC for permission verification.
-  const auth = createAuthProvider(platform, permissions);
+  const auth = createAuthProvider(platform, database, permissions);
 
   // 5. Repositories — domain data-access over the DatabaseProvider. Concrete
   //    implementations come from infrastructure; services see interfaces only.
@@ -104,6 +105,7 @@ function createDatabaseProvider(
 
 function createAuthProvider(
   platform: PlatformProvider,
+  database: DatabaseProvider,
   permissions: PermissionService,
 ): AuthProvider {
   const which = (platform.getEnv("AUTH_PROVIDER") ?? "supabase").toLowerCase();
@@ -116,10 +118,30 @@ function createAuthProvider(
         },
         permissions,
       );
+    case "jwt":
+      if (!isAtomicBatchDatabaseProvider(database)) {
+        throw AppError.provider("AUTH_PROVIDER=jwt requires a database provider with atomic batch support");
+      }
+      return new JwtAuthProvider(
+        {
+          secret: platform.requireEnv("AUTH_SECRET"),
+          tenantId: platform.requireEnv("AUTH_TENANT_ID"),
+          issuer: platform.requireEnv("AUTH_ISSUER"),
+          audience: platform.requireEnv("AUTH_AUDIENCE"),
+        },
+        new SqlCredentialsRepository(database),
+        permissions,
+      );
     // case "betterauth": return new BetterAuthProvider({ ... }, permissions);  // future
     // case "clerk":      return new ClerkProvider({ ... }, permissions);       // future
     // case "auth0":      return new Auth0Provider({ ... }, permissions);       // future
     default:
       throw AppError.provider(`Unsupported AUTH_PROVIDER: ${which}`);
   }
+}
+
+function isAtomicBatchDatabaseProvider(
+  database: DatabaseProvider,
+): database is AtomicBatchDatabaseProvider {
+  return "batch" in database && typeof database.batch === "function";
 }
