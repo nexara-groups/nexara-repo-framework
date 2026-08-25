@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "check:arch": "node scripts/check-architecture.mjs",
     "verify": "node scripts/check-architecture.mjs && tsc --noEmit",
@@ -28,6 +29,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.6.0",
+    "vitest": "^4.1.11",
     "wrangler": "^4.0.0"
   },
   "engines": {
