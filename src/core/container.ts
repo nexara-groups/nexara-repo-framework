@@ -10,6 +10,7 @@ import type { EventBus } from "./events";
 // composition root.
 import { CloudflarePlatformProvider, type CloudflareBindings } from "./platform/providers/cloudflare-platform-provider";
 import { SupabaseDatabaseProvider } from "./database/providers/supabase-database-provider";
+import { D1DatabaseProvider, type D1DatabaseBinding } from "./database/providers/d1-database-provider";
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
 import { SupabaseProfileRepository, SupabaseUserRepository, InMemoryEventBus } from "../infrastructure";
 
@@ -50,7 +51,7 @@ export function createServices(env: CloudflareBindings): Services {
   const permissions = new PermissionService();
 
   // 3. Database.
-  const database = createDatabaseProvider(platform);
+  const database = createDatabaseProvider(platform, env);
 
   // 4. Auth — depends on RBAC for permission verification.
   const auth = createAuthProvider(platform, permissions);
@@ -80,7 +81,10 @@ function createPlatformProvider(env: CloudflareBindings): PlatformProvider {
   }
 }
 
-function createDatabaseProvider(platform: PlatformProvider): DatabaseProvider {
+function createDatabaseProvider(
+  platform: PlatformProvider,
+  env: CloudflareBindings,
+): DatabaseProvider {
   const which = (platform.getEnv("DATABASE_PROVIDER") ?? "supabase").toLowerCase();
   switch (which) {
     case "supabase":
@@ -88,8 +92,11 @@ function createDatabaseProvider(platform: PlatformProvider): DatabaseProvider {
         url: platform.requireEnv("SUPABASE_URL"),
         serviceRoleKey: platform.requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
       });
+    case "d1": {
+      if (!env.DB) throw AppError.platform("Missing required D1 binding: DB");
+      return new D1DatabaseProvider({ db: env.DB as D1DatabaseBinding });
+    }
     // case "neon": return new NeonDatabaseProvider({ ... });  // future
-    // case "d1":   return new D1DatabaseProvider({ ... });    // future
     default:
       throw AppError.database(`Unsupported DATABASE_PROVIDER: ${which}`);
   }

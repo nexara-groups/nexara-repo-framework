@@ -17,6 +17,12 @@ export interface QueryResult<T extends Row = Row> {
   readonly rowCount: number;
 }
 
+/** One parameterized statement in a provider-native atomic batch. */
+export interface BatchQuery {
+  readonly sql: string;
+  readonly params?: readonly unknown[];
+}
+
 /**
  * Anything that can run queries: both the top-level provider and a transaction
  * handle implement this, so repository code can be written once and run inside
@@ -47,4 +53,13 @@ export interface DatabaseProvider extends Queryable {
 
   /** Release pooled connections / close clients. Called on shutdown. */
   dispose(): Promise<void>;
+}
+
+/**
+ * A database provider that can execute a fixed list of statements atomically.
+ * This stays narrower than DatabaseProvider because not every HTTP-backed
+ * database adapter can offer an honest multi-statement transaction.
+ */
+export interface AtomicBatchDatabaseProvider extends DatabaseProvider {
+  batch(queries: readonly BatchQuery[]): Promise<readonly QueryResult[]>;
 }

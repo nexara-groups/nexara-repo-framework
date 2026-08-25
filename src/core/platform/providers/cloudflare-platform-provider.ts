@@ -28,6 +28,7 @@ interface CfQueue {
 /** The environment object Cloudflare passes to the Worker. */
 export interface CloudflareBindings {
   [key: string]: unknown;
+  DB?: unknown;
   NEXARA_KV?: CfKVNamespace;
   NEXARA_QUEUE?: CfQueue;
 }
