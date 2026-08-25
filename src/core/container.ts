@@ -1,17 +1,28 @@
 import { AppError } from "../shared/errors";
 import type { AuthProvider } from "./auth";
-import type { DatabaseProvider } from "./database";
+import type { AtomicBatchDatabaseProvider, DatabaseProvider } from "./database";
 import type { PlatformProvider } from "./platform";
 import { PermissionService } from "./rbac";
 import type { ProfileRepository, UserRepository } from "./repositories";
 import type { EventBus } from "./events";
+import type { StorageProvider } from "./storage";
+import type { EmailProvider } from "./email";
 
 // Concrete providers + infrastructure are imported ONLY here, in the
 // composition root.
 import { CloudflarePlatformProvider, type CloudflareBindings } from "./platform/providers/cloudflare-platform-provider";
 import { SupabaseDatabaseProvider } from "./database/providers/supabase-database-provider";
+import { D1DatabaseProvider, type D1DatabaseBinding } from "./database/providers/d1-database-provider";
 import { SupabaseAuthProvider } from "./auth/providers/supabase-auth-provider";
-import { SupabaseProfileRepository, SupabaseUserRepository, InMemoryEventBus } from "../infrastructure";
+import { JwtAuthProvider } from "./auth/providers/jwt-auth-provider";
+import { R2StorageProvider, type R2BucketBinding } from "./storage/providers/r2-storage-provider";
+import { BrevoEmailProvider } from "./email/providers/brevo-email-provider";
+import { ConsoleEmailProvider } from "./email/providers/console-email-provider";
+import { parseRecipientAllowlist, RecipientAllowlistEmailProvider } from "./email/providers/recipient-allowlist-email-provider";
+import { ResendEmailProvider } from "./email/providers/resend-email-provider";
+import { SesEmailProvider } from "./email/providers/ses-email-provider";
+import { UnavailableEmailProvider } from "./email/providers/unavailable-email-provider";
+import { SupabaseProfileRepository, SupabaseUserRepository, SqlCredentialsRepository, InMemoryEventBus } from "../infrastructure";
 
 /**
  * Dependency Injection — the composition root.
@@ -34,6 +45,8 @@ export interface Services {
   readonly permissions: PermissionService;
   readonly repositories: Repositories;
   readonly events: EventBus;
+  readonly storage?: StorageProvider;
+  readonly email?: EmailProvider;
 }
 
 /**
@@ -50,10 +63,10 @@ export function createServices(env: CloudflareBindings): Services {
   const permissions = new PermissionService();
 
   // 3. Database.
-  const database = createDatabaseProvider(platform);
+  const database = createDatabaseProvider(platform, env);
 
   // 4. Auth — depends on RBAC for permission verification.
-  const auth = createAuthProvider(platform, permissions);
+  const auth = createAuthProvider(platform, database, permissions);
 
   // 5. Repositories — domain data-access over the DatabaseProvider. Concrete
   //    implementations come from infrastructure; services see interfaces only.
@@ -66,7 +79,11 @@ export function createServices(env: CloudflareBindings): Services {
   //    composition time (e.g. events.subscribe("UserCreated", handler)).
   const events: EventBus = new InMemoryEventBus();
 
-  return { platform, database, auth, permissions, repositories, events };
+  // 7. Optional media storage. Applications opt in with STORAGE_PROVIDER=r2.
+  const storage = createStorageProvider(platform, env);
+  const email = createEmailProvider(platform);
+
+  return { platform, database, auth, permissions, repositories, events, storage, email };
 }
 
 function createPlatformProvider(env: CloudflareBindings): PlatformProvider {
@@ -80,7 +97,10 @@ function createPlatformProvider(env: CloudflareBindings): PlatformProvider {
   }
 }
 
-function createDatabaseProvider(platform: PlatformProvider): DatabaseProvider {
+function createDatabaseProvider(
+  platform: PlatformProvider,
+  env: CloudflareBindings,
+): DatabaseProvider {
   const which = (platform.getEnv("DATABASE_PROVIDER") ?? "supabase").toLowerCase();
   switch (which) {
     case "supabase":
@@ -88,8 +108,11 @@ function createDatabaseProvider(platform: PlatformProvider): DatabaseProvider {
         url: platform.requireEnv("SUPABASE_URL"),
         serviceRoleKey: platform.requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
       });
+    case "d1": {
+      if (!env.DB) throw AppError.platform("Missing required D1 binding: DB");
+      return new D1DatabaseProvider({ db: env.DB as D1DatabaseBinding });
+    }
     // case "neon": return new NeonDatabaseProvider({ ... });  // future
-    // case "d1":   return new D1DatabaseProvider({ ... });    // future
     default:
       throw AppError.database(`Unsupported DATABASE_PROVIDER: ${which}`);
   }
@@ -97,6 +120,7 @@ function createDatabaseProvider(platform: PlatformProvider): DatabaseProvider {
 
 function createAuthProvider(
   platform: PlatformProvider,
+  database: DatabaseProvider,
   permissions: PermissionService,
 ): AuthProvider {
   const which = (platform.getEnv("AUTH_PROVIDER") ?? "supabase").toLowerCase();
@@ -109,10 +133,95 @@ function createAuthProvider(
         },
         permissions,
       );
+    case "jwt":
+      if (!isAtomicBatchDatabaseProvider(database)) {
+        throw AppError.provider("AUTH_PROVIDER=jwt requires a database provider with atomic batch support");
+      }
+      return new JwtAuthProvider(
+        {
+          secret: platform.requireEnv("AUTH_SECRET"),
+          tenantId: platform.requireEnv("AUTH_TENANT_ID"),
+          issuer: platform.requireEnv("AUTH_ISSUER"),
+          audience: platform.requireEnv("AUTH_AUDIENCE"),
+        },
+        new SqlCredentialsRepository(database),
+        permissions,
+      );
     // case "betterauth": return new BetterAuthProvider({ ... }, permissions);  // future
     // case "clerk":      return new ClerkProvider({ ... }, permissions);       // future
     // case "auth0":      return new Auth0Provider({ ... }, permissions);       // future
     default:
       throw AppError.provider(`Unsupported AUTH_PROVIDER: ${which}`);
   }
+}
+
+function isAtomicBatchDatabaseProvider(
+  database: DatabaseProvider,
+): database is AtomicBatchDatabaseProvider {
+  return "batch" in database && typeof database.batch === "function";
+}
+
+function createStorageProvider(
+  platform: PlatformProvider,
+  env: CloudflareBindings,
+): StorageProvider | undefined {
+  const which = platform.getEnv("STORAGE_PROVIDER")?.toLowerCase();
+  if (!which) return undefined;
+  switch (which) {
+    case "r2": {
+      if (!env.NEXARA_MEDIA) throw AppError.platform("Missing required R2 binding: NEXARA_MEDIA");
+      return new R2StorageProvider({
+        bucket: env.NEXARA_MEDIA as R2BucketBinding,
+        publicOrigin: platform.requireEnv("MEDIA_PUBLIC_ORIGIN"),
+      });
+    }
+    default:
+      throw AppError.provider(`Unsupported STORAGE_PROVIDER: ${which}`);
+  }
+}
+
+function createEmailProvider(platform: PlatformProvider): EmailProvider | undefined {
+  const which = platform.getEnv("EMAIL_PROVIDER")?.toLowerCase();
+  if (!which) return undefined;
+  let provider: EmailProvider;
+
+  switch (which) {
+    case "console":
+      provider = new ConsoleEmailProvider();
+      break;
+    case "unavailable":
+      provider = new UnavailableEmailProvider();
+      break;
+    case "resend":
+      provider = new ResendEmailProvider({
+        apiKey: platform.requireEnv("RESEND_API_KEY"),
+        from: platform.requireEnv("EMAIL_FROM"),
+      });
+      break;
+    case "brevo":
+      provider = new BrevoEmailProvider({
+        apiKey: platform.requireEnv("BREVO_API_KEY"),
+        fromEmail: platform.requireEnv("EMAIL_FROM_ADDRESS"),
+        fromName: platform.requireEnv("EMAIL_FROM_NAME"),
+      });
+      break;
+    case "ses":
+      provider = new SesEmailProvider({
+        region: platform.requireEnv("AWS_SES_REGION"),
+        accessKeyId: platform.requireEnv("AWS_SES_ACCESS_KEY_ID"),
+        secretAccessKey: platform.requireEnv("AWS_SES_SECRET_ACCESS_KEY"),
+        from: platform.requireEnv("EMAIL_FROM"),
+      });
+      break;
+    default:
+      throw AppError.provider(`Unsupported EMAIL_PROVIDER: ${which}`);
+  }
+
+  if (platform.getEnv("APP_ENV") === "staging" && provider.name !== "console" && provider.name !== "unavailable") {
+    return new RecipientAllowlistEmailProvider(
+      provider,
+      parseRecipientAllowlist(platform.requireEnv("STAGING_EMAIL_RECIPIENT_ALLOWLIST")),
+    );
+  }
+  return provider;
 }
