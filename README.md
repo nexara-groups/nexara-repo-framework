@@ -1,6 +1,6 @@
-# Nexara Foundation V1
+# Rise Medical Hub
 
-A **production-ready platform foundation** — not a product. It is the provider-agnostic base that every future Nexara business module (WorkHub, CRM, Projects, Marketing, Finance, Contracts) is built on. It ships with no business modules by design; what you get is the architecture, the abstractions, the wiring, and one sample feature that proves it all works end to end.
+The Rise Medical Hub website, built on the Nexara Foundation platform base — the provider-agnostic architecture that every Nexara business module (WorkHub, CRM, Projects, Marketing, Finance, Contracts) is built on.
 
 **Stack:** Next.js 15 · React 19 · TypeScript (strict) · Cloudflare Workers via OpenNext · Supabase (initial database + auth).
 

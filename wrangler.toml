@@ -1,4 +1,4 @@
-name = "nexara-foundation"
+name = "rise-medical-hub"
 main = ".open-next/worker.js"
 compatibility_date = "2025-03-01"
 compatibility_flags = ["nodejs_compat"]
@@ -14,7 +14,7 @@ binding = "ASSETS"
 # KV namespace for the platform cache + KV access.
 [[kv_namespaces]]
 binding = "NEXARA_KV"
-id = "209d50b154d5407590fc2fbc82a29e09"
+id = "31f7693d2d8c4cb18404b25b3a97cfff"
 
 # Queue producer for PlatformProvider.enqueue().
 [[queues.producers]]
