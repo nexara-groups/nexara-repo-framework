@@ -27,6 +27,14 @@ queue = "nexara-jobs"
 max_batch_size = 10
 max_retries = 3
 
+# When DATABASE_PROVIDER=d1, configure the live database and enable its
+# separate SQLite-compatible migration stream. Keep IDs out of source control.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "your-d1-database-name"
+# database_id = "your-d1-database-id"
+# migrations_dir = "db/migrations/d1"
+
 # Cron triggers for PlatformProvider scheduled jobs.
 [triggers]
 crons = ["0 * * * *"]

@@ -6,4 +6,6 @@ export * from "./rbac";
 export * from "./repositories";
 export * from "./context";
 export * from "./events";
+export * from "./storage";
+export * from "./email";
 export { createServices, type Services, type Repositories } from "./container";
